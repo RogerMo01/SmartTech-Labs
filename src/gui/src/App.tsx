@@ -1,29 +1,40 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
+import { ChangeEvent, useState } from 'react'
 import './App.css'
 import axios from 'axios';
 
 function App() {
-  const [message, setMessage] = useState('');
+  const [response, setResponse] = useState('');
+  const [inputValue, setInputValue] = useState('');
 
-  useEffect(() => {
-    axios.get('http://localhost:8000/api/test/')
-      .then(response => {
-        setMessage(response.data.message);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+  function handle_click(){
+    const request = {'query': inputValue}
+    axios.get('http://localhost:8000/api/test-query/', {
+      params: request
+    })
+    .then(response => {
+      setResponse(response.data.response);
+      console.log(`Received: ${response.data.response}`)
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  }
+  
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value);
+  };
 
   return (
     <>
       <div>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input 
+        type="text"
+        value={inputValue}
+        onChange={handleInputChange}
+        />
+        <button onClick={handle_click}>Send</button>
       </div>
-      <h1>{message}</h1>
+      <p>{response}</p>
     </>
   )
 }
