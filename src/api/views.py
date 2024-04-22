@@ -2,9 +2,13 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from api.gemini import Gemini
+from House import *
 
 # Instanciate gemini llm
 gemini = Gemini()
+
+# Instanciate house with our map
+house = House()
 
 @api_view(['GET'])
 def test(request):
