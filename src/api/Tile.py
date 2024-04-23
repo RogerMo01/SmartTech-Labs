@@ -12,7 +12,8 @@ class Tile:
         area (str): The area name were tile belongs.
         objects (set): Set of objects present on the tile.
     """
-    def __init__(self, left, up, right, down, area):
+    def __init__(self, area, name, left=None, up=None, right=None, down=None):
+        self.name = name
         self.left = left
         self.up = up
         self.right = right
@@ -37,6 +38,12 @@ class Tile:
 
     def contains(self, obj: Object):
         return obj in self.objects
+    
+    def __str__(self) -> str:
+        return self.name
+    
+    def __repr__(self) -> str:
+        return self.__str__()        
     
 class Wall(Tile):
     def __init__(self):
