@@ -1,32 +1,39 @@
 from agents.bdi_agent import *
 import random
 import queue
+from House import House
 
 class Bot_Belief(Belief):
-    def __init__(self, map = None, beliefs = {}):
-        super().__init__()
+    def __init__(self, map: House = None, beliefs={}):
+        super().__init__(map, beliefs)
         self.last_order = None
-
+        self.map = House()
+        x =0
 class Bot_Agent(BDI_Agent):
-    ACTIONS = [('walk',1), ('take object',2), ('charge',0), ('give recipe',1), ('cook',4), ('clean',2),('give object',1), ('recomend movie',1), ('leave object',1)] # esto no es para nada definitivo
-    def __init__(self):
-        super().__init__()
+    ACTIONS = ['Move to sofa', 'Move to chair1'] # for testing purposes 
+    def __init__(self,beliefs,desires = [], intentions = []):
+        super().__init__(beliefs,desires, intentions)
+        self.intentions = ['Move to sofa']
         
-    def run(self):
-        beliefs = self.beliefs
+    
+    def run(self):  # for now, i'll use beliefs from self
+        #beliefs = self.beliefs  commented, for now
         intentions = self.intentions
-        while True:  #realmente esto es simular eventos discretos y esta funcion no va aqui posiblemente
-            beliefs = self.brf(beliefs)
-            desire = self.options(beliefs, intentions)
-            intentions = self.filter(beliefs, desire, intentions)
-            plan = self.get_plan(beliefs, desire)
+        
+        while True:
+            #beliefs = self.brf(beliefs)
+            desire = self.options(self.beliefs, intentions)
+            intentions = self.filter(self.beliefs, desire, intentions)
+            plan = self.get_plan(self.beliefs, desire)
             while not plan.empty():
-                action = plan.pop()  # this returns the function to be executed
-                self.excecute(action)
-                beliefs = self.brf(beliefs)
-                if self.reconsider(intentions, beliefs):
-                    desire = self.options(beliefs, intentions)
-                    intentions = self.filter(beliefs, desire, intentions)
+                action = plan.get()  # this returns the function to be executed
+                print(action[0])
+                self.execute(action)
+                if self.reconsider(intentions, self.beliefs):
+                    desire = self.options(self.beliefs, intentions)
+                    intentions = self.filter(self.beliefs, desire, intentions)
+
+    
             
     def brf(self, beliefs):
         """Update the agent's beliefs based on the given percept.
@@ -48,10 +55,11 @@ class Bot_Agent(BDI_Agent):
             beliefs (list): all beliefs of the agent
             intentions (list): all intentions of the agent
         """
-        r = random.randint(0, len(intentions)-1)  # agregar criterios para elegir deseo aquí
+        #r = random.randint(0, len(intentions)-1)  # agregar criterios para elegir deseo aquí
+        r = 0
         return intentions[r]
 
-    def filter(self, beliefs, desire, intentions):
+    def filter(self, beliefs, desire, intentions):  # i'll use this method later
         """return the filtered intentions based on the beliefs and selected desire
 
         Args:
@@ -64,17 +72,44 @@ class Bot_Agent(BDI_Agent):
                 return i
         pass
 
-    def reconsider(self):
-        pass
+    def reconsider(self, intentions, general_beliefs):
+        # if self.beliefs == general_beliefs i should do something like this
+        return False
 
-    def set_plan(self):
-        pass
+    def get_plan(self, beliefs, desire):  # i dont use beliefs here and i think i dont need to.
+        plan = queue.Queue()
+        if desire == 'Move to sofa':
+            moves = self.move_to_sofa()
+            for m in moves:
+                plan.put((self.walk,m))  # no me queda claro que sea la mejor manera
+        elif desire == 'Move to chair1':
+            plan.put(self.ACTIONS[1])  # parche analogo.
+        return plan
 
-    def get_plan(self, beliefs, desire):
-        plan = queue.Empty()
-        # aqui tener un switch casa para cada desire.
-        pass
+    def execute(self, action):
+        function = action[0]
+        arg = action[1]  # for now, the action walk only needs the direction
+        function(arg)
 
-    def excecute(self, action):
 
-        pass
+    def walk(self, direction):  # i dont know how to manage the beliefs here
+        current = self.beliefs.map.bot_position
+        if direction == 'up':
+            self.beliefs.map.bot_position = current.up
+        elif direction == 'down':
+            self.beliefs.map.bot_position = current.down
+        elif direction == 'left':
+            self.beliefs.map.bot_position = current.left
+        elif direction == 'right':
+            self.beliefs.map.bot_position = current.right
+        else:
+            raise ValueError('Invalid direction')
+        
+    # ---------------------
+    # FOR TESTING PURPOSES
+    # ---------------------
+    def move_to_sofa(self): 
+        return ['right','right','right','right','right','right','right', 'down', 'down', 'down', 'down', 'down']
+
+    def move_to_chair1(self):
+        return ['left','left','left']

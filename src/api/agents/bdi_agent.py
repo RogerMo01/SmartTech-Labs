@@ -1,9 +1,11 @@
+from House import House
+from abc import ABC
 # Belief in this case:
 #   - is the information that the agent has about the world
 #   - is the information that the agent has about itself
 #   - is the information that the agent has about other agents
 class Belief:
-    def __init__(self, map = None, beliefs = {}):
+    def __init__(self, map:House = None, beliefs = {}):
         #self.beliefs = {}
         # i can add something like string-array tuple to store the beliefs
         self.map = map
@@ -15,8 +17,11 @@ class Belief:
     @staticmethod
     def get_belief(beliefs):
         return beliefs['likes'], beliefs['dislikes'], beliefs['constraints']
-        
+    
 
+ # -------------------------        
+ # I DON'T NEED THIS SECTION
+ # -------------------------
 class Desire: # this is the goal that the agent wants to achieve
     def __init__(self):
         self.desires = []
@@ -30,11 +35,13 @@ class Intention:  # this is the plan that the agent has to achieve its desires
     
     def clear_intentions(self):
         self.intentions = []
+# -------------------------
+# I DON'T NEED THIS SECTION
+# -------------------------
 
 
-
-class BDI_Agent:
-    def __init__(self, beliefs = {}, desires = [], intentions = []):
+class BDI_Agent(ABC):
+    def __init__(self, beliefs, desires = [], intentions = []):
         self.agent_id = None
         self.beliefs = beliefs
         self.desires = desires
