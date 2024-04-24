@@ -124,18 +124,18 @@ I2 = Tile(area="bathroom", name="I2")
 I3 = Tile(area="bathroom", name="I3")
 
 # J0 -> L3
-J0 = Tile(area="bathroom", name="J0")
-J1 = Tile(area="bathroom", name="J1")
-J2 = Tile(area="bathroom", name="J2")
-J3 = Tile(area="bathroom", name="J3")
-K0 = Tile(area="bathroom", name="K0")
-K1 = Tile(area="bathroom", name="K1")
-K2 = Tile(area="bathroom", name="K2")
-K3 = Tile(area="bathroom", name="K3")
-L0 = Tile(area="bathroom", name="L0")
-L1 = Tile(area="bathroom", name="L1")
-L2 = Tile(area="bathroom", name="L2")
-L3 = Tile(area="bathroom", name="L3")
+J0 = Tile(area="kitchen", name="J0")
+J1 = Tile(area="kitchen", name="J1")
+J2 = Tile(area="kitchen", name="J2")
+J3 = Tile(area="kitchen", name="J3")
+K0 = Tile(area="kitchen", name="K0")
+K1 = Tile(area="kitchen", name="K1")
+K2 = Tile(area="kitchen", name="K2")
+K3 = Tile(area="kitchen", name="K3")
+L0 = Tile(area="kitchen", name="L0")
+L1 = Tile(area="kitchen", name="L1")
+L2 = Tile(area="kitchen", name="L2")
+L3 = Tile(area="kitchen", name="L3")
 
 
 # A6 -> C11
@@ -196,6 +196,8 @@ class House:
 
         self.build_house()
 
+        self.build_house()
+
         self.bot_position = self.map['A'][0]
 
     def build_house(self):
@@ -244,15 +246,15 @@ class House:
                     tile.up = wall
 
                 # wall down
-                if (letter == 'F' and j < 5) and (letter == 'I' and j < 4) and (letter == 'L'):
+                if (letter == 'F' and j < 5) or (letter == 'I' and j < 4) or (letter == 'L'):
                     tile.down = wall
                 
                 # wall on left
-                if (j == 0) and (letter in ['H', 'I'] and j == 4) and (letter in ['D', 'E', 'F'] and j == 6):
+                if (j == 0) or (letter in ['H', 'I'] and j == 4) or (letter in ['D', 'E', 'F'] and j == 6):
                     tile.left = wall
                 
                 # wall on right
-                if (letter in ['H', 'I'] and j == 3) or (letter in ['A', 'B', 'C', 'D', 'E', 'F'] and j == 5) or (letter in ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L']):
+                if (letter in ['H', 'I'] and j == 3) or (letter in ['A', 'B', 'C', 'D', 'E', 'F'] and j == 5) or (letter in ['D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L'] and j == 11):
                     tile.right = wall
 
         # Set objects
@@ -273,8 +275,8 @@ class House:
 
     def place_object(self, obj: Object, tiles: list[Tile], face_tiles: list[Tile]):
         for t in tiles:
-            t.add_object(sofa)
-        sofa.face_tiles = face_tiles
+            t.add_object(obj)
+        obj.face_tiles = face_tiles
         try:
             self.objects[obj] = face_tiles[0]
         except:
