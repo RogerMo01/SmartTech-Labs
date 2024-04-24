@@ -1,14 +1,15 @@
 from agents.bdi_agent import *
 import random
 import queue
-from House import House
+from House import *
+from search import *
 
 class Bot_Belief(Belief):
     def __init__(self, map: House = None, beliefs={}):
         super().__init__(map, beliefs)
         self.last_order = None
         self.map = House()
-        x =0
+
 class Bot_Agent(BDI_Agent):
     ACTIONS = ['Move to sofa', 'Move to chair1'] # for testing purposes 
     def __init__(self,beliefs,desires = [], intentions = []):
@@ -22,17 +23,18 @@ class Bot_Agent(BDI_Agent):
         
         while True:
             #beliefs = self.brf(beliefs)
-            desire = self.options(self.beliefs, intentions)
-            intentions = self.filter(self.beliefs, desire, intentions)
+            desire = self.options(self.beliefs, self.intentions)
+            intentions = self.filter(self.beliefs, desire, self.intentions)
             plan = self.get_plan(self.beliefs, desire)
             while not plan.empty():
                 action = plan.get()  # this returns the function to be executed
-                print(action[0])
                 self.execute(action)
                 if self.reconsider(intentions, self.beliefs):
                     desire = self.options(self.beliefs, intentions)
                     intentions = self.filter(self.beliefs, desire, intentions)
-
+            self.intentions.remove(desire)
+            if len(self.intentions) == 0:
+                break
     
             
     def brf(self, beliefs):
@@ -94,13 +96,13 @@ class Bot_Agent(BDI_Agent):
 
     def walk(self, direction):  # i dont know how to manage the beliefs here
         current = self.beliefs.map.bot_position
-        if direction == 'up':
+        if direction == UP:
             self.beliefs.map.bot_position = current.up
-        elif direction == 'down':
+        elif direction == DOWN:
             self.beliefs.map.bot_position = current.down
-        elif direction == 'left':
+        elif direction == LEFT:
             self.beliefs.map.bot_position = current.left
-        elif direction == 'right':
+        elif direction == RIGHT:
             self.beliefs.map.bot_position = current.right
         else:
             raise ValueError('Invalid direction')
@@ -108,8 +110,16 @@ class Bot_Agent(BDI_Agent):
     # ---------------------
     # FOR TESTING PURPOSES
     # ---------------------
-    def move_to_sofa(self): 
-        return ['right','right','right','right','right','right','right', 'down', 'down', 'down', 'down', 'down']
-
+    def move_to_sofa(self):
+         current_position = self.beliefs.map.bot_position
+         p = WalkProblem(current_position, H9)  # H9 is the sofa
+         sln = astar_search(p)
+         actions = path_actions(sln)
+         return actions
+    
     def move_to_chair1(self):
-        return ['left','left','left']
+        current_position = self.beliefs.map.bot_position
+        p = WalkProblem(current_position, H11)  # H11 is the chair1
+        sln = astar_search(p)
+        actions = path_actions(sln)
+        return actions

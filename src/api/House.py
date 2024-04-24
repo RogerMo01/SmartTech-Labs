@@ -196,9 +196,7 @@ class House:
 
         self.build_house()
 
-        self.build_house()
-
-        self.bot_position = self.map['A'][0]
+        self.bot_position = self.map['J'][6]
 
     def build_house(self):
 
