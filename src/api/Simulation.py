@@ -3,14 +3,8 @@ import threading
 from queue import Queue
 import datetime
 from House import House
-# from agents.bot_agent import Bot_Agent
-# from agents.person_agent import Person_Agent
-
-
-class Bot_Agent:
-    pass
-class Person_Agent:
-    pass
+from agents.bot_agent import Bot_Agent
+from agents.person_agent import Person_Agent
 
 
 class Event:
