@@ -3,6 +3,7 @@ import random
 import queue
 from House import *
 from search import *
+from Task import *
 
 class Bot_Belief(Belief):
     def __init__(self, map: House = None, beliefs={}):
@@ -10,14 +11,28 @@ class Bot_Belief(Belief):
         self.last_order = None
         self.map = House()
 
+class Plan:
+    def __init__(self):
+        self.tasks = []
+
+    def enqueue_task(self, task: Task):
+        self.tasks.append(task)
+
+
+
+
 class Bot_Agent(BDI_Agent):
     ACTIONS = ['Move to sofa', 'Move to chair1'] # for testing purposes 
     def __init__(self,beliefs,desires = [], intentions = []):
         super().__init__(beliefs,desires, intentions)
         self.intentions = ['Move to sofa']
+
+        self.plans = []
+
         
     
     def run(self):  # for now, i'll use beliefs from self
+        
         #beliefs = self.beliefs  commented, for now
         intentions = self.intentions
         
