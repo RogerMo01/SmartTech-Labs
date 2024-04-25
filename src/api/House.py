@@ -194,11 +194,27 @@ class House:
         }
         self.objects = {}
 
-        self.build_house()
+        House.build_house(map)
 
+        self.bot_position = self.map['J'][6]
         
+        # Contains conversations in the last step
+        self.speaks = []
 
-    def build_house(self):
+        # Contains conversations in current step
+        self.speaks_stack = []
+
+    def say(self, speaker: str, sentence: str):
+        '''Used for agents when they say something'''
+        result = f"{speaker} dice: {sentence}"
+        self.speaks_stack.append(result)
+
+    def update_speaks(self):
+        for i in self.speaks_stack:
+            self.speaks.append(i)
+
+    @staticmethod
+    def build_house(map):
 
         letters = list(string.ascii_uppercase)
 
@@ -208,25 +224,25 @@ class House:
             for j in range(12):
                 num = j
 
-                tile: Tile = self.map[letter][num]
+                tile: Tile = map[letter][num]
 
                 if i > 0:
-                    up: Tile = self.map[letters[i-1]][num]
+                    up: Tile = map[letters[i-1]][num]
                     tile.up = up
                     up.down = tile
 
                 if i < 11:
-                    down: Tile = self.map[letters[i+1]][num]
+                    down: Tile = map[letters[i+1]][num]
                     tile.down = down
                     down.up = tile
 
                 if j > 0:
-                    left: Tile = self.map[letter][num-1]
+                    left: Tile = map[letter][num-1]
                     tile.left = left
                     left.right = tile
 
                 if j < 11:
-                    right: Tile = self.map[letter][num+1]
+                    right: Tile = map[letter][num+1]
                     tile.right = right
                     right.left = tile
 
@@ -235,7 +251,7 @@ class House:
             letter = letters[i]
             for j in range(12):
                 num = j
-                tile: Tile = self.map[letter][num]
+                tile: Tile = map[letter][num]
 
                 wall = Wall()
 
@@ -256,26 +272,26 @@ class House:
                     tile.right = wall
 
         # Set objects
-        self.place_object(sofa, [F7, F8], [E7, E8])
-        self.place_object(table, [I7, I8], [H7, H8, I9, J8, J7, I6])
-        self.place_object(chair1, [H7], [H7])
-        self.place_object(chair2, [H8], [H8])
-        self.place_object(chair3, [I9], [I9])
-        self.place_object(chair4, [J8], [J8])
-        self.place_object(chair5, [J7], [J7])
-        self.place_object(chair6, [I6], [I6])
-        self.place_object(plant1, [D6], [D6])
-        self.place_object(plant2, [J0], [J0])
-        self.place_object(plant3, [A5], [A5])
-        self.place_object(tv_table, [D7, D8], [D7, D8])
+        House.place_object(sofa, [F7, F8], [E7, E8])
+        House.place_object(table, [I7, I8], [H7, H8, I9, J8, J7, I6])
+        House.place_object(chair1, [H7], [H7])
+        House.place_object(chair2, [H8], [H8])
+        House.place_object(chair3, [I9], [I9])
+        House.place_object(chair4, [J8], [J8])
+        House.place_object(chair5, [J7], [J7])
+        House.place_object(chair6, [I6], [I6])
+        House.place_object(plant1, [D6], [D6])
+        House.place_object(plant2, [J0], [J0])
+        House.place_object(plant3, [A5], [A5])
+        House.place_object(tv_table, [D7, D8], [D7, D8])
         
 
-
-    def place_object(self, obj: Object, tiles: list[Tile], face_tiles: list[Tile]):
+    @staticmethod
+    def place_object(objects, obj: Object, tiles: list[Tile], face_tiles: list[Tile]):
         for t in tiles:
             t.add_object(obj)
         obj.face_tiles = face_tiles
         try:
-            self.objects[obj] = face_tiles[0]
+            objects[obj] = face_tiles[0]
         except:
             raise Exception("face_tiles must have a first element")
