@@ -34,16 +34,7 @@ class Move(Task):
         if self.is_postponed:
             self.steps = self.create_path(house.bot_position)  # recompute path
         direction = self.steps.pop(0) 
-        if direction == UP:
-            self.house.bot_position = self.house.bot_position.up
-        elif direction == DOWN:
-            self.house.bot_position = self.house.bot_position.down
-        elif direction == LEFT:
-            self.house.bot_position = self.house.bot_position.left
-        elif direction == RIGHT:
-            self.house.bot_position = self.house.bot_position.right
-        else:
-            raise ValueError('Invalid direction')
+        self.house.move_bot(direction)
         if len(self.steps) == 0:
             self.is_successful = True
 

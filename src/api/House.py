@@ -2,6 +2,10 @@ import string
 from Tile import Tile, Wall, Blank
 from Objects import Object
 
+UP = 'up'
+DOWN = 'down'
+LEFT = 'left'
+RIGHT = 'right'
 # A0 -> F5
 A0 = Tile(area="bedroom", name="A0")
 A1 = Tile(area="bedroom", name="A1")
@@ -204,6 +208,18 @@ class House:
         # Contains conversations in current step
         self.speaks_stack = []
 
+    def move_bot(self, direction: str):
+        if direction == UP:
+            self.bot_position = self.bot_position.up
+        elif direction == DOWN:
+            self.bot_position = self.bot_position.down
+        elif direction == LEFT:
+            self.bot_position = self.bot_position.left
+        elif direction == RIGHT:
+            self.bot_position = self.bot_position.right
+        else:
+            raise ValueError('Invalid direction')
+        
     def say(self, speaker: str, sentence: str):
         '''Used for agents when they say something'''
         result = f"{speaker} dice: {sentence}"

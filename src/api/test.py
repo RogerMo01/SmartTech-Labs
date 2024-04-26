@@ -1,5 +1,5 @@
 from agents.plan import *
-from agents.task import *
+from agents.Task import *
 from House import House
 
 # from agents.bot_agent import *
