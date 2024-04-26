@@ -3,7 +3,7 @@ import random
 import queue
 from House import *
 from search import *
-from Task import *
+from task import *
 
 class Bot_Belief(Belief):
     def __init__(self, map: House = None, beliefs={}):

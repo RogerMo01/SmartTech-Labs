@@ -1,24 +1,50 @@
 from Tile import Tile
+from search import *
 
 class Task:
     def __init__(self, time):
         self.time = time         # timepo q toma en total
         self.elapsed_time = 0    # tiempo q se ha dedicado a la tarea
         self.postponed_time = 0  # timepo q lleva pospuesta
-
-    def run(self):
+        self.is_postponed = False
+        self.location = None     # lugar donde se realiza la tarea
+        self.is_successful = False
+    
+    def execute(self, *args):
         raise Exception(NotImplemented)
     
 
 class Move(Task):
-    def __init__(self, src: Tile, dest: Tile):
+    def __init__(self, time, house: House, src: Tile, dest: Tile):
+        super().__init__(time)
         self.elapsed_time = 0    # tiempo q se ha dedicado a la tarea
         self.src = src
         self.dest = dest
+        self.house = house
+        self.steps = self.create_path()
 
-    def run(self):
-        # llamar a la busqueda informada
-        pass
+    def create_path(self):
+        p = WalkProblem(self.src, self.dest)
+        sln = astar_search(p)
+        actions = path_actions(sln)
+        return actions
+    
+    def execute(self,*args):
+        if self.is_postponed:
+            self.steps = self.create_path()  # recompute path
+        direction = self.steps.pop(0) 
+        if direction == UP:
+            self.house.bot_position = self.house.bot_position.up
+        elif direction == DOWN:
+            self.house.bot_position = self.house.bot_position.down
+        elif direction == LEFT:
+            self.house.bot_position = self.house.bot_position.left
+        elif direction == RIGHT:
+            self.house.bot_position = self.house.bot_position.right
+        else:
+            raise ValueError('Invalid direction')
+        if len(self.steps) == 0:
+            self.is_successful = True
 
 
 # Other types of Tasks
