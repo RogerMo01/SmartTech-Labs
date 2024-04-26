@@ -5,7 +5,7 @@ from abc import ABC
 #   - is the information that the agent has about itself
 #   - is the information that the agent has about other agents
 class Belief:
-    def __init__(self, map:House = None, beliefs = {}):
+    def __init__(self, map:House, beliefs = {}):
         #self.beliefs = {}
         # i can add something like string-array tuple to store the beliefs
         self.map = map
@@ -41,10 +41,11 @@ class Intention:  # this is the plan that the agent has to achieve its desires
 
 
 class BDI_Agent(ABC):
-    def __init__(self, beliefs, desires = [], intentions = []):
+    def __init__(self, beliefs, intentions = []):
         self.agent_id = None
+        self.map = None
         self.beliefs = beliefs
-        self.desires = desires
+        self.desire = None
         self.intentions = intentions
 
     def brf(self, percept):

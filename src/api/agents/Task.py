@@ -26,6 +26,9 @@ class Move(Task):
         self.house = house
         self.steps = []
 
+    def __repr__(self):
+        return f"Move to {self.dest.name} --success: {self.is_successful}"
+    
     def create_path(self, new_src=None):
         src = new_src if new_src else self.src
         p = WalkProblem(src, self.dest)
