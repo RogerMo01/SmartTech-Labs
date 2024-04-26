@@ -23,15 +23,16 @@ class Move(Task):
         self.house = house
         self.steps = self.create_path()
 
-    def create_path(self):
-        p = WalkProblem(self.src, self.dest)
+    def create_path(self, new_src=None):
+        src = new_src if new_src else self.src
+        p = WalkProblem(src, self.dest)
         sln = astar_search(p)
         actions = path_actions(sln)
         return actions
     
     def execute(self,*args):
         if self.is_postponed:
-            self.steps = self.create_path()  # recompute path
+            self.steps = self.create_path(house.bot_position)  # recompute path
         direction = self.steps.pop(0) 
         if direction == UP:
             self.house.bot_position = self.house.bot_position.up
