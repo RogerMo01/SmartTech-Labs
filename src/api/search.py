@@ -178,6 +178,12 @@ class WalkProblem(Problem):
         num = int(state.name[1])
         return self.manhattan[letter][num]
     
+    def solve(self):
+        sln = astar_search(self)
+        actions = path_actions(sln)
+        return actions
+
+    
 def compute_manhattan(goal: str, size=12):
     response = {}
 
@@ -200,6 +206,4 @@ def compute_manhattan(goal: str, size=12):
 
 house = House()
 p = WalkProblem(J6, H9)
-sln = astar_search(p)
-actions = path_actions(sln)
-print(actions)
+print(p.solve())
