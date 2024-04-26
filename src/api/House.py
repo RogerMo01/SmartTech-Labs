@@ -194,7 +194,7 @@ class House:
         }
         self.objects = {}
 
-        House.build_house(map)
+        House.build_house(self.map, self.objects)
 
         self.bot_position = self.map['J'][6]
         
@@ -214,7 +214,7 @@ class House:
             self.speaks.append(i)
 
     @staticmethod
-    def build_house(map):
+    def build_house(map, objects):
 
         letters = list(string.ascii_uppercase)
 
@@ -272,18 +272,18 @@ class House:
                     tile.right = wall
 
         # Set objects
-        House.place_object(sofa, [F7, F8], [E7, E8])
-        House.place_object(table, [I7, I8], [H7, H8, I9, J8, J7, I6])
-        House.place_object(chair1, [H7], [H7])
-        House.place_object(chair2, [H8], [H8])
-        House.place_object(chair3, [I9], [I9])
-        House.place_object(chair4, [J8], [J8])
-        House.place_object(chair5, [J7], [J7])
-        House.place_object(chair6, [I6], [I6])
-        House.place_object(plant1, [D6], [D6])
-        House.place_object(plant2, [J0], [J0])
-        House.place_object(plant3, [A5], [A5])
-        House.place_object(tv_table, [D7, D8], [D7, D8])
+        House.place_object(objects, sofa, [F7, F8], [E7, E8])
+        House.place_object(objects, table, [I7, I8], [H7, H8, I9, J8, J7, I6])
+        House.place_object(objects, chair1, [H7], [H7])
+        House.place_object(objects, chair2, [H8], [H8])
+        House.place_object(objects, chair3, [I9], [I9])
+        House.place_object(objects, chair4, [J8], [J8])
+        House.place_object(objects, chair5, [J7], [J7])
+        House.place_object(objects, chair6, [I6], [I6])
+        House.place_object(objects, plant1, [D6], [D6])
+        House.place_object(objects, plant2, [J0], [J0])
+        House.place_object(objects, plant3, [A5], [A5])
+        House.place_object(objects, tv_table, [D7, D8], [D7, D8])
         
 
     @staticmethod
