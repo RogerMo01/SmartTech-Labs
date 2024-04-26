@@ -1,5 +1,5 @@
 from agents.plan import *
-from agents.Task import *
+from agents.task import *
 from House import House
 
 # from agents.bot_agent import *
@@ -23,7 +23,7 @@ h = House()
 p = Plan()
 print(h.bot_position)
 print('..........................')
-p.tasks = [Move(0,h,h.bot_position, H9), Move(0,h,H9,G9),Move(0,h,G9,E9)]
+p.tasks = [Move(h, H9), Move(h,G9),Move(h,E9)]
 for i in p.tasks:
     while not i.is_successful:
         p.run()
