@@ -3,50 +3,58 @@ import random
 import queue
 from House import *
 from search import *
-from agents.Task import *
+from agents.task import *
+from agents.plan import *
 
 class Bot_Belief(Belief):
-    def __init__(self, map: House = None, beliefs={}):
-        super().__init__(map, beliefs)
+    def __init__(self, house: House = None, other_beliefs={}):
+        super().__init__(house, other_beliefs)
         self.last_order = None
+        # self.map
+        # self.likes
+        # self.dislikes
+        # self.constraints
         
-
-class Plan:
-    def __init__(self):
-        self.tasks = []
-
-    def enqueue_task(self, task: Task):
-        self.tasks.append(task)
-
-
 
 
 class Bot_Agent(BDI_Agent):
     ACTIONS = ['Move to sofa', 'Move to chair1'] # for testing purposes 
-    def __init__(self,beliefs, intentions = []):
-        super().__init__(beliefs, intentions)
-        # self.intentions:list[Plan] = []
 
+    def __init__(self, house: House, other_beliefs: dict):
+        # super().__init__(beliefs, intentions)
+        self.agent_id = 'Bot'
+        self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
+        self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
+        self.intentions: list[Plan] = [Plan("Ir al sofa", self.agent_id, [Move(house, E8)])]
+
+
+    def run(self, submmit_event):
+        # Percibir lo nuevo del entorno
+        # en base a las percepciones actualizar mis creencias y actualizar mi lista de intenciones (considerar)
+        # (actualmente como no se percibe nada nuevo, no es necesario esto)
+
+        # perceptions = self.percept()
+        # self.beliefs = self.brf(perceptions)
+
+        # Plans already in queue
+        if len(self.intentions) > 0:
+            current_plan: Plan = self.intentions[0]
+            current_plan.run(submmit_event)
+
+            if current_plan.is_successful:
+                print("PLAN COMPLETED")
+                self.intentions.pop(0)
         
-
-
-    def run(self):
-        self.beliefs:Bot_Belief = self.beliefs    # initial beliefs
-        self.desire:Plan = self.options()   # esto es un plan
-
-        self.desire.run()
-        if self.desire.is_successful:
-            print("PLAN COMPLETED")
-            return True
-        
+        # Despues de q se ejecuta, avanza un paso en el plan, reconsiderar intenciones
         if self.reconsider():
             # reevaluate intentions
             pass
         
-        return False
 
         
-
+    def percept(self):
+        """Percepts changes in enviroment"""
+        return None
 
     
     # def run(self):  # for now, i'll use beliefs from self
@@ -80,13 +88,12 @@ class Bot_Agent(BDI_Agent):
         # al final esta funcion para esta simulacion no la necesitamos mucho
         # a no ser analizar cuando la persona tambien modifique el mapa.
         # ya, aqui se va a actualizar belief, que tendra un last_order
+
         self.beliefs = beliefs  # analizar lo de last_order de alguna manera.
         return self.beliefs
-        pass
 
     def options(self):
-        """return the chosen desire based on the beliefs and intentions 
-        """
+        """Return the chosen desire based on the beliefs and intentions"""
         #r = random.randint(0, len(intentions)-1)  # agregar criterios para elegir deseo aquí
         r = 0
         return self.intentions[r]

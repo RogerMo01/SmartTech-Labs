@@ -5,11 +5,12 @@ from abc import ABC
 #   - is the information that the agent has about itself
 #   - is the information that the agent has about other agents
 class Belief:
-    def __init__(self, map:House, beliefs = {}):
+    def __init__(self, house: House, other_beliefs = {}):
         #self.beliefs = {}
         # i can add something like string-array tuple to store the beliefs
-        self.map = map
-        self.likes, self.dislikes, self.constraints = self.get_belief(beliefs)
+        # self.map = map
+        self.house = house
+        self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
 
     def update_belief(self):  # this is not clear for me
         pass
@@ -41,12 +42,14 @@ class Intention:  # this is the plan that the agent has to achieve its desires
 
 
 class BDI_Agent(ABC):
-    def __init__(self, beliefs, intentions = []):
+    # def __init__(self, beliefs, intentions = []):
+    def __init__(self, beliefs):
         self.agent_id = None
-        self.map = None
+        # self.map = None
         self.beliefs = beliefs
-        self.desire = None
-        self.intentions = intentions
+        self.desires = None
+        # self.intentions = intentions
+        self.intentions = None
 
     def brf(self, percept):
         """Update the agent's beliefs based on the given percept.

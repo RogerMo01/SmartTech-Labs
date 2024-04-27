@@ -151,9 +151,10 @@ class WalkProblem(Problem):
     
     
     def is_valid_tile(self, next: Tile):
-        first_cut = (next is not None) and next.isTile() and (len(next.objects) == 0)
-        if first_cut:
-            return True
+
+        continue_cut = (next is not None) and next.isTile()
+        if not continue_cut:
+            return False
         else:
             for obj in list(next.objects):
                 if (self.agent == BOT and not obj.robot_step) or (self.agent == HUMAN and not obj.human_step):
@@ -199,7 +200,7 @@ def compute_manhattan(goal: str, size=12):
 
 
 house = House()
-p = WalkProblem(J6, H9)
+p = WalkProblem(J6, E8)
 sln = astar_search(p)
 actions = path_actions(sln)
 print(actions)
