@@ -71,6 +71,6 @@ class Simulation:
 
 s = Simulation()
 s.run_server()
-print(s.events)
-
+for i in s.events:
+    print(i)
 

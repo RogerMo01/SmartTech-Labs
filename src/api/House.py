@@ -3,6 +3,11 @@ from Tile import Tile, Wall, Blank
 from Objects import Object
 from house_data import *
 
+UP = 'up'
+DOWN = 'down'
+LEFT = 'left'
+RIGHT = 'right'
+
 class House:
     def __init__(self):
         
