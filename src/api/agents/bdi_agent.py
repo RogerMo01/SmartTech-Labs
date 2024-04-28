@@ -6,10 +6,11 @@ from abc import ABC
 #   - is the information that the agent has about other agents
 class Belief:
     def __init__(self, house: House, other_beliefs = {}):
-        #self.beliefs = {}
         # i can add something like string-array tuple to store the beliefs
-        # self.map = map
-        self.house = house
+        self.map = house.map.copy()
+        self.bot_position = house.bot_position
+        self.human_position = house.human_position
+        self.objects = house.objects.copy()
         self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
 
     def update_belief(self):  # this is not clear for me
