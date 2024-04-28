@@ -5,8 +5,9 @@ from datetime import datetime, timedelta
 ZERO = timedelta(seconds=0)
 
 class Task:
-    def __init__(self, time: timedelta):
+    def __init__(self, author, time: timedelta):
         self.type = None
+        self.author = author
         self.time = time         # timepo q toma en total
         self.elapsed_time = 0    # tiempo q se ha dedicado a la tarea
         self.postponed_time = 0  # timepo q lleva pospuesta
@@ -23,8 +24,8 @@ class Task:
     
 
 class Move(Task):
-    def __init__(self, house: House, dest: Tile):
-        super().__init__(ZERO)
+    def __init__(self, author, house: House, dest: Tile):
+        super().__init__(author, ZERO)
         # self.time
         # self.postponed_time
         self.type = "Caminar"
@@ -47,7 +48,7 @@ class Move(Task):
         return actions
     
 
-    def execute(self,*args):
+    def execute(self, *args):
         if self.is_successful: return                             # plan already finished
 
         if self.elapsed_time == ZERO:                             # initial execution
@@ -57,7 +58,7 @@ class Move(Task):
             self.recopute(self.elapsed_time + timedelta(seconds=len(self.steps)), house.bot_position)                                   # recompute path
 
         direction = self.steps.pop(0) 
-        self.house.move_bot(direction)
+        self.house.move(direction, self.author)
         self.elapsed_time += timedelta(seconds=1)
 
         if len(self.steps) == 0:
@@ -65,7 +66,7 @@ class Move(Task):
 
 
     def recopute(self, time, new_src=None):
-        self.src = self.house.bot_position
+        self.src = self.house.bot_position if self.author == 'Bot' else self.house.human_position
         if new_src:
             self.steps = self.create_path()
         else:

@@ -20,12 +20,22 @@ class House:
 
         self.bot_position = self.map['J'][6]
         
+        self.human_position = self.map['G'][9]
+
         # Contains conversations in the last step
         self.speaks = []
 
         # Contains conversations in current step
         self.speaks_stack = []
 
+    def move(self, direction: str, author: str):
+        if author == 'Bot':
+            self.move_bot(direction)
+        elif author == 'Human':
+            self.move_human(direction)
+        else:
+            raise ValueError('Invalid author')
+        
     def move_bot(self, direction: str):
         if direction == UP:
             self.bot_position = self.bot_position.up
@@ -38,6 +48,19 @@ class House:
         else:
             raise ValueError('Invalid direction')
         
+    def move_human(self, direction: str):
+        if direction == UP:
+            self.human_position = self.human_position.up
+        elif direction == DOWN:
+            self.human_position = self.human_position.down
+        elif direction == LEFT:
+            self.human_position = self.human_position.left
+        elif direction == RIGHT:
+            self.human_position = self.human_position.right
+        else:
+            raise ValueError('Invalid direction')
+        
+    
     def say(self, speaker: str, sentence: str):
         '''Used for agents when they say something'''
         result = f"{speaker} dice: {sentence}"
