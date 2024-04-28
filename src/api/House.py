@@ -20,12 +20,38 @@ class House:
 
         self.bot_position = self.map['J'][6]
         
-        # Contains conversations in the last step
+        self.human_position = self.map['G'][9]
+
+        # Contains conversations in the last second
         self.speaks = []
 
-        # Contains conversations in current step
+        # Contains conversations in current second
         self.speaks_stack = []
 
+    
+    def get_representative_tiles(self):
+        rooms = []
+        tiles = []
+        for letter in self.map:
+            for num in self.map[letter]:
+                if not isinstance(self.map[letter][num], Blank) and not self.map[letter][num].area in rooms:
+                    rooms.append(self.map[letter][num].area)
+                    tiles.append(self.map[letter][num])
+        return tiles
+    
+    def get_tile_by_room(self, room: str):
+        representative_tiles = self.get_representative_tiles()
+        return next((t for t in representative_tiles if t.area == room), None)
+    
+
+    def move(self, direction: str, author: str):
+        if author == 'Bot':
+            self.move_bot(direction)
+        elif author == 'Human':
+            self.move_human(direction)
+        else:
+            raise ValueError('Invalid author')
+        
     def move_bot(self, direction: str):
         if direction == UP:
             self.bot_position = self.bot_position.up
@@ -38,6 +64,19 @@ class House:
         else:
             raise ValueError('Invalid direction')
         
+    def move_human(self, direction: str):
+        if direction == UP:
+            self.human_position = self.human_position.up
+        elif direction == DOWN:
+            self.human_position = self.human_position.down
+        elif direction == LEFT:
+            self.human_position = self.human_position.left
+        elif direction == RIGHT:
+            self.human_position = self.human_position.right
+        else:
+            raise ValueError('Invalid direction')
+        
+    
     def say(self, speaker: str, sentence: str):
         '''Used for agents when they say something'''
         result = f"{speaker} dice: {sentence}"
@@ -46,6 +85,7 @@ class House:
     def update_speaks(self):
         for i in self.speaks_stack:
             self.speaks.append(i)
+        self.speaks_stack = []
 
     @staticmethod
     def build_house(map, objects):
@@ -118,6 +158,22 @@ class House:
         House.place_object(objects, plant2, [J0], [J0])
         House.place_object(objects, plant3, [A5], [A5])
         House.place_object(objects, tv_table, [D7, D8], [D7, D8])
+        House.place_object(objects, tv, [D7, D8], [D7, D8])
+        House.place_object(objects, bed, [C0, C1, D0, D1], [B1, E1])
+        House.place_object(objects, bed_table, [B0], [B0])
+        House.place_object(objects, flip_flops, [B1], [B1])
+        House.place_object(objects, closet, [B5, C5], [B4, C4])
+        House.place_object(objects, toilet, [I2], [I2])
+        House.place_object(objects, bathtub, [G0, H0], [H1])
+        House.place_object(objects, washbasin, [G2], [G2])
+        House.place_object(objects, worktop1, [L0], [K1])
+        House.place_object(objects, worktop2, [L1], [K1])
+        House.place_object(objects, worktop3, [L3], [K3])
+        House.place_object(objects, sink, [L2], [K2])
+        House.place_object(objects, stove, [K0], [K1])
+        House.place_object(objects, bin, [L4], [L4])
+        
+
         
 
     @staticmethod

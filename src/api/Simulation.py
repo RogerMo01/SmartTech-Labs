@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 from House import *
 from agents.bot_agent import Bot_Agent
-from agents.person_agent import Person_Agent
+from agents.human_agent import Human_Agent
 from event import Event
 
 ZERO = timedelta(seconds=0)
@@ -35,7 +35,7 @@ class Simulation:
             }
 
         self.bot = Bot_Agent(self.house, other_beliefs)
-        #self.person = Person_Agent(self.submmit)
+        self.human = Human_Agent(self.house, other_beliefs)
 
         # Events list
         self.events = []
@@ -44,17 +44,18 @@ class Simulation:
         
     def run_server(self):
         # while self.current_datetime < self.end_datetime and success == False:
-        while self.end_datetime - self.current_datetime > ZERO:
+        while self.end_datetime - self.current_datetime > ZERO and len(self.bot.intentions) > 0:
             # print(self.end_datetime - self.current_datetime)
             # Take conversations in the last loop
             self.house.update_speaks()
 
             # Run one step in both agents
             self.bot.run(self.submmit_event)
-            #self.person.run()
+            self.human.run(self.submmit_event)
 
-
-
+            print(f'Will-E is: {self.house.bot_position}')
+            print(f'Human is: {self.house.human_position}')
+            print('.......................................')
             # aqui supongo que se haga algo mas
 
 
