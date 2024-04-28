@@ -28,6 +28,22 @@ class House:
         # Contains conversations in current step
         self.speaks_stack = []
 
+    
+    def get_representative_tiles(self):
+        rooms = []
+        tiles = []
+        for letter in self.map:
+            for num in self.map[letter]:
+                if not isinstance(self.map[letter][num], Blank) and not self.map[letter][num].area in rooms:
+                    rooms.append(self.map[letter][num].area)
+                    tiles.append(self.map[letter][num])
+        return tiles
+    
+    def get_tile_by_room(self, room: str):
+        representative_tiles = self.get_representative_tiles()
+        return next((t for t in representative_tiles if t.area == room), None)
+    
+
     def move(self, direction: str, author: str):
         if author == 'Bot':
             self.move_bot(direction)
