@@ -26,7 +26,7 @@ class Bot_Agent(BDI_Agent):
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
         self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, [Move(self.agent_id, house, E8), Move(self.agent_id, house, A0)]),
-                                    Plan("Limpiar la cocina", house, self.agent_id,[Clean(self.agent_id, house, 'kitchen')])]
+                                    Plan("Limpiar la cocina", house, self.agent_id,[Clean(self.agent_id, house, 'bedroom')])]
 
 
     def run(self, submmit_event):

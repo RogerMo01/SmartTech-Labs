@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 ZERO = timedelta(seconds=0)
 
 class Task:
-    def __init__(self, author, time: timedelta, room: Tile = None):
+    def __init__(self, author, time: timedelta, room: str = None):
         self.type = None
         self.author = author
         self.time = time         # timepo q toma en total
@@ -77,7 +77,7 @@ class Move(Task):
         self.is_successful = True if len(self.steps) == 0 else False
 
 class Clean(Task):
-    def __init__(self, author, house: House, room: Tile):
+    def __init__(self, author, house: House, room: str):
         super().__init__(author, ZERO)
         self.time = timedelta(seconds=5)
         self.type = "Limpiar"

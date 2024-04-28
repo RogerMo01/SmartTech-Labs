@@ -27,6 +27,7 @@ class Plan:
 
         if current_task.is_successful:
             print("TASK COMPLETED")
+            print(f'{self.author} completed the task in {self.house.bot_position.area if self.author=="Bot" else self.house.human_position.area}')
             submmit_event(Event(self.author, self.intention_name, current_task))
             self.tasks.pop(0)
 
