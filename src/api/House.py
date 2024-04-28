@@ -22,10 +22,10 @@ class House:
         
         self.human_position = self.map['G'][9]
 
-        # Contains conversations in the last step
+        # Contains conversations in the last second
         self.speaks = []
 
-        # Contains conversations in current step
+        # Contains conversations in current second
         self.speaks_stack = []
 
     
@@ -85,6 +85,7 @@ class House:
     def update_speaks(self):
         for i in self.speaks_stack:
             self.speaks.append(i)
+        self.speaks_stack = []
 
     @staticmethod
     def build_house(map, objects):
@@ -157,6 +158,22 @@ class House:
         House.place_object(objects, plant2, [J0], [J0])
         House.place_object(objects, plant3, [A5], [A5])
         House.place_object(objects, tv_table, [D7, D8], [D7, D8])
+        House.place_object(objects, tv, [D7, D8], [D7, D8])
+        House.place_object(objects, bed, [C0, C1, D0, D1], [B1, E1])
+        House.place_object(objects, bed_table, [B0], [B0])
+        House.place_object(objects, flip_flops, [B1], [B1])
+        House.place_object(objects, closet, [B5, C5], [B4, C4])
+        House.place_object(objects, toilet, [I2], [I2])
+        House.place_object(objects, bathtub, [G0, H0], [H1])
+        House.place_object(objects, washbasin, [G2], [G2])
+        House.place_object(objects, worktop1, [L0], [K1])
+        House.place_object(objects, worktop2, [L1], [K1])
+        House.place_object(objects, worktop3, [L3], [K3])
+        House.place_object(objects, sink, [L2], [K2])
+        House.place_object(objects, stove, [K0], [K1])
+        House.place_object(objects, bin, [L4], [L4])
+        
+
         
 
     @staticmethod
