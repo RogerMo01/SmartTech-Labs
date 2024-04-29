@@ -6,18 +6,19 @@ from datetime import datetime, timedelta
 ZERO = timedelta(seconds=0)
 
 class Task:
-    def __init__(self, author, time: timedelta, room: str = None, house: House=None, beliefs: Belief = None):
+    def __init__(self, author, time: timedelta, room: str = None, house: House=None, beliefs: Belief = None, is_priority: bool = False):
         self.type = None
         self.author = author
         self.time = time         # timepo q toma en total
         self.room = room
-        self.elapsed_time = 0    # tiempo q se ha dedicado a la tarea
-        self.postponed_time = 0  # timepo q lleva pospuesta
+        self.elapsed_time = ZERO    # tiempo q se ha dedicado a la tarea
+        self.postponed_time = ZERO  # timepo q lleva pospuesta
         self.is_postponed = False
         self.location = None     # lugar donde se realiza la tarea
         self.is_successful = False
         self.house = house
         self.beliefs = beliefs
+        self.is_priority = is_priority
 
     def execute(self, *args):
         """

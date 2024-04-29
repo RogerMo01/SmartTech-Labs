@@ -47,7 +47,7 @@ class Plan:
         current_area = self.beliefs.bot_position.area if self.author == 'Bot' else self.beliefs.human_position.area
 
         if not current_task.room == current_area:
-            self.tasks.insert(0, Move(self.author, self.house, dest_tile))
+            self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
     
     def __repr__(self) -> str:
         return self.tasks.__repr__() + "--success: " + str(self.is_successful)

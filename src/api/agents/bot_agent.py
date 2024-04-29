@@ -27,18 +27,11 @@ class Bot_Agent(BDI_Agent):
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
         self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
-                                    Plan("Limpiar la cocina", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, 'bedroom')])]
+                                    Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, 'bedroom')])]
 
 
     def run(self, submmit_event):
-        # Percibir lo nuevo del entorno
-        # en base a las percepciones actualizar mis creencias y actualizar mi lista de intenciones (considerar)
-        # (actualmente como no se percibe nada nuevo, no es necesario esto)
-
-        # perceptions = self.percept()
-        # self.beliefs = self.brf(perceptions)
-
-        # Plans already in queue
+        
        perception = self.see()
        self.brf(perception)
        
@@ -49,10 +42,16 @@ class Bot_Agent(BDI_Agent):
             if current_plan.is_successful:
                 print("PLAN COMPLETED")
                 self.intentions.pop(0)
-        
-        # Despues de q se ejecuta, avanza un paso en el plan, reconsiderar intenciones
-       if self.reconsider():
-            # reevaluate intentions
+                
+            self.increment_postponed_plan(current_plan)
+            perception = self.see()
+            self.brf(perception)
+       
+       _reconsider, selected_intention = self.reconsider(current_plan)
+       
+       if _reconsider:
+            print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
+            self.reorder_intentions(selected_intention, current_plan)
             pass
         
 
@@ -63,17 +62,20 @@ class Bot_Agent(BDI_Agent):
         perception = Perception(*self.__house.get_data())
         return perception
     
+    def reorder_intentions(self, selected_intention, prev_intention: Plan):
+        for task in prev_intention.tasks:
+            task.is_postponed = True
+        
+        self.intentions.remove(selected_intention)
+        self.intentions.insert(0, selected_intention)
+
 
     def brf(self, perception):
         """Update the agent's beliefs based on the given percept.
 
         Args:
-            percept (?): the percept of the environment
+            perception (Perception): the perception of the environment
         """
-        # al final esta funcion para esta simulacion no la necesitamos mucho
-        # a no ser analizar cuando la persona tambien modifique el mapa.
-        # ya, aqui se va a actualizar belief, que tendra un last_order
-
         self.beliefs.map = perception.map
         self.beliefs.objects = perception.objects
         self.beliefs.speaks = perception.speaks
@@ -82,25 +84,59 @@ class Bot_Agent(BDI_Agent):
 
         return self.beliefs
 
+
+    def reconsider(self, current_plan: Plan):
+        _reconsider = random.uniform(0,1)
+        posible_plans = []
+        if _reconsider <= 0.90:
+            for intention in self.intentions:
+                if self.beliefs.bot_position.area == self.get_room_plan(intention) and intention.intention_name != current_plan.intention_name:
+                    posible_plans.append(intention)
+            
+            if len(posible_plans) != 0:
+                selected_plan = random.randint(0, len(posible_plans) - 1)
+                return True, posible_plans[selected_plan]
+            else: return False, None
+
+        else: return False, None
+
+    def get_room_plan(self, plan: Plan):
+        room = ""
+        for task in plan.tasks:
+            if room == "" or task.room == room:
+                room = task.room
+            else:
+                return ""
+        return room
+    
+    def increment_postponed_plan(self, current_intention: Plan):
+        for intention in self.intentions:
+            if intention.intention_name != current_intention.intention_name:
+                for task in intention.tasks:
+                    if task.is_postponed:
+                        one_step = timedelta(seconds=1)
+                        task.postponed_time += one_step
+
+
+    # -------------- #
+    # Unused methods #
+    # -------------- #
+
+    def filter(self, beliefs, desire, intentions):  # i'll use this method later
+            """return the filtered intentions based on the beliefs and selected desire
+
+            Args:
+                beliefs (list): all beliefs of the agent
+                desire (str): chosen desire
+                intentions (list): all intentions of the agent
+            """
+            for i in intentions:
+                if i == desire:
+                    return i
+            pass
+
     def options(self):
         """Return the chosen desire based on the beliefs and intentions"""
         #r = random.randint(0, len(intentions)-1)  # agregar criterios para elegir deseo aquí
         r = 0
         return self.intentions[r]
-
-    # def filter(self, beliefs, desire, intentions):  # i'll use this method later
-    #     """return the filtered intentions based on the beliefs and selected desire
-
-    #     Args:
-    #         beliefs (list): all beliefs of the agent
-    #         desire (str): chosen desire
-    #         intentions (list): all intentions of the agent
-    #     """
-    #     for i in intentions:
-    #         if i == desire:
-    #             return i
-    #     pass
-
-    def reconsider(self):
-        # if self.beliefs == general_beliefs i should do something like this
-        return False
