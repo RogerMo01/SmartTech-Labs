@@ -2,7 +2,7 @@ import os
 from typing import Any
 from dotenv import load_dotenv
 import google.generativeai as genai
-from api.llm import LLM
+from api.llm.llm import LLM
 
 class Gemini(LLM):
     def __init__(self) -> None:        
@@ -15,5 +15,12 @@ class Gemini(LLM):
 
 
     def __call__(self, query: str) -> str:
-        response = self.model.generate_content(query)
-        return response.text
+        response = self.model.generate_content(query, 
+            generation_config=genai.types.GenerationConfig(
+            # Only one candidate for now.
+            candidate_count=1,
+            stop_sequences=['x'],
+            max_output_tokens=50,
+            temperature=0.8))
+        
+        return response.text 

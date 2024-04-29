@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from api.gemini import Gemini
+from api.llm.gemini import Gemini
 from House import *
 
 # Instanciate gemini llm
