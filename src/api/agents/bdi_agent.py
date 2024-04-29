@@ -6,7 +6,6 @@ from abc import ABC
 #   - is the information that the agent has about other agents
 class Belief:
     def __init__(self, house: House, other_beliefs = {}):
-        self.speaks = None
         self.map, self.objects, self.bot_position, self.human_position = house.get_data()
         self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
 

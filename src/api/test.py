@@ -21,13 +21,13 @@ from House import House
 # bot.run()
 h = House()
 p = Plan()
-print(h.bot_position)
+print(h.__bot_position)
 print('..........................')
 p.tasks = [Move(h, H9), Move(h,G9),Move(h,E9)]
 for i in p.tasks:
     while not i.is_successful:
         p.run()
         print('..........................')
-        print(h.bot_position)
+        print(h.__bot_position)
 
 

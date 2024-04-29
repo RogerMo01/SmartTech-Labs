@@ -53,8 +53,8 @@ class Simulation:
             self.bot.run(self.submmit_event)
             self.human.run(self.submmit_event)
 
-            print(f'Will-E is: {self.house.bot_position}')
-            print(f'Human is: {self.house.human_position}')
+            print(f'Will-E is: {self.bot.beliefs.bot_position}')
+            print(f'Human is: {self.bot.beliefs.human_position}')
             print('.......................................')
             # aqui supongo que se haga algo mas
 

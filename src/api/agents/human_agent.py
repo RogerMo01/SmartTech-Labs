@@ -15,7 +15,7 @@ class Human_Agent(BDI_Agent):
         self.__house = house
         self.beliefs = Human_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Regar la casa para que el robot la organice"]
-        self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, [Move(self.agent_id, house, E9), Move(self.agent_id, house, E5)])]
+        self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
 
 
     def  run(self, submmit_event):

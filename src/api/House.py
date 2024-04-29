@@ -13,30 +13,30 @@ class House:
         
         # Dictionary matrix that allows O(1) access to tiles
         # [letter][number]
-        self.map = map
-        self.objects = {}
+        self.__map = map
+        self.__objects = {}
 
-        House.build_house(self.map, self.objects)
+        House.build_house(self.__map, self.__objects)
 
-        self.bot_position = self.map['J'][6]
+        self.__bot_position = self.__map['J'][6]
         
-        self.human_position = self.map['G'][9]
+        self.__human_position = self.__map['G'][9]
 
         # Contains conversations in the last second
-        self.speaks = []
+        self.__speaks = []
 
         # Contains conversations in current second
-        self.speaks_stack = []
+        self.__speaks_stack = []
 
     
     def get_representative_tiles(self):
         rooms = []
         tiles = []
-        for letter in self.map:
-            for num in self.map[letter]:
-                if not isinstance(self.map[letter][num], Blank) and not self.map[letter][num].area in rooms:
-                    rooms.append(self.map[letter][num].area)
-                    tiles.append(self.map[letter][num])
+        for letter in self.__map:
+            for num in self.__map[letter]:
+                if not isinstance(self.__map[letter][num], Blank) and not self.__map[letter][num].area in rooms:
+                    rooms.append(self.__map[letter][num].area)
+                    tiles.append(self.__map[letter][num])
         return tiles
     
     def get_tile_by_room(self, room: str):
@@ -44,7 +44,7 @@ class House:
         return next((t for t in representative_tiles if t.area == room), None)
     
     def get_data(self):
-        return self.map.copy(), self.objects.copy(), self.bot_position, self.human_position
+        return self.__map.copy(), self.__objects.copy(), self.__bot_position, self.__human_position
 
     def move(self, direction: str, author: str):
         if author == 'Bot':
@@ -56,25 +56,25 @@ class House:
         
     def move_bot(self, direction: str):
         if direction == UP:
-            self.bot_position = self.bot_position.up
+            self.__bot_position = self.__bot_position.up
         elif direction == DOWN:
-            self.bot_position = self.bot_position.down
+            self.__bot_position = self.__bot_position.down
         elif direction == LEFT:
-            self.bot_position = self.bot_position.left
+            self.__bot_position = self.__bot_position.left
         elif direction == RIGHT:
-            self.bot_position = self.bot_position.right
+            self.__bot_position = self.__bot_position.right
         else:
             raise ValueError('Invalid direction')
         
     def move_human(self, direction: str):
         if direction == UP:
-            self.human_position = self.human_position.up
+            self.__human_position = self.__human_position.up
         elif direction == DOWN:
-            self.human_position = self.human_position.down
+            self.__human_position = self.__human_position.down
         elif direction == LEFT:
-            self.human_position = self.human_position.left
+            self.__human_position = self.__human_position.left
         elif direction == RIGHT:
-            self.human_position = self.human_position.right
+            self.__human_position = self.__human_position.right
         else:
             raise ValueError('Invalid direction')
         
@@ -82,12 +82,12 @@ class House:
     def say(self, speaker: str, sentence: str):
         '''Used for agents when they say something'''
         result = f"{speaker} dice: {sentence}"
-        self.speaks_stack.append(result)
+        self.__speaks_stack.append(result)
 
     def update_speaks(self):
-        for i in self.speaks_stack:
-            self.speaks.append(i)
-        self.speaks_stack = []
+        for i in self.__speaks_stack:
+            self.__speaks.append(i)
+        self.__speaks_stack = []
 
     @staticmethod
     def build_house(map, objects):
