@@ -28,7 +28,7 @@ class Plan:
 
         if current_task.is_successful:
             print("TASK COMPLETED")
-            print(f'{self.author} completed the task in {self.beliefs.bot_position.area if self.author=="Bot" else self.beliefs.human_position.area}')
+            print(f'{self.author} completed the task in {self.beliefs.bot_position.area if self.author=="Will-E" else self.beliefs.human_position.area}')
             submmit_event(Event(self.author, self.intention_name, current_task))
             self.tasks.pop(0)
 
@@ -37,22 +37,24 @@ class Plan:
 
 
     def is_out(self, current_task):
-        current_area = self.beliefs.bot_position.area if self.author == 'Bot' else self.beliefs.human_position.area
+        current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
         return (current_task.room != current_area and current_task.type != 'Caminar')
     
 
     def recompute(self):
         current_task = self.tasks[0]
         dest_tile = self.house.get_tile_by_room(current_task.room)
-        current_area = self.beliefs.bot_position.area if self.author == 'Bot' else self.beliefs.human_position.area
+        current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
 
         if not current_task.room == current_area:
-            self.tasks.insert(0, Move(self.author, self.house, dest_tile))
+            self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
     
     def __repr__(self) -> str:
         return self.tasks.__repr__() + "--success: " + str(self.is_successful)
         
-
+    def add_task(self, task: Task):
+        self.tasks.append(task)
+        self.is_successful = False
 
 
     

@@ -61,10 +61,11 @@ class Move(Task):
 
         if self.is_postponed:
             self.recompute(self.elapsed_time + timedelta(seconds=len(self.steps)), 
-                           self.beliefs.bot_position if self.author == 'Bot' else self.beliefs.human_position)                                    # recompute path
+                           self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position)                                    # recompute path
 
         direction = self.steps.pop(0) 
-        self.house.move(direction, self.author)
+        new_pos = self.house.move(direction, self.author)
+        self.beliefs.bot_position = new_pos
         self.elapsed_time += timedelta(seconds=1)
 
         if len(self.steps) == 0:
@@ -72,7 +73,7 @@ class Move(Task):
 
 
     def recompute(self, time, new_src=None):
-        self.src = self.beliefs.bot_position if self.author == 'Bot' else self.beliefs.human_position
+        self.src = self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position
         if new_src:
             self.steps = self.create_path()
         else:

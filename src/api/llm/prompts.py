@@ -1,3 +1,5 @@
+import simulation_data
+
 def human_instruction_request_prompt():
     human_instruction = """
     Eres Alex, un agente operando en un entorno virtual compartido que representa una casa con varias divisiones y objetos específicos en cada una:
@@ -59,72 +61,54 @@ def instruction_interpreter_prompt(request: str, available_actions: list):
     return robot_instruction
 
 def plan_generator_prompt(intention: str):
-    plan_instruction = f"""
-    Eres un robot destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
-    cumples como robot se desarrollan dentro de la casa.
-
-    A continuación se muestra una lista de los objetos que hay en la casa:
-    sofa
-    mesa_de_tv
-    tv
-    planta_1
-    mesa_comedor
-    silla_1
-    silla_2
-    silla_3
-    silla_4
-    silla_5
-    silla_6
-    planta_2
-    fogón
-    encimera_1
-    encimera_2
-    encimera_3
-    fregadero
-    cesto_de_basura
-    inodoro
-    bañera
-    lavamanos
-    cama
-    mesa_de_noche
-    chanclas
-    armario
-    planta_3
-    Pedro
-
-    En la casa también está Pedro, que es la persona a la que estás destinado a ayudar.
-
-    A continuación se muestra una lista de areas de la casa:
-    baño
-    cocina
-    sala
-    dormitorio
-
-    A continuación se muestra una lista de tareas que se utilizan para elaborar un plan:
-    CAMINAR HASTA <objeto>
-    ECHAR AGUA A <objeto>
-    ENCENDER <objeto>
-    APAGAR <objeto>
-    COGER <objeto>
-    SOLTAR <objeto>
-    CAMINAR HASTA <area>
-    LIMPIAR <area>
-
-    Tu objetivo es, a partir de una intención (que se encuentra debajo donde dice Intención) en lenguaje natural,
-    formar un plan, haciendo una lista de tareas de la lista anterior de posibles tareas. 
-    Para poner una tarea en la lista se debe completar la sección <objeto> o <area>, con un objeto o area de la lista de objetos
-    y de areas de la casa, listas dadas anteriormente. Notar que para usar un objeto hay q caminar hasta él.
-
-    Por ejemplo: 
-    para la intención (Encender el televisor), la lista de tareas de salida debe ser
-    ["CAMINAR HASTA tv", "ENCENDER tv"]
-    para la intención (Limpiar el dormitorio), la lista de tareas de salida debe ser
-    ["CAMINAR HASTA dormitorio", LIMPIAR dormitorio]
-
-
-    Ahora si, debes procesar la siguiente intención
-    Intención: {intention}
+    obj_actions = simulation_data.robot_obj_actions.copy()
+    for i in range(len(obj_actions)):
+        obj_actions[i] += " <objeto>"
+    area_actions = simulation_data.robot_area_actions.copy()
+    for i in range(len(area_actions)):
+        area_actions[i] += " <area>"
     
-    """
+    
+    plan_instruction = f"""
+Eres un robot llamado Will-E, destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
+cumples como robot se desarrollan dentro de la casa.
+
+A continuación se muestra una lista de los objetos que hay en la casa:
+{make_list(simulation_data.objects_names)}
+Pedro
+
+En la casa también está Pedro, que es la persona a la que estás destinado a ayudar.
+
+A continuación se muestra una lista de areas de la casa:
+{make_list(simulation_data.areas)}
+
+A continuación se muestra una lista de tareas que se utilizan para elaborar un plan:
+{make_list(obj_actions)}
+{make_list(area_actions)}
+
+Tu objetivo es, a partir de una intención (que se encuentra debajo donde dice Intención) en lenguaje natural,
+formar un plan, haciendo una lista de tareas de la lista anterior de posibles tareas. 
+Para poner una tarea en la lista se debe completar la sección <objeto> o <area>, con un objeto o area de la lista de objetos
+y de areas de la casa, listas dadas anteriormente. Notar que para usar un objeto hay q caminar hasta él.
+
+Por ejemplo: 
+para la intención (Encender el televisor), la lista de tareas de salida debe ser
+["CAMINAR_HASTA tv", "ENCENDER tv"]
+para la intención (Limpiar el dormitorio), la lista de tareas de salida debe ser
+["CAMINAR_HASTA dormitorio", LIMPIAR dormitorio]
+
+
+Ahora si, debes procesar la siguiente intención
+Intención: {intention}
+"""
 
     return plan_instruction
+
+
+def make_list(arr: list):
+    response = ""
+    for i in arr:
+        response += i
+        response += "\n"
+
+    return response

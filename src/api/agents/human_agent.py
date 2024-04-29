@@ -11,7 +11,7 @@ class Human_Belief(Belief):
 
 class Human_Agent(BDI_Agent):
     def __init__(self, house: House, other_beliefs:dict):
-        self.agent_id = 'Human'
+        self.agent_id = 'Pedro'
         self.__house = house
         self.beliefs = Human_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Regar la casa para que el robot la organice"]

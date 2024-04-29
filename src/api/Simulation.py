@@ -43,22 +43,25 @@ class Simulation:
 
         
     def run_server(self):
-        # while self.current_datetime < self.end_datetime and success == False:
-        while self.end_datetime - self.current_datetime > ZERO and len(self.bot.intentions) > 0:
+        i = 1
+        while self.end_datetime - self.current_datetime > ZERO:
             # print(self.end_datetime - self.current_datetime)
             # Take conversations in the last loop
             self.house.update_speaks()
             
             # Run one step in both agents
             self.bot.run(self.submmit_event)
-            self.human.run(self.submmit_event)
+            # self.human.run(self.submmit_event)
 
-            print(f'Will-E is: {self.bot.beliefs.bot_position}')
-            print(f'Human is: {self.bot.beliefs.human_position}')
-            print('.......................................')
+            # print(f'Will-E is: {self.bot.beliefs.bot_position}')
+            # print(f'Pedro is: {self.bot.beliefs.human_position}')
+            # print('.......................................')
+
             # aqui supongo que se haga algo mas
 
-
+            if i == 1:
+                self.house.say("Pedro", "Oye Will-E, camina hasta el sofá")
+                i+=1
 
             # Add one step to current_datetime
             one_step = timedelta(seconds=1)

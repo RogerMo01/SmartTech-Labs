@@ -203,9 +203,3 @@ def compute_manhattan(goal: str, size=12):
             response[letter][j] = abs(i-g_index) + abs(j-int(g_num))
     
     return response
-
-
-house = House()
-p = WalkProblem(J6, H9)
-print(p.solve())
-

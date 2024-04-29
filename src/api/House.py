@@ -1,7 +1,7 @@
 import string
 from Tile import Tile, Wall, Blank
 from Objects import Object
-from house_data import *
+from simulation_data import *
 
 UP = 'up'
 DOWN = 'down'
@@ -44,15 +44,23 @@ class House:
         return next((t for t in representative_tiles if t.area == room), None)
     
     def get_data(self):
-        return self.__map.copy(), self.__objects.copy(), self.__bot_position, self.__human_position
+        return self.__map.copy(), self.__objects.copy(), self.__bot_position, self.__human_position, self.__speaks.copy()
+
+    def get_object(self, name):
+        for o in list(self.__objects.keys()):
+            if o.name == name:
+                return o
+        return None
 
     def move(self, direction: str, author: str):
-        if author == 'Bot':
+        if author == 'Will-E':
             self.move_bot(direction)
-        elif author == 'Human':
+        elif author == 'Pedro':
             self.move_human(direction)
         else:
             raise ValueError('Invalid author')
+        return self.__bot_position
+        
         
     def move_bot(self, direction: str):
         if direction == UP:
@@ -65,6 +73,7 @@ class House:
             self.__bot_position = self.__bot_position.right
         else:
             raise ValueError('Invalid direction')
+
         
     def move_human(self, direction: str):
         if direction == UP:

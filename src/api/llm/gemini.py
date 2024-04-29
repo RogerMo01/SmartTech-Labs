@@ -2,7 +2,7 @@ import os
 from typing import Any
 from dotenv import load_dotenv
 import google.generativeai as genai
-from api.llm.llm import LLM
+from llm.llm import LLM
 
 class Gemini(LLM):
     def __init__(self) -> None:        

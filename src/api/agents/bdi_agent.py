@@ -1,12 +1,13 @@
 from House import House
 from abc import ABC
+from Tile import Tile
 # Belief in this case:
 #   - is the information that the agent has about the world
 #   - is the information that the agent has about itself
 #   - is the information that the agent has about other agents
 class Belief:
     def __init__(self, house: House, other_beliefs = {}):
-        self.map, self.objects, self.bot_position, self.human_position = house.get_data()
+        self.map, self.objects, self.bot_position, self.human_position, self.speaks = house.get_data()
         self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
 
     def update_belief(self):
@@ -17,7 +18,7 @@ class Belief:
         return beliefs['likes'], beliefs['dislikes'], beliefs['constraints']
 
 class Perception:
-    def __init__(self, map, objects, bot_position, human_position, speaks = None):
+    def __init__(self, map: dict, objects: dict, bot_position: Tile, human_position: Tile, speaks: list[str]):
         self.map = map
         self.objects = objects
         self.bot_position = bot_position
