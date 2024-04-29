@@ -22,6 +22,7 @@ class Bot_Agent(BDI_Agent):
 
     def __init__(self, house: House, other_beliefs: dict):
         # super().__init__(beliefs, intentions)
+        self.__house = house    # private attribute
         self.agent_id = 'Bot'
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
@@ -38,7 +39,10 @@ class Bot_Agent(BDI_Agent):
         # self.beliefs = self.brf(perceptions)
 
         # Plans already in queue
-        if len(self.intentions) > 0:
+       perception = self.see()
+       self.brf(perception)
+       
+       if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
             current_plan.run(submmit_event)
 
@@ -47,40 +51,20 @@ class Bot_Agent(BDI_Agent):
                 self.intentions.pop(0)
         
         # Despues de q se ejecuta, avanza un paso en el plan, reconsiderar intenciones
-        if self.reconsider():
+       if self.reconsider():
             # reevaluate intentions
             pass
         
 
         
-    def percept(self):
+    def see(self):
         """Percepts changes in enviroment"""
-        return None
 
+        perception = Perception(*self.__house.get_data())
+        return perception
     
-    # def run(self):  # for now, i'll use beliefs from self
-        
-    #     beliefs = self.beliefs  
-    #     intentions = self.intentions
-        
-        
-    #     while True:
-    #         #beliefs = self.brf(beliefs)
-    #         desire = self.options(self.beliefs, self.intentions)
-    #         intentions = self.filter(self.beliefs, desire, self.intentions)
-    #         plan = self.get_plan(self.beliefs, desire)
-    #         while not plan.empty():
-    #             action = plan.get()  # this returns the function to be executed
-    #             self.execute(action)
-    #             if self.reconsider(intentions, self.beliefs):
-    #                 desire = self.options(self.beliefs, intentions)
-    #                 intentions = self.filter(self.beliefs, desire, intentions)
-    #         self.intentions.remove(desire)
-    #         if len(self.intentions) == 0:
-    #             break
-    
-            
-    def brf(self, beliefs):
+
+    def brf(self, perception):
         """Update the agent's beliefs based on the given percept.
 
         Args:
@@ -90,7 +74,12 @@ class Bot_Agent(BDI_Agent):
         # a no ser analizar cuando la persona tambien modifique el mapa.
         # ya, aqui se va a actualizar belief, que tendra un last_order
 
-        self.beliefs = beliefs  # analizar lo de last_order de alguna manera.
+        self.beliefs.map = perception.map
+        self.beliefs.objects = perception.objects
+        self.beliefs.speaks = perception.speaks
+        self.beliefs.bot_position = perception.bot_position
+        self.beliefs.human_position = perception.human_position
+
         return self.beliefs
 
     def options(self):
