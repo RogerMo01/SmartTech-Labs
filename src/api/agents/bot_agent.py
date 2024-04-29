@@ -56,12 +56,11 @@ class Bot_Agent(BDI_Agent):
             perception = self.see()
             self.brf(perception)
        
-            _reconsider, selected_intention = self.reconsider(current_plan)
+            _reconsider, selected_intention = self.reconsider(current_plan, 0.1)
             
             if _reconsider:
-                    print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
-                    self.reorder_intentions(selected_intention, current_plan)
-                    pass
+                print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
+                self.reorder_intentions(selected_intention, current_plan)
         
 
         
@@ -128,10 +127,10 @@ class Bot_Agent(BDI_Agent):
 
 
 
-    def reconsider(self, current_plan: Plan):
+    def reconsider(self, current_plan: Plan, probability: float):
         _reconsider = random.uniform(0,1)
         posible_plans = []
-        if _reconsider <= 0.90:
+        if _reconsider <= probability:
             for intention in self.intentions:
                 if self.beliefs.bot_position.area == self.get_room_plan(intention) and intention.intention_name != current_plan.intention_name:
                     posible_plans.append(intention)
