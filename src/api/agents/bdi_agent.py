@@ -6,20 +6,24 @@ from abc import ABC
 #   - is the information that the agent has about other agents
 class Belief:
     def __init__(self, house: House, other_beliefs = {}):
-        # i can add something like string-array tuple to store the beliefs
-        self.map = house.map.copy()
-        self.bot_position = house.bot_position
-        self.human_position = house.human_position
-        self.objects = house.objects.copy()
+        self.speaks = None
+        self.map, self.objects, self.bot_position, self.human_position = house.get_data()
         self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
 
-    def update_belief(self):  # this is not clear for me
+    def update_belief(self):
         pass
 
     @staticmethod
     def get_belief(beliefs):
         return beliefs['likes'], beliefs['dislikes'], beliefs['constraints']
-    
+
+class Perception:
+    def __init__(self, map, objects, bot_position, human_position, speaks = None):
+        self.map = map
+        self.objects = objects
+        self.bot_position = bot_position
+        self.human_position = human_position
+        self.speaks = speaks
 
  # -------------------------        
  # I DON'T NEED THIS SECTION
@@ -51,6 +55,9 @@ class BDI_Agent(ABC):
         self.desires = None
         # self.intentions = intentions
         self.intentions = None
+
+    def see():
+        pass
 
     def brf(self, percept):
         """Update the agent's beliefs based on the given percept.

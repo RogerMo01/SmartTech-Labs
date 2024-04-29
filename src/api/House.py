@@ -43,6 +43,8 @@ class House:
         representative_tiles = self.get_representative_tiles()
         return next((t for t in representative_tiles if t.area == room), None)
     
+    def get_data(self):
+        return self.map.copy(), self.objects.copy(), self.bot_position, self.human_position
 
     def move(self, direction: str, author: str):
         if author == 'Bot':

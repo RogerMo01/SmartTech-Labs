@@ -48,7 +48,7 @@ class Simulation:
             # print(self.end_datetime - self.current_datetime)
             # Take conversations in the last loop
             self.house.update_speaks()
-
+            
             # Run one step in both agents
             self.bot.run(self.submmit_event)
             self.human.run(self.submmit_event)
