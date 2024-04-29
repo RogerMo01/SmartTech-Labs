@@ -59,9 +59,9 @@ class Simulation:
 
             # aqui supongo que se haga algo mas
 
-            if i == 1:
-                self.house.say("Pedro", "Oye Will-E, camina hasta el sofá")
-                i+=1
+            # if i == 1:
+            #     self.house.say("Pedro", "Oye Will-E, camina hasta el sofá")
+            #     i+=1
 
             # Add one step to current_datetime
             one_step = timedelta(seconds=1)

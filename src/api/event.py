@@ -8,7 +8,7 @@ class Event:
         self.task = task
 
     def __str__(self) -> str:
-        return f"{self.author} completó: tarea de tipo ({self.task.type}) en el tiempo ({self.task.elapsed_time}) como parte del plan ({self.intention})"
+        return f"{self.author} completó: tarea de tipo ({self.task.type}) en el tiempo ({self.task.elapsed_time}) como parte del plan ({self.intention}) y el tiempo que estuvo pospuesta fue ({self.task.postponed_time})"
     
     def __repr__(self) -> str:
         return self.__str__()
