@@ -51,7 +51,7 @@ class Simulation:
             
             # Run one step in both agents
             self.bot.run(self.submmit_event)
-            self.human.run(self.submmit_event)
+            #self.human.run(self.submmit_event)
 
             print(f'Will-E is: {self.bot.beliefs.bot_position}')
             print(f'Human is: {self.bot.beliefs.human_position}')
