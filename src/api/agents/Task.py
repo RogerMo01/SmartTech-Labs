@@ -66,7 +66,11 @@ class Move(Task):
 
         direction = self.steps.pop(0) 
         new_pos = self.house.move(direction, self.author)
-        self.beliefs.bot_position = new_pos
+        if self.author == 'Will-E':
+            self.beliefs.bot_position = new_pos
+        else:
+            self.beliefs.human_position = new_pos
+            
         self.elapsed_time += timedelta(seconds=1)
 
         if len(self.steps) == 0:
