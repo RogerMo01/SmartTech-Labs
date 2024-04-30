@@ -14,13 +14,16 @@ class Gemini(LLM):
         self.model = genai.GenerativeModel('gemini-pro')
 
 
-    def __call__(self, query: str) -> str:
-        response = self.model.generate_content(query, 
-            generation_config=genai.types.GenerationConfig(
-            # Only one candidate for now.
-            candidate_count=1,
-            stop_sequences=['x'],
-            max_output_tokens=50,
-            temperature=0.8))
+    def __call__(self, query: str, restrict=False) -> str:
+        if restrict:
+            response = self.model.generate_content(query, 
+                generation_config=genai.types.GenerationConfig(
+                # Only one candidate for now.
+                candidate_count=1,
+                stop_sequences=['x'],
+                max_output_tokens=50,
+                temperature=0.8))
+        else:
+            response = self.model.generate_content(query)
         
         return response.text 
