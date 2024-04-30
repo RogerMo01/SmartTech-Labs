@@ -10,6 +10,10 @@ from llm.gemini import Gemini
 from llm.prompts import plan_generator_prompt
 import simulation_data
 
+NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
+                     "No tengo las habilidades para hacer eso, lo siento",
+                     "No sé como hacer lo que me pides, lo siento"]
+
 class Bot_Belief(Belief):
     def __init__(self, house: House = None, other_beliefs={}):
         super().__init__(house, other_beliefs)
@@ -32,9 +36,10 @@ class Bot_Agent(BDI_Agent):
         self.llm = Gemini()
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
-        # self.intentions: list[Plan] = []
-        self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
-                                    Plan("Limpiar la cocina", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, 'bedroom')])]
+        self.intentions: list[Plan] = []
+        # self.intentions: list[Plan] = [Plan("Ir al baño", self.__house, self.agent_id, self.beliefs, [Move(self.agent_id, self.__house, self.beliefs, H3)])]
+        # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
+        #                             Plan("Limpiar la cocina", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, 'bedroom')])]
 
 
     def run(self, submmit_event):
@@ -110,17 +115,29 @@ class Bot_Agent(BDI_Agent):
         if self.beliefs.last_order is not None:
 
             # Check is a valid order here and build intention
-            intention = self.beliefs.last_order
+            # intention = self.beliefs.last_order
+            intention = "Agarrar las chanclas"
+
+            is_valid_plan = True
 
             # Then make plan
             prompt = plan_generator_prompt(intention)
-            plan = self.llm(prompt)
-            plan = json.loads(plan)
+            try:
+                plan = self.llm(prompt)
+                plan = json.loads(plan)
+                new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                for t in plan:
+                    task: Task|None = self._task_parser(t)
+                    if task is None: is_valid_plan = False
+                    new_plan.add_task(task)
 
-            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-            for t in plan:
-                task: Task = self._action_object_parser(t)
-                new_plan.add_task(task)
+            except:
+                is_valid_plan = False
+
+            if not is_valid_plan:
+                # Generate negative feedback and say it to human
+                self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                return
 
             self.intentions.append(new_plan)
             
@@ -211,15 +228,15 @@ class Bot_Agent(BDI_Agent):
         start = f"{self.human_id} dice: Oye {self.agent_id}"
         for o in self.beliefs.speaks:
             if o.startswith(start):
-                return o[len(start) + 2:]
+                return o
         return None
     
-    def _action_object_parser(self, t: str):
+    def _task_parser(self, t: str):
         splited_str = t.split()
         action = splited_str[0]
         tag = splited_str[1]
 
-        if action == simulation_data.WALK_OBJ:
+        if action == simulation_data.WALK:
             # Caminar
             if tag in simulation_data.objects_names:
                 # Caminar a un objeto
@@ -227,27 +244,57 @@ class Bot_Agent(BDI_Agent):
                 return Move(self.agent_id, self.__house, self.beliefs, obj.face_tiles[0])
             elif tag in simulation_data.areas:
                 # Caminar a un area
-                pass
-        elif action in simulation_data.robot_time_actions:
-            # Esperar un time (Limpiar, Echar agua)
+                return Move(self.agent_id, self.__house, self.beliefs, self.__house.get_room_tile(self.agent_id, tag))
+
+        elif action == simulation_data.CLEAN:
+            # Limpiar
             if tag in simulation_data.objects_names:
-                # Echar agua a objeto
-                pass
+                # Limpiar un objeto
+                time = timedelta(seconds=5)
+                obj: Object = self.__house.get_object(tag)
+                if obj.cleanable:
+                    return Clean(self.agent_id, self.__house, self.beliefs, time, type="Limpiar")
             elif tag in simulation_data.areas:
-                # Limpiar
-                pass
+                # Limpiar un area
+                time = timedelta(seconds=10)
+                return Clean(self.agent_id, self.__house, self.beliefs, time, room=tag, type="Limpiar") 
+               
+        elif action == simulation_data.WATER_OBJ:
+            if tag in simulation_data.objects_names:
+                # Echar agua a un objeto
+                time = timedelta(seconds=4)
+                obj: Object = self.__house.get_object(tag)
+                if obj.waterable:
+                    return UseWater(self.agent_id, self.__house, self.beliefs, time, type="Echar agua")
+
         elif action == simulation_data.ON_OBJ:
-            # Encender algo
-            pass
+            if tag in simulation_data.objects_names:
+                # Encender un objeto
+                time = timedelta(seconds=2)
+                obj: Object = self.__house.get_object(tag)
+                if obj.switchable:
+                    return TimeTask(self.agent_id, self.__house, self.beliefs, time, type="Encender")
+
         elif action == simulation_data.OFF_OBJ:
-            # Apagar algo
-            pass
+            if tag in simulation_data.objects_names:
+                # Encender un objeto
+                time = timedelta(seconds=2)
+                obj: Object = self.__house.get_object(tag)
+                if obj.switchable:
+                    return TimeTask(self.agent_id, self.__house, self.beliefs, time, type="Apagar")
+
         elif action == simulation_data.TAKE_OBJ:
-            # Tomar objeto
-            pass
+            if tag in simulation_data.objects_names:
+                # Tomar objeto
+                time = timedelta(seconds=1)
+                obj: Object = self.__house.get_object(tag)
+                if obj.portable:
+                    return Take(self, obj, self.__house)
+
         elif action == simulation_data.DROP_OBJ:
             # Soltar objeto
             pass
-        else:
-            return Task(self.agent_id, timedelta(seconds=0))
 
+        return None
+
+        

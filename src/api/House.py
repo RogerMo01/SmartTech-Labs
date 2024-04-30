@@ -2,6 +2,8 @@ import string
 from Tile import Tile, Wall, Blank
 from Objects import Object
 from simulation_data import *
+import random
+# from agents.bdi_agent import BDI_Agent
 
 UP = 'up'
 DOWN = 'down'
@@ -40,8 +42,39 @@ class House:
         return tiles
     
     def get_tile_by_room(self, room: str):
-        representative_tiles = self.get_representative_tiles()
+        representative_tiles: list[Tile] = self.get_representative_tiles()
         return next((t for t in representative_tiles if t.area == room), None)
+    
+
+    def get_room_tile(self, agent: str, room: str):
+        """Returns a random tile located in an specific room where agent can step"""
+        tiles = self._get_all_rooms_tiles()
+        tiles: list[Tile] = tiles[room]
+        tiles = [x for x in tiles if self._can_walk_tile(x, agent)]
+        return random.choice(tiles)
+    
+    def _can_walk_tile(self, tile: Tile, agent: str):
+        """Returns if the agent can step on this tile"""
+        for o in tile.objects:
+            if agent == 'Will-E' and not o.robot_step:
+                return False
+            if agent == 'Pedro' and not o.human_step:
+                return False
+        return True
+
+    def _get_all_rooms_tiles(self):
+        """Returns a dictionary of all tiles for each area"""
+        tiles = dict()
+        for letter in self.__map:
+            for num in self.__map[letter]:
+                tile: Tile = self.__map[letter][num]
+                if tile.isTile():
+                    try:
+                        tiles[tile.area].append(tile)
+                    except:
+                        tiles[tile.area] = [tile]
+        return tiles
+
     
     def get_data(self):
         return self.__map.copy(), self.__objects.copy(), self.__bot_position, self.__human_position, self.__speaks.copy()
@@ -51,6 +84,20 @@ class House:
             if o.name == name:
                 return o
         return None
+    
+
+    def take_object(self, agent, obj: Object):
+        """For agents to take and carry specific object"""
+        tiles: list[Tile] = self.__objects[obj]  # tiles occupied by obj
+        for t in tiles: t.objects.remove(obj)    # remove object from tiles
+        self.__objects[obj] = agent              # set object location as Agent
+        obj.face_tiles = None                    # clear face tiles
+        
+
+    def drop_object(self, agent, obj: Object):
+        """"""
+        pass
+
 
     def move(self, direction: str, author: str):
         if author == 'Will-E':
@@ -193,6 +240,6 @@ class House:
             t.add_object(obj)
         obj.face_tiles = face_tiles
         try:
-            objects[obj] = face_tiles[0]
+            objects[obj] = tiles
         except:
             raise Exception("face_tiles must have a first element")
