@@ -4,9 +4,17 @@ from agents.task import *
 from search import *
 
 
+class Need:
+    def __init__(self):
+        self.tiredness = 0
+        self.hunger = 0
+        self.dirt = 0
+        self.need_to_pee = 0
+
 class Human_Belief(Belief):
     def __init__(self, house: House, other_beliefs: dict):
         super().__init__(house, other_beliefs)
+        self.need = Need()
 
 
 class Human_Agent(BDI_Agent):

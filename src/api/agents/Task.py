@@ -110,4 +110,26 @@ class Clean(Task):
         if self.elapsed_time == self.time:
             self.is_successful = True
 
+class Sleep(Task):
+    def __init__(self, author, house: House, beliefs: list[Belief], room: str):
+        super().__init__(author, ZERO)
+        self.time = timedelta(seconds=15)
+        self.type = "Dormir"
+        self.elapsed_time = ZERO    # tiempo q se ha dedicado a la tarea
+        self.room = room
+        self.house = house
+        self.is_successful
+        self.beliefs = beliefs
+
+    def __repr__(self):
+        return f"Sleep {self.tile.name} --success: {self.is_successful}"
     
+    def execute(self, *args):
+        if self.is_successful: return                             
+        
+        print(f'Sleeping... {self.elapsed_time}')
+        
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == self.time:
+            self.is_successful = True
