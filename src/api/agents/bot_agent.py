@@ -7,7 +7,7 @@ from search import *
 from agents.task import *
 from agents.plan import *
 from llm.gemini import Gemini
-from llm.prompts import plan_generator_prompt
+from llm.prompts import plan_generator_prompt, validate_instruction_prompt
 import simulation_data
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
@@ -114,26 +114,27 @@ class Bot_Agent(BDI_Agent):
     def plan_intentions(self):
 
         if self.beliefs.last_order is not None:
-
-            # Check is a valid order here and build intention
-            # intention = self.beliefs.last_order
-            intention = "Agarrar las chanclas"
-
             is_valid_plan = True
-
-            # Then make plan
-            prompt = plan_generator_prompt(intention)
-            try:
-                plan = self.llm(prompt)
-                plan = json.loads(plan)
-                new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                for t in plan:
-                    task: Task|None = self._task_parser(t)
-                    if task is None: is_valid_plan = False
-                    new_plan.add_task(task)
-
-            except:
+            
+            # Check is a valid order here and build intention
+            prompt = validate_instruction_prompt(self.beliefs.last_order)
+            intention = self.llm(prompt)
+            if intention == "No": 
                 is_valid_plan = False
+            else:
+                # Then make plan
+                prompt = plan_generator_prompt(intention)
+                try:
+                    plan = self.llm(prompt)
+                    plan = json.loads(plan)
+                    new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                    for t in plan:
+                        task: Task|None = self._task_parser(t)
+                        if task is None: is_valid_plan = False
+                        new_plan.add_task(task)
+
+                except:
+                    is_valid_plan = False
 
             if not is_valid_plan:
                 # Generate negative feedback and say it to human
