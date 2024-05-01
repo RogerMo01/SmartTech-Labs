@@ -4,6 +4,13 @@ from agents.task import *
 from search import *
 
 
+class Need:
+    def __init__(self):
+        self.energy = 60
+        self.hungry = 60
+        self.bladder = 60
+        self.hygiene = 60
+
 class Human_Belief(Belief):
     def __init__(self, house: House, other_beliefs: dict):
         super().__init__(house, other_beliefs)
@@ -15,7 +22,8 @@ class Human_Agent(BDI_Agent):
         self.__house = house
         self.beliefs = Human_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Regar la casa para que el robot la organice"]
-        self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
+        self.intentions: list[Plan] = []
+        # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
 
 
     def  run(self, submmit_event):
@@ -23,6 +31,8 @@ class Human_Agent(BDI_Agent):
         perception = self.see()
         self.brf(perception)
 
+        self.plan_intentions()
+    
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
             current_plan.run(submmit_event)
@@ -57,6 +67,10 @@ class Human_Agent(BDI_Agent):
         self.beliefs.human_position = perception.human_position
 
         return self.beliefs
+    
+    def plan_intentions(self):
+
+        pass
 
     def options(self):
         pass

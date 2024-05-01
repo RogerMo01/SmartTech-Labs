@@ -29,7 +29,7 @@ class Gemini(LLM):
                 candidate_count=1,
                 stop_sequences=['x'],
                 max_output_tokens=50,
-                temperature=0.8),
+                temperature=1.0),
                 safety_settings=safety_settings)
         else:
             response = self.model.generate_content(query, safety_settings=safety_settings)

@@ -117,7 +117,6 @@ class UseWater(TimeTask):
         super().__init__(author, house, beliefs, time, room, object, "Echar agua")
     
 
-
 class Take(Task):
     def __init__(self, author: str, obj: Object, house: House, pocket: list):
         super().__init__(author, timedelta(seconds=1), house=house, object_name=obj.name)
@@ -166,3 +165,11 @@ class Drop(Task):
 
         if self.elapsed_time == self.time:
             self.is_successful = True
+
+
+
+
+
+class Sleep(TimeTask):
+    def __init__(self, author, house: House, beliefs: list[Belief], room: str = None, object: str = None):
+        super().__init__(author, house, beliefs, timedelta(seconds=15), room, object, "Dormir")
