@@ -61,13 +61,7 @@ def instruction_interpreter_prompt(request: str, available_actions: list):
     return robot_instruction
 
 def plan_generator_prompt(intention: str):
-    obj_actions = simulation_data.robot_obj_actions.copy()
-    for i in range(len(obj_actions)):
-        obj_actions[i] += " <objeto>"
-    area_actions = simulation_data.robot_area_actions.copy()
-    for i in range(len(area_actions)):
-        area_actions[i] += " <area>"
-    
+    obj_actions, area_actions = get_actions()
     
     plan_instruction = f"""
 Eres un robot llamado Will-E, destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
@@ -112,3 +106,65 @@ def make_list(arr: list):
         response += "\n"
 
     return response
+
+
+def validate_instruction_prompt(order: str):
+    obj_actions, area_actions = get_actions()
+    
+    instruction = f"""
+Eres un robot llamado Will-E, destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
+cumples como robot se desarrollan dentro de la casa.
+
+A continuación se muestra una lista de los objetos que hay en la casa:
+{make_list(simulation_data.objects_names)}
+Pedro
+
+En la casa también está Pedro, que es la persona a la que estás destinado a ayudar.
+
+A continuación se muestra una lista de areas de la casa:
+{make_list(simulation_data.areas)}
+
+A continuación se muestra una lista de acciones que puedes hacer:
+{make_list(obj_actions)}
+{make_list(area_actions)}
+
+Tu objetivo es determinar dada la lista de posibles acciones a realizar sobre los objetos que hay en la casa y 
+la lista de acciones a realizar sobre las areas de la casa, si la orden (que se encuentra debajo donde dice Orden) 
+en lenguaje natural, entra en el espectro de las acciones que tu puedes realizar sobre los objetos.
+Debes poder interpretar la orden, como algo que se pueda realizar combinando acciones de la lista
+
+Debes responder con la palabra (No) en caso de que no identifiques la accion. De lo contrario escribe la orden 
+de forma explicita, utilizando su verbo en infinitivo, y con los suficientes datos para que se entienda la intención.
+
+Debes asegurarte que la orden se pueda cumplir utilizando estrictamente las acciones de la lista de acciones mencionada anteriormente.
+
+Debes asegurarte que todo objeto que se utilice en la orden, esté en la lista de objetos dada anteriormente.
+Si el objeto no aparece, debes responder: No
+
+
+Por ejemplo:
+para la orden (Pedro dice: Oye Will-E, friega los platos) tu respuesta debe ser: No
+para la orden (Pedro dice: Oye Will-E, por favor riega las plantas) tu respuesta debe ser: Regar las plantas
+para la orden (Pedro dice: Oye Will-E, ve hasta la sala y pon el canal 123) tu respuesta debe ser: Encender el televisor
+para la orden (Pedro dice: Oye Will-E, prepara una taza de cafe) tu respuesta debe ser: No 
+porque no hay cafetera en la lista de objetos
+para la orden (Pedro dice: Oye Will-E, ve a la cocina) tu respuesta debe ser: Ir a la cocina 
+para la orden (Pedro dice: Oye Will-E, siéntate en el sofá) tu respuesta debe ser: No
+para la orden (Pedro dice: Oye Will-E, alcánzame un vaso de agua) tu respuesta debe ser: No
+porque el vaso no está en la lista de objetos
+para la orden (Pedro dice: Oye Will-E, alcánzame las chancletas) tu respuesta debe ser: Llevar las chanclas a Pedro
+
+Ahora si, analiza la siguiente orden dada por Pedro:
+Orden: {order}
+"""
+    return instruction
+
+def get_actions():
+    obj_actions = simulation_data.robot_obj_actions.copy()
+    for i in range(len(obj_actions)):
+        obj_actions[i] += " <objeto>"
+    area_actions = simulation_data.robot_area_actions.copy()
+    for i in range(len(area_actions)):
+        area_actions[i] += " <area>"
+
+    return obj_actions, area_actions
