@@ -95,9 +95,11 @@ class House:
         
 
     def drop_object(self, agent, obj: Object):
-        """"""
-        pass
-
+        """For agents to drop specific object"""
+        tiles: list[Tile] = [self.__bot_position]  # BOOM if object takes multiple tiles
+        for t in tiles: t.objects.add(obj)
+        self.__objects[obj] = tiles
+        obj.face_tiles = tiles
 
     def move(self, direction: str, author: str):
         if author == 'Will-E':

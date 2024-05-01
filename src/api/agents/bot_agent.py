@@ -34,6 +34,7 @@ class Bot_Agent(BDI_Agent):
         self.agent_id = 'Will-E'
         self.human_id = 'Pedro'
         self.llm = Gemini()
+        self.pocket = []
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
         self.intentions: list[Plan] = []
@@ -286,14 +287,15 @@ class Bot_Agent(BDI_Agent):
         elif action == simulation_data.TAKE_OBJ:
             if tag in simulation_data.objects_names:
                 # Tomar objeto
-                time = timedelta(seconds=1)
                 obj: Object = self.__house.get_object(tag)
                 if obj.portable:
-                    return Take(self, obj, self.__house)
+                    return Take(self.agent_id, obj, self.__house, self.pocket)
 
         elif action == simulation_data.DROP_OBJ:
-            # Soltar objeto
-            pass
+            if tag in simulation_data.objects_names:
+                # Soltar objeto
+                obj: Object = self.__house.get_object(tag)
+                return Drop(self.agent_id, obj, self.__house, self.pocket)
 
         return None
 

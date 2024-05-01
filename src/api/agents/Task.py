@@ -15,7 +15,6 @@ class Task:
         self.elapsed_time = ZERO    # tiempo q se ha dedicado a la tarea
         self.postponed_time = ZERO  # timepo q lleva pospuesta
         self.is_postponed = False
-        self.location = None     # lugar donde se realiza la tarea
         self.is_successful = False
         self.house = house
         self.beliefs = beliefs
@@ -77,7 +76,7 @@ class Move(Task):
                            self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position)                                    # recompute path
 
         direction = self.steps.pop(0) 
-        new_pos = self.house.move(direction, self.author)
+        self.house.move(direction, self.author)
             
         self.elapsed_time += timedelta(seconds=1)
 
@@ -116,10 +115,11 @@ class UseWater(TimeTask):
 
 
 class Take(Task):
-    def __init__(self, author: str, obj: Object, house: House):
+    def __init__(self, author: str, obj: Object, house: House, pocket: list):
         super().__init__(author, timedelta(seconds=1), house=house)
         self.type = "Coger"
         self.obj = obj
+        self.pocket = pocket
 
     def __repr__(self):
         finished = "finished"
@@ -131,7 +131,8 @@ class Take(Task):
         
         # Hacer las acciones para coger el objeto
         self.house.take_object(self.author, self.obj)
-        
+        self.pocket.append(self.obj)
+
         self.elapsed_time += timedelta(seconds=1)
 
         if self.elapsed_time == self.time:
@@ -139,14 +140,23 @@ class Take(Task):
 
 
 class Drop(Task):
-    def __init__(self, author: str, house: House):
+    def __init__(self, author: str, obj: Object, house: House, pocket: list):
         super().__init__(author, timedelta(seconds=1), house=house)
         self.type = "Soltar"
+        self.obj = obj
+        self.pocket = pocket
+
+    def __repr__(self):
+        finished = "finished"
+        in_queue = "in queue"
+        return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
     def execute(self, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para soltar el objeto 
+        self.house.drop_object(self.author, self.obj)
+        self.pocket.remove(self.obj)
         
         self.elapsed_time += timedelta(seconds=1)
 
