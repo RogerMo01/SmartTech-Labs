@@ -166,46 +166,35 @@ Orden: {order}
 
 def generate_action_values(need:str, level:int):  #accion, tiempo que se le va a dedicar, cuanto sube la necesidad.
     prompt =f"""
-        Eres un humano llamado Pedro, Pedro tiene una necesidad la cual quiere satisfacer teniendo en cuenta los objetos que hay en su casa.
-        Los objetos que hay en la casa de Pedro con los cuales puede satisfacer cierta necesidad, según corresponda, son los siguientes:
-        {make_list(simulation_data.objects_names)}. 
-        Satisfacer cada necesidad debe demorar un tiempo, el cual quiero que proveas, y además, la necesidad tiene un
-        nivel {level} del 1 al 100, siendo el 1 mínimo y el 100 máximo, quiero que me digas también, asumiendo que la necesidad está en un nivel inferior a 20, cuánto sube
-        esta después de realizar la acción que elija Pedro, siempre teniendo en cuenta que {level} más lo que suba, no puede ser mayor que 100
+Eres un humano llamado Pedro y tienes una necesidad que quieres satisfacer(dicha necesidad se necuentra más abajo donde dice Necesidad).
 
-        Por ejemplo:
-        Para una necesidad Vejiga, una posible salida es:
-        {
-            {     'acción': 'Ir al inodoro',
-                'tiempo_en_segundos': '300',
-                'cantidad_incremento': '50'
-            }
-        } 
-        Para una necesidad Hambre, una posible salida es:
-        {
-            {
-                'acción': 'Comer un bocadillo',
-                'tiempo_en_segundos': '240',
-                'cantidad_incremento': '35'
-            }
-        }
-        Para una necesidad Dormir, una posible salida es:
-        {
-            {    'acción': 'Echarse una siesta',
-                'tiempo_en_segundos': '3600',
-                'cantidad_incremento': '50'
-            }
-        }
-        Para una necesidad Dormir, otra posible salida es:
-        {
-            {
-                'acción': 'Acostarse a dormir',
-                'tiempo_en_segundos': '28880',
-                'cantidad_incremento': '80'
-            }
-        }
+La necesidad tiene un valor asociado que representa la saciedad de la misma, en este caso es: {level}, la cual está representada por un valor del 1 al 100, 
+siendo 1 el mínimo y 100 el máximo.
 
-    """
+Tu objetivo es devolver a cuanto asciende la saciedad de la misma luego de realizar una acción para satisfacerla.
+
+Por ejemplo:
+Para una necesidad Vejiga, una posible salida es:
+["Ir al inodoro", 50]
+
+Para una necesidad Vejiga, otra posible salida es:
+["Ir al baño", 45] 
+
+Para una necesidad Hambre, una posible salida es:
+["Comer un bocadillo", 35]    
+
+Para una necesidad Energía, una posible salida es:
+["Dormir una siesta",50]
+    
+Para una necesidad Energía, otra posible salida es:
+["Acostarse a dormir", 80]
+
+Ten en cuenta que después de realizada la acción el valor de cantidad_incremento más alto que se puede alcanzar es (100 - {level}) y que mientras más bajo sea el valor de level mayor será el aumento de cantidad_incremento.
+Por tanto, en cantidad incremento devuelve un valor entre [1, 100-{level}]
+
+Ahora si, analiza la siguiente necesidad de Pedro:
+Necesidad: {need}
+"""
     return prompt
 
 
