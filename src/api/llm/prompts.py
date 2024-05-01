@@ -164,6 +164,51 @@ Orden: {order}
 """
     return instruction
 
+def generate_action_values(need:str, level:int):  #accion, tiempo que se le va a dedicar, cuanto sube la necesidad.
+    prompt =f"""
+        Eres un humano llamado Pedro, Pedro tiene una necesidad la cual quiere satisfacer teniendo en cuenta los objetos que hay en su casa.
+        Los objetos que hay en la casa de Pedro con los cuales puede satisfacer cierta necesidad, según corresponda, son los siguientes:
+        {make_list(simulation_data.objects_names)}. 
+        Satisfacer cada necesidad debe demorar un tiempo, el cual quiero que proveas, y además, la necesidad tiene un
+        nivel {level} del 1 al 100, siendo el 1 mínimo y el 100 máximo, quiero que me digas también, asumiendo que la necesidad está en un nivel inferior a 20, cuánto sube
+        esta después de realizar la acción que elija Pedro, siempre teniendo en cuenta que {level} más lo que suba, no puede ser mayor que 100
+
+        Por ejemplo:
+        Para una necesidad Vejiga, una posible salida es:
+        {
+            {     'acción': 'Ir al inodoro',
+                'tiempo_en_segundos': '300',
+                'cantidad_incremento': '50'
+            }
+        } 
+        Para una necesidad Hambre, una posible salida es:
+        {
+            {
+                'acción': 'Comer un bocadillo',
+                'tiempo_en_segundos': '240',
+                'cantidad_incremento': '35'
+            }
+        }
+        Para una necesidad Dormir, una posible salida es:
+        {
+            {    'acción': 'Echarse una siesta',
+                'tiempo_en_segundos': '3600',
+                'cantidad_incremento': '50'
+            }
+        }
+        Para una necesidad Dormir, otra posible salida es:
+        {
+            {
+                'acción': 'Acostarse a dormir',
+                'tiempo_en_segundos': '28880',
+                'cantidad_incremento': '80'
+            }
+        }
+
+    """
+    return prompt
+
+
 def get_actions():
     obj_actions = simulation_data.robot_obj_actions.copy()
     for i in range(len(obj_actions)):
