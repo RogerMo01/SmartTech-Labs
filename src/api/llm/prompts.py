@@ -1,46 +1,49 @@
 import simulation_data
 
 #################### Pedro prompts #######################
-def human_instruction_request_prompt():
-    human_instruction = """
-    Eres Pedro, un agente operando en un entorno virtual compartido que representa una casa con varias divisiones y objetos específicos en cada una:
+def human_instruction_request_prompt(area):
+    human_instruction = f"""
+    Eres Pedro, un agente operando en un entorno virtual compartido, dicho entorno es una casa con varias áreas de estar y objetos con los que interactuar:
 
-    Sala:
-    - Sofá
-    - TV
-    - Maceta con planta
-    - Mesa de comedor
+    A continuación se muestra una lista de los objetos que hay en la casa:
+    {make_list(simulation_data.objects_names)}
+    Will-E
 
-    Cuarto:
-    - Armario
-    - Maceta con planta
-    - Cama
-    - Mesa de noche
-        - libro
-        - movil 
+    En la casa también está Will-E, que es el robot asistente destinado a ayudarte.
 
-    Baño:
-    - Bañadera
-    - Lavamanos
-    - Inodoro
+    A continuación se muestra una lista de áreas de la casa:
+    {make_list(simulation_data.areas)}
 
-    Cocina:
-    - Meseta en forma de isla
-    - Maceta con planta
-    - Friega platos
-    - Cafetera para preparar cafe
+    Actualmente te encuentras en la siguiente habitación: {area}
 
-    Además, en dicho entorno se encuentran tus chancletas de andar por casa.
+    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los objetos y las áreas de la casa:
+    {make_list(simulation_data.robot_obj_actions)}
+    {make_list(simulation_data.robot_area_actions)}
 
-    Utiliza esta información para formular una única petición al agente Xero que incluya solo una acción a realizar y que refleje la tarea que un agente real podría realizar por ti en un entorno doméstico.
+    Utiliza esta información para formular una única petición al agente Will-E.
+    Esta petición debe estar formada por una de las acciones de la lista de posibles acciones a realizar sobre los objetos y un objeto de la lista de objetos, ó 
+    por una de las acciones de la lista de posibles acciones a realizar sobre las áreas de la casa y un área de la lista de áreas de la casa. 
+    
 
+    Por ejemplo: 
+    Pedro dice: Oye Will-E, ven hacia acá.
+    Pedro dice: Oye Will-E, por favor riega las plantas.
+    Pedro dice: Oye Will-E, recoge las chancletas y llevalas hasta el dormitorio.
+    Pedro dice: Oye Will-E, enciende el televisor para ver mi programa favorito.
+    Pedro dice: Oye Will-E, tráeme el móvil, por favor.
+    Pedro dice: Oye Will-E, apaga el tv.
+
+    Ten en cuenta que dicha petición tiene que reflejar una tarea que un robot real realizaría por ti en un entorno doméstico.
+
+    Devuelve esta petición escrita en lenguaje natural siguiedo el siguiente formato:
+    Pedro dice: Oye Will-E, <petición>
     """
 
     return human_instruction
 
 def instruction_interpreter_prompt(request: str, available_actions: list):
     robot_instruction = f"""
-    Eres Xero, un agente operando en un entorno virtual compartido. 
+    Eres Will-E, un agente operando en un entorno virtual compartido. 
     
     Tu misión es cumplir las peticiones de Alex, un agente humano. Para ello, debes reconocer dentro de una lista de posibles acciones que tienes definidas, 
     a cuáles se hace referencia implícita o explícitamente en la petición descrita en lenguaje natural realizada 
