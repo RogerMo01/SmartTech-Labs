@@ -20,6 +20,7 @@ class Task:
         self.house = house
         self.beliefs = beliefs
         self.is_priority = is_priority
+        self.failed = False
 
     
     def __repr__(self):
@@ -133,8 +134,11 @@ class Take(Task):
         if self.is_successful: return     
         
         # Hacer las acciones para coger el objeto
-        self.house.take_object(self.author, self.obj)
-        self.pocket.append(self.obj)
+        if self.obj.carrier is None:
+            self.house.take_object(self.author, self.obj)
+            self.pocket.append(self.obj)
+        else:
+            self.failed = True
 
         self.elapsed_time += timedelta(seconds=1)
 

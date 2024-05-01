@@ -92,6 +92,8 @@ class House:
         for t in tiles: t.objects.remove(obj)    # remove object from tiles
         self.__objects[obj] = agent              # set object location as Agent
         obj.robot_face_tiles = None                    # clear face tiles
+        obj.human_face_tiles = None 
+        obj.carrier = agent 
         
 
     def drop_object(self, agent, obj: Object):
@@ -100,6 +102,8 @@ class House:
         for t in tiles: t.objects.add(obj)
         self.__objects[obj] = tiles
         obj.robot_face_tiles = tiles
+        obj.human_face_tiles = tiles
+        obj.carrier = None  
 
     def move(self, direction: str, author: str):
         if author == 'Will-E':

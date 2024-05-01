@@ -2,7 +2,7 @@ from abc import ABC
 
 class Object(ABC):
     def __init__(self, name, portable=False, overlappable=False, human_step=False, robot_step=False, 
-                 switchable=False, waterable=False, cleanable=False, sleppeable=False):
+                 switchable=False, waterable=False, cleanable=False, sleppeable=False, carrier = None):
         self.name = name
         self.portable = portable
         self.overlappable = overlappable
@@ -14,6 +14,7 @@ class Object(ABC):
         self.waterable = waterable
         self.cleanable = cleanable
         self.sleppeable = sleppeable
+        self.carrier = carrier
 
     def __str__(self) -> str:
         return self.name
