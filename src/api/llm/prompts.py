@@ -1,8 +1,9 @@
 import simulation_data
 
+#################### Pedro prompts #######################
 def human_instruction_request_prompt():
     human_instruction = """
-    Eres Alex, un agente operando en un entorno virtual compartido que representa una casa con varias divisiones y objetos específicos en cada una:
+    Eres Pedro, un agente operando en un entorno virtual compartido que representa una casa con varias divisiones y objetos específicos en cada una:
 
     Sala:
     - Sofá
@@ -60,6 +61,10 @@ def instruction_interpreter_prompt(request: str, available_actions: list):
     """
     return robot_instruction
 
+
+
+
+###################### Will-E prompts ########################
 def plan_generator_prompt(intention: str):
     obj_actions, area_actions = get_actions()
     

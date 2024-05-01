@@ -1,7 +1,6 @@
 import json
 from agents.bdi_agent import *
 import random
-import queue
 from House import *
 from search import *
 from agents.task import *
