@@ -2,7 +2,7 @@ from agents.task import *
 from event import Event
 
 class Plan:
-    def __init__(self, intention_name, house: House, author, beliefs, tasks=[]):
+    def __init__(self, intention_name, house: House, author, beliefs, tasks=[], need=None):
         self.intention_name: str = intention_name      # plan name
         self.author = author
         self.house = house
@@ -10,6 +10,7 @@ class Plan:
         self.tasks: list[Task] = tasks                 # list of task (type Task)
         self.is_postponed: bool = False
         self.is_successful: bool = True if len(tasks) == 0 else False
+        self.need = need
         
 
     def run(self, submmit_event):

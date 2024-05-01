@@ -173,6 +173,13 @@ class Drop(Task):
 
 
 
+class Need(Task):
+    def __init__(self, author, time: timedelta, room: str = None, house: House = None, beliefs: Belief = None, is_priority: bool = False, object_name: str = None):
+        super().__init__(author, time, room, house, beliefs, is_priority, object_name)
+
+    def execute(self, *args):
+        pass
+
 
 class Sleep(TimeTask):
     def __init__(self, author, house: House, beliefs: list[Belief], room: str = None, object: str = None):

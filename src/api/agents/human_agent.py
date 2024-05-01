@@ -2,15 +2,12 @@ from agents.bdi_agent import *
 from agents.plan import Plan
 from agents.task import *
 from search import *
+from agents.needs import Needs
 
 
-class Need:
-    def __init__(self):
-        self.energy = 60
-        self.hungry = 60
-        self.bladder = 60
-        self.hygiene = 60
-        self.entertainment = 60
+NEEDS_ORDER = ['bladder', 'hungry', 'energy', 'hygiene', 'entertainment']
+NEEDS_LIMIT = {'bladder': 20, 'hungry': 30, 'energy': 15, 'hygiene': 30, 'entertainment': 10}
+
 
 class Human_Belief(Belief):
     def __init__(self, house: House, other_beliefs: dict):
@@ -21,9 +18,13 @@ class Human_Agent(BDI_Agent):
     def __init__(self, house: House, other_beliefs:dict):
         self.agent_id = 'Pedro'
         self.__house = house
+        # ---- Needs
+        self.needs = Needs()
+        # -----------
         self.beliefs = Human_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Regar la casa para que el robot la organice"]
-        self.intentions: list[Plan] = []
+        self.intentions: list[Plan] = [Plan("Dormir", self.__house, self.agent_id, self.beliefs, [Sleep(self.agent_id, self.__house, self.beliefs, object='cama')], need='energy'),
+                                       Plan("Hacer pipi", self.__house, self.agent_id, self.beliefs, [Sleep(self.agent_id, self.__house, self.beliefs, object='cama')], need='bladder')]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
 
 
@@ -71,7 +72,60 @@ class Human_Agent(BDI_Agent):
     
     
     def plan_intentions(self):
-        pass
+
+        for need in NEEDS_ORDER:
+            # Si hay necesidad a cubrir (need)
+            if self.needs[need] <= NEEDS_LIMIT[need]:
+                covered = False
+                # Si hay plan q cubre esa necesidad en la cola
+                for plan in self.intentions:
+                    if plan.need == need:
+                        # Comprobar orden
+                        ordered = self.check_order(plan)
+
+                        # Adelantarlo
+                        if not ordered:
+                            self.overtake_plan(plan)
+
+                        covered = True
+                        break
+
+                # No hay plan adelantado => poner plan
+                if not covered:
+
+                    ########################################
+                    plan: Plan = Plan()      # Hacer el plan
+                    ########################################
+
+                    self.intentions.append(plan)
+                    self.overtake_plan(plan)
+
+
+
+
+
+
+    def overtake_plan(self, plan: Plan):
+        """Overtakes plan after current head plan, according to tasks order"""
+        self.intentions.remove(plan)
+
+        index = 0
+        for p in self.intentions:
+            # Busca el primer plan con menor prioridad e inserta
+            if p.need is None or NEEDS_ORDER.index(p.need) > NEEDS_ORDER.index(plan.need):
+                self.intentions.insert(index, plan)
+                return
+            index +=1
+
+    def check_order(self, plan: Plan):
+        """Checks all needs plans to be in order"""
+        for p in self.intentions:
+            if p == plan:
+                return True
+            else:
+                if p.need is None or NEEDS_ORDER.index(p.need) > NEEDS_ORDER.index(plan.need):
+                    return False
+        raise Exception("Plan must be in intentions")
 
     def options(self):
         pass
