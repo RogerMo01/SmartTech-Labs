@@ -62,67 +62,7 @@ def instruction_interpreter_prompt(request: str, available_actions: list):
     return robot_instruction
 
 def generate_human_intention(energy, hungry, bladder, hygiene, enjoy, time):
-    prompt = f"""
-Eres Pedro, una persona que vive en una casa, la hora actual del día es: {time}. 
-A continuación se muestran niveles de parámetros tuyos como persona. 
-Los posibles niveles de los parámetros son:
-ínfimo
-bajo
-medio
-alto
-máximo
-
-Niveles de parámetros:
-Energía: {energy}
-Saciedad del Hambre: {hungry}
-Alivio de Vejiga: {bladder}
-Higiene: {hygiene}
-Entretenimiento: {enjoy}
-
-Tu tarea es, a partir de tus niveles de parámetros
-proponer que parámetro de la lista deseas aumentar, para luego hacer una acción para ello.
-
-Los niveles bajos o ínfimos tienen prioridad, por lo que se deben realizar acciones para subirlos. 
-
-Si todos los parámetros están medianamente satisfechos, se puede elegir cualquiera en dependencia de lo que haría una persona en esa hora del día.
-
-La elección es de solamente uno de ellos. Y la respuesta debe exactamente el nombre del parámetro
-
-Por ejemplo:
-- Con parámetros:
-Energía: bajo
-Saciedad del Hambre: medio
-Alivio de Vejiga: alto
-Higiene: medio
-Entretenimiento: bajo
-Una posible respuesta puede ser: Energía
-(Pues el parámetro Saciedad del Hambre es bajo y la hora del día puede ser conveniente para eso)
-- Con parámetros:
-Energía: medio
-Saciedad del Hambre: alto
-Alivio de Vejiga: ínfimo
-Higiene: bajo
-Entretenimiento: ínfimo
-Una posible respuesta puede ser: Alivio de Vejiga
-- Con parámetros:
-Energía: máximo
-Saciedad del Hambre: bajo
-Alivio de Vejiga: medio
-Higiene: bajo
-Entretenimiento: bajo
-Una posible respuesta puede ser: Saciedad del Hambre
-- Con parámetros:
-Energía: máximo
-Saciedad del Hambre: alto
-Alivio de Vejiga: medio
-Higiene: alto
-Entretenimiento: medio
-Una posible respuesta puede ser: Entretenimiento
-(Pues no hay parámetros lo suficeintemente bajos para q tengan prioridad)
-
-Puedes considerar satistacer un parámetro teniendo en cuenta lo que las personas suelen hacer a esa hora del día
-"""
-    return prompt
+    pass
 
 ###################### Will-E prompts ########################
 def plan_generator_prompt(intention: str):

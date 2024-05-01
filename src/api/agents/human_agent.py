@@ -10,6 +10,7 @@ class Need:
         self.hungry = 60
         self.bladder = 60
         self.hygiene = 60
+        self.entertainment = 60
 
 class Human_Belief(Belief):
     def __init__(self, house: House, other_beliefs: dict):
@@ -68,8 +69,8 @@ class Human_Agent(BDI_Agent):
 
         return self.beliefs
     
+    
     def plan_intentions(self):
-
         pass
 
     def options(self):
