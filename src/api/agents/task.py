@@ -7,11 +7,12 @@ from datetime import datetime, timedelta
 ZERO = timedelta(seconds=0)
 
 class Task:
-    def __init__(self, author, time: timedelta, room: str = None, house: House=None, beliefs: Belief = None, is_priority: bool = False):
+    def __init__(self, author, time: timedelta, room: str = None, house: House=None, beliefs: Belief = None, is_priority: bool = False, object_name: str = None):
         self.type = None
         self.author = author
         self.time = time         # timepo q toma en total
         self.room = room
+        self.object_name = object_name     
         self.elapsed_time = ZERO    # tiempo q se ha dedicado a la tarea
         self.postponed_time = ZERO  # timepo q lleva pospuesta
         self.is_postponed = False
@@ -94,8 +95,8 @@ class Move(Task):
         self.is_successful = True if len(self.steps) == 0 else False
 
 class TimeTask(Task):
-    def __init__(self, author, house: House, beliefs: list[Belief], time: timedelta, room=None, type=None):
-        super().__init__(author, time, room, house, beliefs)
+    def __init__(self, author, house: House, beliefs: list[Belief], time: timedelta, room: str = None, object: str = None, type=None):
+        super().__init__(author, time, room, house, beliefs, object_name=object)
         self.type = type
         # self.is_successful
     
@@ -108,15 +109,18 @@ class TimeTask(Task):
             self.is_successful = True
 
 class Clean(TimeTask):
-    pass
+    def __init__(self, author, house: House, beliefs: list[Belief], time: timedelta, room: str = None, object: str = None):
+        super().__init__(author, house, beliefs, time, room, object, 'Limpiar')
 
 class UseWater(TimeTask):
-    pass
+    def __init__(self, author, house: House, beliefs: list[Belief], time: timedelta, room: str = None, object: str = None):
+        super().__init__(author, house, beliefs, time, room, object, "Echar agua")
+    
 
 
 class Take(Task):
     def __init__(self, author: str, obj: Object, house: House, pocket: list):
-        super().__init__(author, timedelta(seconds=1), house=house)
+        super().__init__(author, timedelta(seconds=1), house=house, object_name=obj.name)
         self.type = "Coger"
         self.obj = obj
         self.pocket = pocket
@@ -141,7 +145,7 @@ class Take(Task):
 
 class Drop(Task):
     def __init__(self, author: str, obj: Object, house: House, pocket: list):
-        super().__init__(author, timedelta(seconds=1), house=house)
+        super().__init__(author, timedelta(seconds=1), house=house, object_name=obj.name)
         self.type = "Soltar"
         self.obj = obj
         self.pocket = pocket

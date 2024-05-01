@@ -36,20 +36,25 @@ class Plan:
                 self.is_successful = True
 
 
-    def is_out(self, current_task):
+    def is_out(self, current_task: Task):
         """Returns false if task take place in a room and agent is not there"""
-        current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
-        if current_task.room is None: return False
-        return (current_task.room != current_area and current_task.type != 'Caminar')
+        object = current_task.object_name
+        if not object is None:
+            object: Object = self.house.get_object(object)
+            current_position = self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position      
+            return (not current_position in object.face_tiles) and current_task.type != 'Caminar'
+        else:
+            current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
+            if current_task.room is None: return False
+            return (current_task.room != current_area and current_task.type != 'Caminar')
     
 
     def recompute(self):
         current_task = self.tasks[0]
-        dest_tile = self.house.get_tile_by_room(current_task.room)
-        current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
-
-        if not current_task.room == current_area:
-            self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
+        # returns tile where the object is or representative tile of area
+        dest_tile = self.house.get_tile_by_room(current_task.room) if current_task.room is not None else self.house.get_object(current_task.object_name).face_tiles[0]
+        
+        self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
     
     def __repr__(self) -> str:
         finished = "finished"

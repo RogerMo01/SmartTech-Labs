@@ -60,7 +60,7 @@ class Simulation:
             # aqui supongo que se haga algo mas
 
             if i == 1:
-                self.house.say("Pedro", "Oye Will-E, riega las plantas")
+                self.house.say("Pedro", "Oye Will-E, riega dos plantas de la casa")
                 i+=1
 
             # Add one step to current_datetime

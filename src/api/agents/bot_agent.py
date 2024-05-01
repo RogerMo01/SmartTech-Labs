@@ -38,9 +38,10 @@ class Bot_Agent(BDI_Agent):
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Ayudar al humano en todo lo que pueda, en el hogar"]
         self.intentions: list[Plan] = []
-        # self.intentions: list[Plan] = [Plan("Ir al baño", self.__house, self.agent_id, self.beliefs, [Move(self.agent_id, self.__house, self.beliefs, H3)])]
+        # self.intentions: list[Plan] = [Plan("Mojar una mata", house, self.agent_id, self.beliefs, [UseWater(self.agent_id, house, self.beliefs, timedelta(seconds=10), object=plant1.name)])]
+                                        # Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
-        #                             Plan("Limpiar la cocina", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, 'bedroom')])]
+        #                              Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
 
 
     def run(self, submmit_event):
@@ -255,11 +256,11 @@ class Bot_Agent(BDI_Agent):
                 time = timedelta(seconds=5)
                 obj: Object = self.__house.get_object(tag)
                 if obj.cleanable:
-                    return Clean(self.agent_id, self.__house, self.beliefs, time, type="Limpiar")
+                    return Clean(self.agent_id, self.__house, self.beliefs, time, object=obj.name)
             elif tag in simulation_data.areas:
                 # Limpiar un area
                 time = timedelta(seconds=10)
-                return Clean(self.agent_id, self.__house, self.beliefs, time, room=tag, type="Limpiar") 
+                return Clean(self.agent_id, self.__house, self.beliefs, time, room=tag) 
                
         elif action == simulation_data.WATER_OBJ:
             if tag in simulation_data.objects_names:
@@ -267,7 +268,7 @@ class Bot_Agent(BDI_Agent):
                 time = timedelta(seconds=4)
                 obj: Object = self.__house.get_object(tag)
                 if obj.waterable:
-                    return UseWater(self.agent_id, self.__house, self.beliefs, time, type="Echar agua")
+                    return UseWater(self.agent_id, self.__house, self.beliefs, time, object=obj.name)
 
         elif action == simulation_data.ON_OBJ:
             if tag in simulation_data.objects_names:
@@ -275,7 +276,7 @@ class Bot_Agent(BDI_Agent):
                 time = timedelta(seconds=2)
                 obj: Object = self.__house.get_object(tag)
                 if obj.switchable:
-                    return TimeTask(self.agent_id, self.__house, self.beliefs, time, type="Encender")
+                    return TimeTask(self.agent_id, self.__house, self.beliefs, time, object=obj.name, type="Encender")
 
         elif action == simulation_data.OFF_OBJ:
             if tag in simulation_data.objects_names:
@@ -283,7 +284,7 @@ class Bot_Agent(BDI_Agent):
                 time = timedelta(seconds=2)
                 obj: Object = self.__house.get_object(tag)
                 if obj.switchable:
-                    return TimeTask(self.agent_id, self.__house, self.beliefs, time, type="Apagar")
+                    return TimeTask(self.agent_id, self.__house, self.beliefs, time, object=obj.name, type="Apagar")
 
         elif action == simulation_data.TAKE_OBJ:
             if tag in simulation_data.objects_names:

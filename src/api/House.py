@@ -20,7 +20,7 @@ class House:
 
         House.build_house(self.__map, self.__objects)
 
-        self.__bot_position = self.__map['J'][6]
+        self.__bot_position = self.__map['D'][3]
         
         self.__human_position = self.__map['G'][9]
 
@@ -143,6 +143,7 @@ class House:
         self.__speaks_stack.append(result)
 
     def update_speaks(self):
+        self.__speaks = []
         for i in self.__speaks_stack:
             self.__speaks.append(i)
         self.__speaks_stack = []
