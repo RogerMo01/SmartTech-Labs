@@ -2,6 +2,7 @@ import os
 from typing import Any
 from dotenv import load_dotenv
 import google.generativeai as genai
+from google.generativeai.types import *
 from llm.llm import LLM
 
 class Gemini(LLM):
@@ -15,6 +16,12 @@ class Gemini(LLM):
 
 
     def __call__(self, query: str, restrict=False) -> str:
+        safety_settings={
+                HarmCategory.HARM_CATEGORY_HATE_SPEECH: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
+                HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
+            }
         if restrict:
             response = self.model.generate_content(query, 
                 generation_config=genai.types.GenerationConfig(
@@ -22,8 +29,9 @@ class Gemini(LLM):
                 candidate_count=1,
                 stop_sequences=['x'],
                 max_output_tokens=50,
-                temperature=0.8))
+                temperature=0.8),
+                safety_settings=safety_settings)
         else:
-            response = self.model.generate_content(query)
+            response = self.model.generate_content(query, safety_settings=safety_settings)
         
         return response.text 

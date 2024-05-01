@@ -177,7 +177,7 @@ map = {
 
 ################# Objects ##################
 sofa = Object('sofá', human_step=True)
-table = Object('mesa_comedor')
+table = Object('mesa_comedor', cleanable=True)
 chair1 = Object('silla_1', overlappable=True, human_step=True, robot_step=True)
 chair2 = Object('silla_2', overlappable=True, human_step=True, robot_step=True)
 chair3 = Object('silla_3', overlappable=True, human_step=True, robot_step=True)
@@ -185,24 +185,24 @@ chair4 = Object('silla_4', overlappable=True, human_step=True, robot_step=True)
 chair5 = Object('silla_5', overlappable=True, human_step=True, robot_step=True)
 chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True)
 tv_table = Object('mesa_de_tv', overlappable=True, human_step=True, robot_step=True)
-tv = Object('tv', overlappable=True, human_step=True, robot_step=True)
+tv = Object('tv', overlappable=True, human_step=True, robot_step=True, switchable=True)
 
-plant1 = Object('planta_1', overlappable=True, human_step=True, robot_step=True)
-plant2 = Object('planta_2', overlappable=True, human_step=True, robot_step=True)
-plant3 = Object('planta_3', overlappable=True, human_step=True, robot_step=True)
+plant1 = Object('planta_1', overlappable=True, human_step=True, robot_step=True, waterable=True)
+plant2 = Object('planta_2', overlappable=True, human_step=True, robot_step=True, waterable=True)
+plant3 = Object('planta_3', overlappable=True, human_step=True, robot_step=True, waterable=True)
 
 bed = Object('cama')
 bed_table = Object('mesa_de_noche', overlappable=True, human_step=True, robot_step=True)
 flip_flops = Object('chanclas', portable=True, overlappable=True, human_step=True, robot_step=True)
 closet = Object('armario')
 
-toilet = Object('inodoro', overlappable=True, human_step=True, robot_step=True)
-bathtub = Object('bañera')
-washbasin = Object('lavamanos', overlappable=True, human_step=True, robot_step=True)
+toilet = Object('inodoro', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+bathtub = Object('bañera', cleanable=True)
+washbasin = Object('lavamanos', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 
-worktop1 = Object('encimera_1')
-worktop2 = Object('encimera_2')
-worktop3 = Object('encimera_3')
+worktop1 = Object('encimera_1', cleanable=True)
+worktop2 = Object('encimera_2', cleanable=True)
+worktop3 = Object('encimera_3', cleanable=True)
 sink = Object('fregadero')
 stove = Object('fogón')
 bin = Object('cesto_de_basura', overlappable=True, human_step=True, robot_step=True)
@@ -218,18 +218,17 @@ areas = ['bedroom', 'livingroom', 'bathroom', 'kitchen']
 
 
 #################### Robot Actions ########################
-WALK_OBJ = "CAMINAR_HASTA"
+CLEAN = "LIMPIAR"
+WALK = "CAMINAR_HASTA"
+
 WATER_OBJ = "ECHAR_AGUA_A"
 ON_OBJ = "ENCENDER"
 OFF_OBJ = "APAGAR"
 TAKE_OBJ = "COGER"
 DROP_OBJ = "SOLTAR"
 
-WALK_AREA = "CAMINAR_HASTA"
-CLEAN_AREA = "LIMPIAR"
+robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
+robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
+robot_area_actions = [WALK, CLEAN]
 
-robot_actions = actions = [WALK_OBJ, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, WALK_AREA, CLEAN_AREA]
-robot_obj_actions = actions = [WALK_OBJ, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
-robot_area_actions = [WALK_AREA, CLEAN_AREA]
-
-robot_time_actions = [CLEAN_AREA]
+robot_water_actions = [CLEAN, WATER_OBJ]

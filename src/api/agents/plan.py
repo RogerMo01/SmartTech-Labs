@@ -37,7 +37,9 @@ class Plan:
 
 
     def is_out(self, current_task):
+        """Returns false if task take place in a room and agent is not there"""
         current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
+        if current_task.room is None: return False
         return (current_task.room != current_area and current_task.type != 'Caminar')
     
 
@@ -50,7 +52,9 @@ class Plan:
             self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
     
     def __repr__(self) -> str:
-        return self.tasks.__repr__() + "--success: " + str(self.is_successful)
+        finished = "finished"
+        in_queue = "in queue"
+        return f"{self.tasks.__repr__()} {finished if self.is_successful else in_queue}"
         
     def add_task(self, task: Task):
         self.tasks.append(task)

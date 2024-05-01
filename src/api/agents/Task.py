@@ -1,4 +1,5 @@
 from Tile import Tile
+from search import House
 from search import *
 from agents.bdi_agent import Belief
 from datetime import datetime, timedelta
@@ -14,11 +15,19 @@ class Task:
         self.elapsed_time = ZERO    # tiempo q se ha dedicado a la tarea
         self.postponed_time = ZERO  # timepo q lleva pospuesta
         self.is_postponed = False
-        self.location = None     # lugar donde se realiza la tarea
         self.is_successful = False
         self.house = house
         self.beliefs = beliefs
         self.is_priority = is_priority
+
+    
+    def __repr__(self):
+        finished = "finished"
+        in_queue = "in queue"
+        if self.room:
+            return f"{self.type} in {self.room} - {finished if self.is_successful else in_queue}"
+        else:
+            return f"{self.type} {finished if self.is_successful else in_queue}"
 
     def execute(self, *args):
         """
@@ -43,7 +52,9 @@ class Move(Task):
         # self.is_successful
 
     def __repr__(self):
-        return f"Move to {self.dest.name} --success: {self.is_successful}"
+        finished = "finished"
+        in_queue = "in queue"
+        return f"Move to {self.dest.name} {finished if self.is_successful else in_queue}"
     
     
     def create_path(self, new_src=None):
@@ -65,11 +76,7 @@ class Move(Task):
                            self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position)                                    # recompute path
 
         direction = self.steps.pop(0) 
-        new_pos = self.house.move(direction, self.author)
-        if self.author == 'Will-E':
-            self.beliefs.bot_position = new_pos
-        else:
-            self.beliefs.human_position = new_pos
+        self.house.move(direction, self.author)
             
         self.elapsed_time += timedelta(seconds=1)
 
@@ -86,28 +93,72 @@ class Move(Task):
         self.time = time
         self.is_successful = True if len(self.steps) == 0 else False
 
-class Clean(Task):
-    def __init__(self, author, house: House, beliefs: list[Belief], room: str):
-        super().__init__(author, ZERO)
-        self.time = timedelta(seconds=5)
-        self.type = "Limpiar"
-        self.elapsed_time = ZERO    # tiempo q se ha dedicado a la tarea
-        self.room = room
-        self.house = house
-        self.is_successful
-        self.beliefs = beliefs
-
-    def __repr__(self):
-        return f"Clean {self.tile.name} --success: {self.is_successful}"
+class TimeTask(Task):
+    def __init__(self, author, house: House, beliefs: list[Belief], time: timedelta, room=None, type=None):
+        super().__init__(author, time, room, house, beliefs)
+        self.type = type
+        # self.is_successful
     
     def execute(self, *args):
         if self.is_successful: return                             
-        
-        print(f'Cleaning... {self.elapsed_time}')
         
         self.elapsed_time += timedelta(seconds=1)
 
         if self.elapsed_time == self.time:
             self.is_successful = True
 
-    
+class Clean(TimeTask):
+    pass
+
+class UseWater(TimeTask):
+    pass
+
+
+class Take(Task):
+    def __init__(self, author: str, obj: Object, house: House, pocket: list):
+        super().__init__(author, timedelta(seconds=1), house=house)
+        self.type = "Coger"
+        self.obj = obj
+        self.pocket = pocket
+
+    def __repr__(self):
+        finished = "finished"
+        in_queue = "in queue"
+        return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
+
+    def execute(self, *args):
+        if self.is_successful: return     
+        
+        # Hacer las acciones para coger el objeto
+        self.house.take_object(self.author, self.obj)
+        self.pocket.append(self.obj)
+
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == self.time:
+            self.is_successful = True
+
+
+class Drop(Task):
+    def __init__(self, author: str, obj: Object, house: House, pocket: list):
+        super().__init__(author, timedelta(seconds=1), house=house)
+        self.type = "Soltar"
+        self.obj = obj
+        self.pocket = pocket
+
+    def __repr__(self):
+        finished = "finished"
+        in_queue = "in queue"
+        return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
+
+    def execute(self, *args):
+        if self.is_successful: return     
+        
+        # Hacer las acciones para soltar el objeto 
+        self.house.drop_object(self.author, self.obj)
+        self.pocket.remove(self.obj)
+        
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == self.time:
+            self.is_successful = True
