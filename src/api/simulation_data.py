@@ -195,6 +195,7 @@ bed = Object('cama', human_step=True)
 bed_table = Object('mesa_de_noche', overlappable=True, human_step=True, robot_step=True)
 flip_flops = Object('chanclas', portable=True, overlappable=True, human_step=True, robot_step=True)
 closet = Object('armario')
+mobile = Object('móvil', portable=True, overlappable=True, human_step=True, robot_step=True)
 
 toilet = Object('inodoro', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 bathtub = Object('bañera', cleanable=True)
@@ -208,7 +209,7 @@ stove = Object('fogón')
 bin = Object('cesto_de_basura', overlappable=True, human_step=True, robot_step=True)
 
 objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv,
-                 plant1, plant2, plant3, bed, bed_table, flip_flops, closet,
+                 plant1, plant2, plant3, bed, bed_table, flip_flops, closet, mobile,
                  toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin]
 objects_names = [o.name for o in objects_instances]
 

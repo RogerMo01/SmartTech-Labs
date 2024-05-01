@@ -224,6 +224,7 @@ class House:
         House.place_object(objects, bed_table, [B0], [B0])
         House.place_object(objects, flip_flops, [B1], [B1])
         House.place_object(objects, closet, [B5, C5], [B4, C4])
+        House.place_object(objects, mobile, [B0], [B0])
         House.place_object(objects, toilet, [I2], [I2])
         House.place_object(objects, bathtub, [G0, H0], [H1], [G0, H0])
         House.place_object(objects, washbasin, [G2], [G2])
