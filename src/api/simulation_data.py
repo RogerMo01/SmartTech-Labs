@@ -191,7 +191,7 @@ plant1 = Object('planta_1', overlappable=True, human_step=True, robot_step=True,
 plant2 = Object('planta_2', overlappable=True, human_step=True, robot_step=True, waterable=True)
 plant3 = Object('planta_3', overlappable=True, human_step=True, robot_step=True, waterable=True)
 
-bed = Object('cama')
+bed = Object('cama', human_step=True)
 bed_table = Object('mesa_de_noche', overlappable=True, human_step=True, robot_step=True)
 flip_flops = Object('chanclas', portable=True, overlappable=True, human_step=True, robot_step=True)
 closet = Object('armario')

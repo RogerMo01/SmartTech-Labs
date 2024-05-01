@@ -91,7 +91,7 @@ class House:
         tiles: list[Tile] = self.__objects[obj]  # tiles occupied by obj
         for t in tiles: t.objects.remove(obj)    # remove object from tiles
         self.__objects[obj] = agent              # set object location as Agent
-        obj.face_tiles = None                    # clear face tiles
+        obj.robot_face_tiles = None                    # clear face tiles
         
 
     def drop_object(self, agent, obj: Object):
@@ -99,7 +99,7 @@ class House:
         tiles: list[Tile] = [self.__bot_position]  # BOOM if object takes multiple tiles
         for t in tiles: t.objects.add(obj)
         self.__objects[obj] = tiles
-        obj.face_tiles = tiles
+        obj.robot_face_tiles = tiles
 
     def move(self, direction: str, author: str):
         if author == 'Will-E':
@@ -207,7 +207,7 @@ class House:
                     tile.right = wall
 
         # Set objects
-        House.place_object(objects, sofa, [F7, F8], [E7, E8])
+        House.place_object(objects, sofa, [F7, F8], [E7, E8], [F7, F8])
         House.place_object(objects, table, [I7, I8], [H7, H8, I9, J8, J7, I6])
         House.place_object(objects, chair1, [H7], [H7])
         House.place_object(objects, chair2, [H8], [H8])
@@ -220,12 +220,12 @@ class House:
         House.place_object(objects, plant3, [A5], [A5])
         House.place_object(objects, tv_table, [D7, D8], [D7, D8])
         House.place_object(objects, tv, [D7, D8], [D7, D8])
-        House.place_object(objects, bed, [C0, C1, D0, D1], [B1, E1])
+        House.place_object(objects, bed, [C0, C1, D0, D1], [B1, E1], [C0, C1, D0, D1])
         House.place_object(objects, bed_table, [B0], [B0])
         House.place_object(objects, flip_flops, [B1], [B1])
         House.place_object(objects, closet, [B5, C5], [B4, C4])
         House.place_object(objects, toilet, [I2], [I2])
-        House.place_object(objects, bathtub, [G0, H0], [H1])
+        House.place_object(objects, bathtub, [G0, H0], [H1], [G0, H0])
         House.place_object(objects, washbasin, [G2], [G2])
         House.place_object(objects, worktop1, [L0], [K1])
         House.place_object(objects, worktop2, [L1], [K1])
@@ -238,10 +238,15 @@ class House:
         
 
     @staticmethod
-    def place_object(objects, obj: Object, tiles: list[Tile], face_tiles: list[Tile]):
+    def place_object(objects, obj: Object, tiles: list[Tile], robot_face_tiles: list[Tile], human_face_tiles: list[Tile] = None):
         for t in tiles:
             t.add_object(obj)
-        obj.face_tiles = face_tiles
+        obj.robot_face_tiles = robot_face_tiles
+        if human_face_tiles:
+            obj.human_face_tiles = human_face_tiles
+        else:
+            obj.human_face_tiles = robot_face_tiles
+            
         try:
             objects[obj] = tiles
         except:

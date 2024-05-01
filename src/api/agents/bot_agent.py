@@ -243,7 +243,7 @@ class Bot_Agent(BDI_Agent):
             if tag in simulation_data.objects_names:
                 # Caminar a un objeto
                 obj: Object = self.__house.get_object(tag)
-                return Move(self.agent_id, self.__house, self.beliefs, obj.face_tiles[0])
+                return Move(self.agent_id, self.__house, self.beliefs, obj.robot_face_tiles[0])
             elif tag in simulation_data.areas:
                 # Caminar a un area
                 return Move(self.agent_id, self.__house, self.beliefs, self.__house.get_room_tile(self.agent_id, tag))
