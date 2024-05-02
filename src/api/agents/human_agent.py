@@ -129,7 +129,7 @@ class Human_Agent(BDI_Agent):
                         instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
                         instruction = self.llm(instruction, True)
                         self.__house.say(self.agent_id, instruction)
-                        
+
 
 
     def calculate_time(self, need, level):
@@ -184,7 +184,7 @@ class Human_Agent(BDI_Agent):
     
     def decrease_needs(self, current_plan:Plan):
         needs = NEEDS_ORDER.copy()
-
+        
         if current_plan is not None:
             if current_plan.need == ENERGY:
 
@@ -196,7 +196,8 @@ class Human_Agent(BDI_Agent):
 
             for need in needs:
                 if need != current_plan.need:
-                    self.needs.dec_level(need)
+                    if not self.__house.get_is_music_playing() and need != ENTERTAINMENT:
+                        self.needs.dec_level(need)
 
             
 
