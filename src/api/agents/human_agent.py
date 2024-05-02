@@ -1,12 +1,17 @@
+import json
 from agents.bdi_agent import *
 from agents.plan import Plan
 from agents.task import *
 from search import *
 from agents.needs import Needs
+from llm.gemini import *
+from llm.llm import *
+from llm.prompts import *
+from simulation_data import BEST_TIMES, NEEDS_LIMIT, ENERGY, HUNGRY, HYGIENE, BLADDER, ENTERTAINMENT
 
-
+SPANISH_NEEDS = {'bladder':'Vejiga','hungry':'Hambre', 'energy':'Energia', 'hygiene':'Higiene', 'entertainment':'Entretenimiento'}
 NEEDS_ORDER = ['bladder', 'hungry', 'energy', 'hygiene', 'entertainment']
-NEEDS_LIMIT = {'bladder': 20, 'hungry': 30, 'energy': 15, 'hygiene': 30, 'entertainment': 10}
+
 
 
 class Human_Belief(Belief):
@@ -23,10 +28,10 @@ class Human_Agent(BDI_Agent):
         # -----------
         self.beliefs = Human_Belief(house, other_beliefs) # initial beliefs
         self.desires = ["Regar la casa para que el robot la organice"]
-        self.intentions: list[Plan] = [Plan("Dormir", self.__house, self.agent_id, self.beliefs, [Sleep(self.agent_id, self.__house, self.beliefs, object='cama')], need='energy'),
-                                       Plan("Hacer pipi", self.__house, self.agent_id, self.beliefs, [Sleep(self.agent_id, self.__house, self.beliefs, object='cama')], need='bladder')]
+        self.intentions: list[Plan] = []
+        # self.intentions: list[Plan] =  Plan("Hacer pipi", self.__house, self.agent_id, self.beliefs, [Sleep(self.agent_id, self.__house, self.beliefs, object='cama')], need='bladder')]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
-
+        self.llm = Gemini()
 
     def  run(self, submmit_event):
         
@@ -34,7 +39,7 @@ class Human_Agent(BDI_Agent):
         self.brf(perception)
 
         self.plan_intentions()
-    
+        current_plan = None
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
             current_plan.run(submmit_event)
@@ -42,7 +47,11 @@ class Human_Agent(BDI_Agent):
             if current_plan.is_successful:
                 print("PLAN COMPLETED")
                 self.intentions.pop(0)
-        
+
+        perception = self.see()
+        self.brf(perception)
+        self.decrease_needs(current_plan)
+
         if self.reconsider():
             # reevaluate intentions
             pass
@@ -92,21 +101,42 @@ class Human_Agent(BDI_Agent):
 
                 # No hay plan adelantado => poner plan
                 if not covered:
+                    level = self.needs[need]
+                    prompt = generate_action_values(SPANISH_NEEDS[need], level)
+                    response = self.llm(prompt)
+                    try:
+                        response = json.loads(response)
+                        level = response[1]
+                        time = self.calculate_time(need, level)
+                        intention_name = response[0]
+                        task = human_plan_generator_prompt(intention_name)
+                        task = self.llm(task, True)
+                        task = json.loads(task)
+                        move_task, object = self._task_parser(task[0])
+                        need_task = Need(self.agent_id, time, self.__house, self.beliefs, object.name,  need, self.needs)
 
-                    ########################################
-                    plan: Plan = Plan()      # Hacer el plan
-                    ########################################
+                        plan: Plan = Plan(intention_name, self.__house, 'Pedro', self.beliefs, [move_task,need_task], need)      # Hacer el plan
 
-                    self.intentions.append(plan)
-                    self.overtake_plan(plan)
-
-
+                        self.intentions.append(plan)
+                        self.overtake_plan(plan)
+                    except Exception as e:
+                        pass
 
 
+    def calculate_time(self, need, level):
+        best_time = BEST_TIMES[need]  
+        inc_by_second = 100 / best_time
+        result = level / inc_by_second
+        return timedelta(seconds=result)
+    
 
+    def reconsider(self):
+        """Reconsiders intentions"""
+        return False
 
     def overtake_plan(self, plan: Plan):
         """Overtakes plan after current head plan, according to tasks order"""
+        if len(self.intentions) == 1: return
         self.intentions.remove(plan)
 
         index = 0
@@ -126,6 +156,40 @@ class Human_Agent(BDI_Agent):
                 if p.need is None or NEEDS_ORDER.index(p.need) > NEEDS_ORDER.index(plan.need):
                     return False
         raise Exception("Plan must be in intentions")
+    
+    def _task_parser(self, t: str):
+        splited_str = t.split()
+        action = splited_str[0]
+        tag = splited_str[1]
+
+        if action == simulation_data.WALK:
+            # Caminar
+            if tag in simulation_data.objects_names:
+                # Caminar a un objeto
+                obj: Object = self.__house.get_object(tag)
+                if obj.carrier is None:
+                    return Move(self.agent_id, self.__house, self.beliefs, obj.human_face_tiles[0]), obj
+            
+        raise Exception(f'Invalid action: {action} or object: {tag}')
+
+    
+    def decrease_needs(self, current_plan:Plan):
+        needs = NEEDS_ORDER.copy()
+
+        if current_plan is not None:
+            if current_plan.need == ENERGY:
+
+                # No bajar más del límite estos parámetros
+                if self.needs[BLADDER] <= NEEDS_LIMIT[BLADDER]:
+                    needs.remove(BLADDER)
+                if self.needs[ENTERTAINMENT] <= NEEDS_LIMIT[ENTERTAINMENT]:
+                    needs.remove(ENTERTAINMENT)
+
+            for need in needs:
+                if need != current_plan.need:
+                    self.needs.dec_level(need)
+
+            
 
     def options(self):
         pass

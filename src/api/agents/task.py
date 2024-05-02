@@ -3,6 +3,8 @@ from search import House
 from search import *
 from agents.bdi_agent import Belief
 from datetime import datetime, timedelta
+from agents.needs import Needs
+from simulation_data import BEST_TIMES
 
 ZERO = timedelta(seconds=0)
 
@@ -174,10 +176,21 @@ class Drop(Task):
 
 
 class Need(Task):
-    def __init__(self, author, time: timedelta, room: str = None, house: House = None, beliefs: Belief = None, is_priority: bool = False, object_name: str = None):
-        super().__init__(author, time, room, house, beliefs, is_priority, object_name)
+    def __init__(self, author, time: timedelta, house: House = None, beliefs: Belief = None, object_name: str = None, need: str = None, needs: Needs = None):
+        super().__init__(author, time, None, house, beliefs, object_name=object_name)
+        self.needs = needs
+        self.need = need
+        self.inc = 100/BEST_TIMES[self.need]
 
     def execute(self, *args):
+        if self.is_successful: return     
+
+        self.needs.sum_level(self.need, self.inc)
+        
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == self.time:
+            self.is_successful = True
         pass
 
 

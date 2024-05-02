@@ -6,7 +6,7 @@ from search import *
 from agents.task import *
 from agents.plan import *
 from llm.gemini import Gemini
-from llm.prompts import plan_generator_prompt, validate_instruction_prompt
+from llm.prompts import bot_plan_generator_prompt, validate_instruction_prompt
 import simulation_data
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
@@ -123,7 +123,7 @@ class Bot_Agent(BDI_Agent):
                 is_valid_plan = False
             else:
                 # Then make plan
-                prompt = plan_generator_prompt(intention)
+                prompt = bot_plan_generator_prompt(intention)
                 try:
                     plan = self.llm(prompt)
                     plan = json.loads(plan)

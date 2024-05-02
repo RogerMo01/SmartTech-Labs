@@ -234,3 +234,16 @@ robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ
 robot_area_actions = [WALK, CLEAN]
 
 robot_water_actions = [CLEAN, WATER_OBJ]
+
+
+ENERGY = 'energy'
+BLADDER = 'bladder'
+HUNGRY = 'hungry'
+HYGIENE = 'hygiene'
+ENTERTAINMENT = 'entertainment'
+ 
+NEEDS_LIMIT = {'bladder': 20, 'hungry': 30, 'energy': 15, 'hygiene': 10, 'entertainment': 10}
+BEST_TIMES = {'bladder': 900, 'hungry': 1800, 'energy': 28800, 'hygiene': 1200, 'entertainment': 9000}
+# siente la necesidad cada estos numeros (ejemplo: sueño cada 16 horas)
+# energy: 16*3600, hygiene: 31*3600, 4*3600[miccionar]
+DEC_LIMIT = {'bladder': 14400, 'hungry': 50400, 'energy': 57600, 'hygiene': 111600, 'entertainment': 64800}
