@@ -101,26 +101,35 @@ class Human_Agent(BDI_Agent):
 
                 # No hay plan adelantado => poner plan
                 if not covered:
-                    level = self.needs[need]
-                    prompt = generate_action_values(SPANISH_NEEDS[need], level)
-                    response = self.llm(prompt)
-                    try:
-                        response = json.loads(response)
-                        level = response[1]
-                        time = self.calculate_time(need, level)
-                        intention_name = response[0]
-                        task = human_plan_generator_prompt(intention_name)
-                        task = self.llm(task, True)
-                        task = json.loads(task)
-                        move_task, object = self._task_parser(task[0])
-                        need_task = Need(self.agent_id, time, self.__house, self.beliefs, object.name,  need, self.needs)
+                    selected_helper = random.uniform(0,1)
+                    if selected_helper >= 0.5:
+                        level = self.needs[need]
+                        prompt = generate_action_values(SPANISH_NEEDS[need], level)
+                        response = self.llm(prompt)
+                        try:
+                            response = json.loads(response)
+                            level = response[1]
+                            time = self.calculate_time(need, level)
+                            intention_name = response[0]
+                            task = human_plan_generator_prompt(intention_name)
+                            task = self.llm(task, True)
+                            task = json.loads(task)
+                            move_task, object = self._task_parser(task[0])
+                            need_task = Need(self.agent_id, time, self.__house, self.beliefs, object.name,  need, self.needs)
 
-                        plan: Plan = Plan(intention_name, self.__house, 'Pedro', self.beliefs, [move_task,need_task], need)      # Hacer el plan
+                            plan: Plan = Plan(intention_name, self.__house, 'Pedro', self.beliefs, [move_task,need_task], need)      # Hacer el plan
 
-                        self.intentions.append(plan)
-                        self.overtake_plan(plan)
-                    except Exception as e:
-                        pass
+                            self.intentions.append(plan)
+                            self.overtake_plan(plan)
+                        except Exception as e:
+                            pass
+                    else:
+                        # robot helps
+                        level = self.needs
+                        instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
+                        instruction = self.llm(instruction, True)
+                        self.__house.say(self.agent_id, instruction)
+                        
 
 
     def calculate_time(self, need, level):

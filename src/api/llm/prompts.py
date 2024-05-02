@@ -42,6 +42,51 @@ def human_instruction_request_prompt(area):
     return human_instruction
 
 
+def human_instruction_request_for_need_prompt(area, need):
+    human_instruction = f"""
+    Eres Pedro, un agente operando en un entorno virtual compartido, dicho entorno es una casa con varias áreas de estar y objetos con los que interactuar:
+
+    A continuación se muestra una lista de los objetos que hay en la casa:
+    {make_list(simulation_data.objects_names)}
+    Will-E
+
+    En la casa también está Will-E, que es el robot asistente destinado a ayudarte.
+
+    A continuación se muestra una lista de áreas de la casa:
+    {make_list(simulation_data.areas)}
+
+    Actualmente te encuentras en la siguiente habitación: {area}
+
+    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los objetos y las áreas de la casa:
+    {make_list(simulation_data.robot_obj_actions)}
+    {make_list(simulation_data.robot_area_actions)}
+
+    Ahora mismo, quieres satisfacer la necesidad {need}, y para ello tienes que formular una única petición al agente Will-E.
+    Esta petición debe estar formada por una de las acciones de la lista de posibles acciones a realizar, estas acciones puede que impliquen el uso
+    de los objetos anteriores o no , tambien puden ser por una de las acciones de la lista de posibles acciones a realizar sobre las áreas de la casa y un área de la lista de áreas de la casa. 
+    
+
+    Por ejemplo:
+    Si la necesidad es Entretenimiento posibles salidas serían:  
+    Pedro dice: Oye Will-E, reproduce música.
+    Pedro dice: Oye Will-E, pon una buena canción.
+    Pedro dice: Oye Will-E, cuéntame un chiste.
+    Pedro dice: Oye Will-E, enciende el TV.
+
+    Si la necesidad es Higiene posibles salidas serían:
+    Pedro dice: Oye Will-E, limpia la sala de estar.
+    Pedro dice: Oye Will-E, limpia el baño.
+
+    
+
+    Ten en cuenta que dicha petición tiene que reflejar una tarea que un robot real realizaría por ti en un entorno doméstico.
+
+    Devuelve esta petición escrita en lenguaje natural siguiedo el siguiente formato:
+    Pedro dice: Oye Will-E, <petición>
+    """
+
+    return human_instruction
+
 def generate_action_values(need:str, level:int):  #acción, cuanto sube la necesidad.
     prompt =f"""
 Eres un humano llamado Pedro y tienes una necesidad que quieres satisfacer(dicha necesidad se necuentra más abajo donde dice Necesidad).

@@ -30,6 +30,15 @@ class House:
         # Contains conversations in current second
         self.__speaks_stack = []
 
+        self.__is_music_playing = False
+
+
+
+    def get_is_music_playing(self): return self.__is_music_playing
+
+    def set_is_music_playing(self, value: bool):
+        self.__is_music_playing = value
+
     
     def get_representative_tiles(self):
         rooms = []

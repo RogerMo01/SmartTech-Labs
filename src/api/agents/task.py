@@ -173,7 +173,36 @@ class Drop(Task):
             self.is_successful = True
 
 
+class PlayMusic(Task):
+    def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = False):
+        super().__init__(author, time, room, house, None, is_priority, None)
 
+    def execute(self, *args):
+        if self.is_successful: return 
+
+        if not self.house.get_is_music_playing():
+            self.house.set_is_music_playing(True)
+
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == self.time:
+            self.is_successful = True
+
+class StopMusic(Task):
+    def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = True):
+        super().__init__(author, time, room, house, None, is_priority, None)
+        self.time = 1
+
+    def execute(self, *args):
+        if self.is_successful: return 
+
+        if not self.house.get_is_music_playing():
+            self.house.set_is_music_playing(False)
+
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == self.time:
+            self.is_successful = True
 
 class Need(Task):
     def __init__(self, author, time: timedelta, house: House = None, beliefs: Belief = None, object_name: str = None, need: str = None, needs: Needs = None):

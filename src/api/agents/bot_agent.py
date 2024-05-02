@@ -236,7 +236,10 @@ class Bot_Agent(BDI_Agent):
     def _task_parser(self, t: str):
         splited_str = t.split()
         action = splited_str[0]
-        tag = splited_str[1]
+        if len(splited_str) > 1:
+            tag = splited_str[1]
+        else:
+            tag = ""   # ver que hacer aqui
 
         if action == simulation_data.WALK:
             # Caminar
@@ -298,6 +301,11 @@ class Bot_Agent(BDI_Agent):
                 # Soltar objeto
                 obj: Object = self.__house.get_object(tag)
                 return Drop(self.agent_id, obj, self.__house, self.pocket)
+            
+        elif action == simulation_data.PLAY_MUSIC:
+            time = timedelta(seconds = 600)
+            return PlayMusic(self.agent_id,time, house = self.__house)
+
 
         return None
 
