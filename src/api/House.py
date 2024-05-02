@@ -238,6 +238,7 @@ class House:
         House.place_object(objects, sink, [L2], [K2])
         House.place_object(objects, stove, [K0], [K1])
         House.place_object(objects, bin, [L4], [L4])
+        House.place_object(objects, fridge, [J2], [K2])
         
 
         

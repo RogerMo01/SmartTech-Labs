@@ -176,14 +176,14 @@ map = {
 
 
 ################# Objects ##################
-sofa = Object('sofá', human_step=True)
+sofa = Object('sofá', human_step=True, cleanable=True)
 table = Object('mesa_comedor', cleanable=True)
-chair1 = Object('silla_1', overlappable=True, human_step=True, robot_step=True)
-chair2 = Object('silla_2', overlappable=True, human_step=True, robot_step=True)
-chair3 = Object('silla_3', overlappable=True, human_step=True, robot_step=True)
-chair4 = Object('silla_4', overlappable=True, human_step=True, robot_step=True)
-chair5 = Object('silla_5', overlappable=True, human_step=True, robot_step=True)
-chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True)
+chair1 = Object('silla_1', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair2 = Object('silla_2', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair3 = Object('silla_3', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair4 = Object('silla_4', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair5 = Object('silla_5', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 tv_table = Object('mesa_de_tv', overlappable=True, human_step=True, robot_step=True)
 tv = Object('tv', overlappable=True, human_step=True, robot_step=True, switchable=True)
 
@@ -207,10 +207,11 @@ worktop3 = Object('encimera_3', cleanable=True)
 sink = Object('fregadero')
 stove = Object('fogón')
 bin = Object('cesto_de_basura', overlappable=True, human_step=True, robot_step=True)
+fridge = Object('refrigerador')
 
 objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv,
                  plant1, plant2, plant3, bed, bed_table, flip_flops, closet, mobile,
-                 toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin]
+                 toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin, fridge]
 objects_names = [o.name for o in objects_instances]
 
 

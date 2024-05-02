@@ -76,8 +76,30 @@ Necesidad: {need}
     return prompt
 
 
+def human_plan_generator_prompt(intention: str):
+    plan_instruction = f"""
+Eres Pedro, un agente operando en una casa con varias áreas de estar y objetos con los que interactuar:
+
+A continuación se muestra una lista de los objetos que hay en la casa:
+{make_list(simulation_data.objects_names)}
+
+Tu objetivo es, a partir de una intención que tienes (que se encuentra debajo donde dice Intención) escrita en lenguaje natural,
+formar una tarea.
+Esta tarea está dada por la acción ["CAMINAR_HASTA <objeto>"] según tu intención.
+
+Tu respuesta será dada en el siguiente formato: ["CAMINAR_HASTA <objeto>"] 
+
+Debes sustituir <objeto> por el nombre del objeto dentro de la lista de objetos que hay en la casa que más sentido tenga utilizar para completar la acción.
+
+Ahora si, debes procesar la siguiente intención
+Intención: {intention}
+"""
+
+    return plan_instruction
+
+
 ###################### Will-E prompts ########################
-def plan_generator_prompt(intention: str):
+def bot_plan_generator_prompt(intention: str):
     obj_actions, area_actions = get_actions()
     
     plan_instruction = f"""
