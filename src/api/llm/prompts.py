@@ -41,31 +41,40 @@ def human_instruction_request_prompt(area):
 
     return human_instruction
 
-def instruction_interpreter_prompt(request: str, available_actions: list):
-    robot_instruction = f"""
-    Eres Will-E, un agente operando en un entorno virtual compartido. 
-    
-    Tu misión es cumplir las peticiones de Alex, un agente humano. Para ello, debes reconocer dentro de una lista de posibles acciones que tienes definidas, 
-    a cuáles se hace referencia implícita o explícitamente en la petición descrita en lenguaje natural realizada 
-    por el humano. Ten en cuenta que en dicha petición puede haber más de una acción a realizar. 
-    
-    Si la elección de la acción es ambigua ya sea porque no la tienes definida o porque haya mas de una acción a realizar y una de ellas no la tengas definida, responde lo siguiente: Lo siento, no entiendo lo que me pides :(
-    
-    En caso de identificar la acción, responde con el siguiente formato JSON:
-    {{
-        acción: nombre_de_la_acción, tal y como aparece en la lista,
-        objeto: nombre del objeto sobre el cual se quiere realizar la acción
-    }}
-    
-    acciones = {available_actions}
 
-    peticion = "{request}"
-    
-    """
-    return robot_instruction
+def generate_action_values(need:str, level:int):  #acción, cuanto sube la necesidad.
+    prompt =f"""
+Eres un humano llamado Pedro y tienes una necesidad que quieres satisfacer(dicha necesidad se necuentra más abajo donde dice Necesidad).
 
-def generate_human_intention(energy, hungry, bladder, hygiene, enjoy, time):
-    pass
+La necesidad tiene un valor asociado que representa la saciedad de la misma, en este caso es: {level}, la cual está representada por un valor del 1 al 100, 
+siendo 1 el mínimo y 100 el máximo.
+
+Tu objetivo es devolver a cuanto asciende la saciedad de la misma luego de realizar una acción para satisfacerla.
+
+Por ejemplo:
+Para una necesidad Vejiga, una posible salida es:
+["Ir al inodoro", 50]
+
+Para una necesidad Vejiga, otra posible salida es:
+["Ir al baño", 45] 
+
+Para una necesidad Hambre, una posible salida es:
+["Comer un bocadillo", 35]    
+
+Para una necesidad Energía, una posible salida es:
+["Dormir una siesta",50]
+    
+Para una necesidad Energía, otra posible salida es:
+["Acostarse a dormir", 80]
+
+Ten en cuenta que después de realizada la acción el valor de cantidad_incremento más alto que se puede alcanzar es (100 - {level}) y que mientras más bajo sea el valor de level mayor será el aumento de cantidad_incremento.
+Por tanto, en cantidad incremento devuelve un valor entre [1, 100-{level}]
+
+Ahora si, analiza la siguiente necesidad de Pedro:
+Necesidad: {need}
+"""
+    return prompt
+
 
 ###################### Will-E prompts ########################
 def plan_generator_prompt(intention: str):
@@ -105,15 +114,6 @@ Intención: {intention}
 """
 
     return plan_instruction
-
-
-def make_list(arr: list):
-    response = ""
-    for i in arr:
-        response += i
-        response += "\n"
-
-    return response
 
 
 def validate_instruction_prompt(order: str):
@@ -167,40 +167,9 @@ Orden: {order}
 """
     return instruction
 
-def generate_action_values(need:str, level:int):  #accion, tiempo que se le va a dedicar, cuanto sube la necesidad.
-    prompt =f"""
-Eres un humano llamado Pedro y tienes una necesidad que quieres satisfacer(dicha necesidad se necuentra más abajo donde dice Necesidad).
-
-La necesidad tiene un valor asociado que representa la saciedad de la misma, en este caso es: {level}, la cual está representada por un valor del 1 al 100, 
-siendo 1 el mínimo y 100 el máximo.
-
-Tu objetivo es devolver a cuanto asciende la saciedad de la misma luego de realizar una acción para satisfacerla.
-
-Por ejemplo:
-Para una necesidad Vejiga, una posible salida es:
-["Ir al inodoro", 50]
-
-Para una necesidad Vejiga, otra posible salida es:
-["Ir al baño", 45] 
-
-Para una necesidad Hambre, una posible salida es:
-["Comer un bocadillo", 35]    
-
-Para una necesidad Energía, una posible salida es:
-["Dormir una siesta",50]
-    
-Para una necesidad Energía, otra posible salida es:
-["Acostarse a dormir", 80]
-
-Ten en cuenta que después de realizada la acción el valor de cantidad_incremento más alto que se puede alcanzar es (100 - {level}) y que mientras más bajo sea el valor de level mayor será el aumento de cantidad_incremento.
-Por tanto, en cantidad incremento devuelve un valor entre [1, 100-{level}]
-
-Ahora si, analiza la siguiente necesidad de Pedro:
-Necesidad: {need}
-"""
-    return prompt
 
 
+###################### Utils ########################
 def get_actions():
     obj_actions = simulation_data.robot_obj_actions.copy()
     for i in range(len(obj_actions)):
@@ -210,3 +179,12 @@ def get_actions():
         area_actions[i] += " <area>"
 
     return obj_actions, area_actions
+
+
+def make_list(arr: list):
+    response = ""
+    for i in arr:
+        response += i
+        response += "\n"
+
+    return response
