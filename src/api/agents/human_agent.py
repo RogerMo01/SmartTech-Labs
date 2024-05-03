@@ -79,6 +79,9 @@ class Human_Agent(BDI_Agent):
         
         self.beliefs.last_notice = self._detect_notice()
 
+        if self.beliefs.last_notice is not None:
+            self.plan_with_notice()
+
         self.beliefs.bot_position = perception.bot_position
         self.beliefs.human_position = perception.human_position
 
@@ -87,58 +90,71 @@ class Human_Agent(BDI_Agent):
     
     def plan_intentions(self):
 
-        if self.beliefs.last_notice is None:
-            for need in NEEDS_ORDER:
-                # Si hay necesidad a cubrir (need)
-                if self.needs[need] <= NEEDS_LIMIT[need]:
-                    covered = False
-                    # Si hay plan q cubre esa necesidad en la cola
-                    for plan in self.intentions:
-                        if plan.need == need:
-                            # Comprobar orden
-                            ordered = self.check_order(plan)
-
-                            # Adelantarlo
-                            if not ordered:
-                                self.overtake_plan(plan)
-
-                            covered = True
-                            break
-
-                    # No hay plan adelantado => poner plan
-                    if not covered:
-                        selected_helper = random.uniform(0,1)
-                        if selected_helper >= 0.5:
-                            level = self.needs[need]
-                            prompt = generate_action_values(SPANISH_NEEDS[need], level)
-                            response = self.llm(prompt)
-                            try:
-                                response = json.loads(response)
-                                level = response[1]
-                                time = self.calculate_time(need, level)
-                                intention_name = response[0]
-                                task = human_plan_generator_prompt(intention_name)
-                                task = self.llm(task, True)
-                                task = json.loads(task)
-                                move_task, object = self._task_parser(task[0])
-                                need_task = Need(self.agent_id, time, self.__house, self.beliefs, object.name,  need, self.needs)
-
-                                plan: Plan = Plan(intention_name, self.__house, 'Pedro', self.beliefs, [move_task,need_task], need)      # Hacer el plan
-
-                                self.intentions.append(plan)
-                                self.overtake_plan(plan)
-                            except Exception as e:
-                                pass
-                        else:
-                            # robot helps
-                            level = self.needs
-                            instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
-                            instruction = self.llm(instruction, True)
-                            self.__house.say(self.agent_id, instruction, True)
+        if self.beliefs.last_notice is not None:
+            self.plan_with_notice()
+        
+        if not self._are_there_needs_at_limit() and len(self.intentions) == 0:
+            selected_helper = random.uniform(0,1)
+            if selected_helper <= 0.8:
+                self.create_intention_by_human()
             else:
-                self.plan_with_notice()
+                #robot helps
+                need = self.needs[0]
+                instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
+                instruction = self.llm(instruction, True)
+                self.__house.say(self.agent_id, instruction, True)
+            
+        else:
+            self._create_intention_by_human()
+    
 
+    def _create_intention_by_human(self):
+        for need in NEEDS_ORDER:
+            # Si hay necesidad a cubrir (need)
+            if self.needs[need] <= NEEDS_LIMIT[need]:
+                covered = False
+                # Si hay plan q cubre esa necesidad en la cola
+                for plan in self.intentions:
+                    if plan.need == need:
+                        # Comprobar orden
+                        ordered = self.check_order(plan)
 
+                        # Adelantarlo
+                        if not ordered:
+                            self.overtake_plan(plan)
+
+                        covered = True
+                        break
+
+                # No hay plan adelantado => poner plan
+                if not covered:
+                    level = self.needs[need]
+                    prompt = generate_action_values(SPANISH_NEEDS[need], level)
+                    response = self.llm(prompt)
+                    try:
+                        response = json.loads(response)
+                        level = response[1]
+                        time = self.calculate_time(need, level)
+                        intention_name = response[0]
+                        task = human_plan_generator_prompt(intention_name)
+                        task = self.llm(task, True)
+                        task = json.loads(task)
+                        move_task, object = self._task_parser(task[0])
+                        need_task = Need(self.agent_id, time, self.__house, self.beliefs, object.name,  need, self.needs)
+
+                        plan: Plan = Plan(intention_name, self.__house, 'Pedro', self.beliefs, [move_task,need_task], need)      # Hacer el plan
+
+                        self.intentions.append(plan)
+                        self.overtake_plan(plan)
+                    except Exception as e:
+                        pass
+    
+
+    def _are_there_needs_at_limit(self):
+        for need in self.needs:
+            if self.needs[need] <= NEEDS_LIMIT[need]:
+                return True
+        return False
 
     def plan_with_notice(self):
         if self.beliefs.last_notice is not None:
