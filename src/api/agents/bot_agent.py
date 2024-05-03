@@ -16,6 +16,7 @@ NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
 class Bot_Belief(Belief):
     def __init__(self, house: House = None, other_beliefs={}):
         super().__init__(house, other_beliefs)
+        self.last_order: Order = None
         # self.map
         # self.likes
         # self.dislikes

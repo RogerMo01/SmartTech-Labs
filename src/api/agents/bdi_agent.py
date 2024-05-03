@@ -13,7 +13,7 @@ class Order:
 
 
 class Belief:
-    def __init__(self, house: House, other_beliefs = {}, last_order: Order = None):
+    def __init__(self, house: House, other_beliefs = {}):
         self.map, self.objects, self.bot_position, self.human_position, self.speaks = house.get_data()
         self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
 
