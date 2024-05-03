@@ -116,32 +116,66 @@ class Bot_Agent(BDI_Agent):
         if self.beliefs.last_order is not None:
             is_valid_plan = True
             
-            # Check is a valid order here and build intention
-            prompt = validate_instruction_prompt(self.beliefs.last_order)
-            intention = self.llm(prompt)
-            if intention == "No": 
-                is_valid_plan = False
-            else:
-                # Then make plan
-                prompt = bot_plan_generator_prompt(intention)
-                try:
-                    plan = self.llm(prompt)
-                    plan = json.loads(plan)
-                    new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                    for t in plan:
-                        task: Task|None = self._task_parser(t)
-                        if task is None: is_valid_plan = False
-                        new_plan.add_task(task)
-
-                except:
+            # This order does boost a need
+            if self.beliefs.last_order.by_human_for_need:
+                # Check is a valid need order here and build intention
+                prompt = validate_need_instruction_prompt(self.beliefs.last_order)
+                intention = self.llm(prompt)
+                if intention == "No": 
                     is_valid_plan = False
+                else:
+                    # Then make plan
+                    prompt = bot_need_plan_generator_prompt(intention)
+                    try:
+                        plan = self.llm(prompt)
+                        plan = json.loads(plan)
+                        new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                        for t in plan:
+                            task: Task|None = self._task_parser(t)
+                            if task is None: is_valid_plan = False
+                            new_plan.add_task(task)
 
-            if not is_valid_plan:
-                # Generate negative feedback and say it to human
-                self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
-                return
+                    except:
+                        is_valid_plan = False
 
-            self.intentions.append(new_plan)
+                if not is_valid_plan:
+                    # Generate negative feedback and say it to human
+                    self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                    return
+
+                self.intentions.append(new_plan)
+            
+                    
+
+                # armar el plan, y tiene q terminar con tarea de say()
+                pass
+            else:
+                # Check is a valid order here and build intention
+                prompt = validate_instruction_prompt(self.beliefs.last_order)
+                intention = self.llm(prompt)
+                if intention == "No": 
+                    is_valid_plan = False
+                else:
+                    # Then make plan
+                    prompt = bot_plan_generator_prompt(intention)
+                    try:
+                        plan = self.llm(prompt)
+                        plan = json.loads(plan)
+                        new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                        for t in plan:
+                            task: Task|None = self._task_parser(t)
+                            if task is None: is_valid_plan = False
+                            new_plan.add_task(task)
+
+                    except:
+                        is_valid_plan = False
+
+                if not is_valid_plan:
+                    # Generate negative feedback and say it to human
+                    self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                    return
+
+                self.intentions.append(new_plan)
             
 
 

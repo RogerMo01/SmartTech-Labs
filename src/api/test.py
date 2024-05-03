@@ -6,10 +6,10 @@ from llm.prompts import *
 import json
 
 llm = Gemini()
-instruction = generate_action_values('Hambre', 26)
-values = llm(instruction, True)
-values = json.loads(values)
-print("Acción:", values[0])
-prompt = human_plan_generator_prompt(values[0])
-response = llm(prompt, True)
-print("Tarea:", response)
+instruction = bot_need_plan_generator_prompt("alcanzame el movil")
+resp = llm(instruction, 0.1)
+print(resp)
+# print("Acción:", values[0])
+# prompt = human_plan_generator_prompt(values[0])
+# response = llm(prompt, True)
+# print("Tarea:", response)
