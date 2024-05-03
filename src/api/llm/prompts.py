@@ -42,7 +42,7 @@ def human_instruction_request_prompt(area):
     return human_instruction
 
 
-def human_instruction_request_for_need_prompt(area, need):
+def human_instruction_request_for_need_prompt(need):
     human_instruction = f"""
     Eres Pedro, un agente operando en un entorno virtual compartido, dicho entorno es una casa con varias áreas de estar y objetos con los que interactuar:
 
@@ -52,14 +52,10 @@ def human_instruction_request_for_need_prompt(area, need):
 
     En la casa también está Will-E, que es el robot asistente destinado a ayudarte.
 
-    A continuación se muestra una lista de áreas de la casa:
-    {make_list(simulation_data.areas)}
-
-    Actualmente te encuentras en la siguiente habitación: {area}
-
-    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los objetos y las áreas de la casa:
+    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los objetos y las áreas de la casa, además de algunas acciones especiales para satisfacer al humano:
     {make_list(simulation_data.robot_obj_actions)}
     {make_list(simulation_data.robot_area_actions)}
+    {make_list(simulation_data.robot_need_actions)}
 
     Ahora mismo, quieres satisfacer la necesidad {need}, y para ello tienes que formular una única petición al agente Will-E.
     Esta petición debe estar formada por una de las acciones de la lista de posibles acciones a realizar, estas acciones puede que impliquen el uso
@@ -71,7 +67,6 @@ def human_instruction_request_for_need_prompt(area, need):
     Pedro dice: Oye Will-E, reproduce música.
     Pedro dice: Oye Will-E, pon una buena canción.
     Pedro dice: Oye Will-E, cuéntame un chiste.
-    Pedro dice: Oye Will-E, enciende el TV.
 
     Si la necesidad es Higiene posibles salidas serían:
     Pedro dice: Oye Will-E, limpia la sala de estar.

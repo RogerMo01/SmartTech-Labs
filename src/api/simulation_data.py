@@ -222,7 +222,8 @@ areas = ['dormitorio', 'sala_de_estar', 'baño', 'cocina']
 #################### Robot Actions ########################
 CLEAN = "LIMPIAR"
 WALK = "CAMINAR_HASTA"
-PLAY_MUSIC = "REPRODUCIR"
+PLAY_MUSIC = "REPRODUCIR_MUSICA"
+PLAY_TV = "ENCENDER_TV"
 
 WATER_OBJ = "ECHAR_AGUA_A"
 ON_OBJ = "ENCENDER"
@@ -230,7 +231,8 @@ OFF_OBJ = "APAGAR"
 TAKE_OBJ = "COGER"
 DROP_OBJ = "SOLTAR"
 
-robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, PLAY_MUSIC]
+robot_need_actions = [PLAY_MUSIC, PLAY_TV] 
+robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
 robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
 robot_area_actions = [WALK, CLEAN]
 
