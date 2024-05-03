@@ -96,12 +96,13 @@ class Human_Agent(BDI_Agent):
         if not self._are_there_needs_at_limit() and len(self.intentions) == 0:
             selected_helper = random.uniform(0,1)
             if selected_helper <= 0.8:
-                self.create_intention_by_human()
+                self._create_intention_by_human()
             else:
                 #robot helps
-                need = self.needs[0]
+                need = NEEDS_ORDER[0]
                 instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
                 instruction = self.llm(instruction, True)
+                
                 self.__house.say(self.agent_id, instruction, True)
             
         else:
@@ -151,7 +152,7 @@ class Human_Agent(BDI_Agent):
     
 
     def _are_there_needs_at_limit(self):
-        for need in self.needs:
+        for need in NEEDS_ORDER:
             if self.needs[need] <= NEEDS_LIMIT[need]:
                 return True
         return False
@@ -161,7 +162,7 @@ class Human_Agent(BDI_Agent):
             is_valid_plan = True
             
             # Check is a valid order here and build intention
-            prompt = validate_instruction_prompt(self.beliefs.last_notice)
+            prompt = validate_instruction_prompt(self.beliefs.last_notice)  # aqui entro Oye Pedro
             intention = self.llm(prompt)
             if intention == "No": 
                 is_valid_plan = False
