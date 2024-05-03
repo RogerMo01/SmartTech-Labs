@@ -26,17 +26,17 @@ def human_instruction_request_prompt(area):
     
 
     Por ejemplo: 
-    Pedro dice: Oye Will-E, ven hacia acá.
-    Pedro dice: Oye Will-E, por favor riega las plantas.
-    Pedro dice: Oye Will-E, recoge las chancletas y llevalas hasta el dormitorio.
-    Pedro dice: Oye Will-E, enciende el televisor para ver mi programa favorito.
-    Pedro dice: Oye Will-E, tráeme el móvil, por favor.
-    Pedro dice: Oye Will-E, apaga el tv.
+    Oye Will-E, ven hacia acá.
+    Oye Will-E, por favor riega las plantas.
+    Oye Will-E, recoge las chancletas y llevalas hasta el dormitorio.
+    Oye Will-E, enciende el televisor para ver mi programa favorito.
+    Oye Will-E, tráeme el móvil, por favor.
+    Oye Will-E, apaga el tv.
 
     Ten en cuenta que dicha petición tiene que reflejar una tarea que un robot real realizaría por ti en un entorno doméstico.
 
     Devuelve esta petición escrita en lenguaje natural siguiedo el siguiente formato:
-    Pedro dice: Oye Will-E, <petición>
+    Oye Will-E, <petición>
     """
 
     return human_instruction
@@ -64,20 +64,20 @@ def human_instruction_request_for_need_prompt(need):
 
     Por ejemplo:
     Si la necesidad es Entretenimiento posibles salidas serían:  
-    Pedro dice: Oye Will-E, reproduce música.
-    Pedro dice: Oye Will-E, pon una buena canción.
-    Pedro dice: Oye Will-E, cuéntame un chiste.
+    Oye Will-E, reproduce música.
+    Oye Will-E, pon una buena canción.
+    Oye Will-E, cuéntame un chiste.
 
     Si la necesidad es Higiene posibles salidas serían:
-    Pedro dice: Oye Will-E, limpia la sala de estar.
-    Pedro dice: Oye Will-E, limpia el baño.
+    Oye Will-E, limpia la sala de estar.
+    Oye Will-E, limpia el baño.
 
     
 
     Ten en cuenta que dicha petición tiene que reflejar una tarea que un robot real realizaría por ti en un entorno doméstico.
 
     Devuelve esta petición escrita en lenguaje natural siguiedo el siguiente formato:
-    Pedro dice: Oye Will-E, <petición>
+    Oye Will-E, <petición>
     """
 
     return human_instruction
@@ -140,7 +140,7 @@ Intención: {intention}
 
 ###################### Will-E prompts ########################
 def bot_plan_generator_prompt(intention: str):
-    obj_actions, area_actions = get_actions()
+    obj_actions, area_actions = get_obj_actions(), get_area_actions()
     
     plan_instruction = f"""
 Eres un robot llamado Will-E, destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
@@ -179,7 +179,7 @@ Intención: {intention}
 
 
 def validate_instruction_prompt(order: str):
-    obj_actions, area_actions = get_actions()
+    obj_actions, area_actions = get_obj_actions(), get_area_actions()
     
     instruction = f"""
 Eres un robot llamado Will-E, destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
@@ -230,17 +230,77 @@ Orden: {order}
     return instruction
 
 
+# pasarle al llm una temperatura=0.1
+def bot_need_plan_generator_prompt(intention: str):
+    obj_actions = get_obj_actions()
+    
+    plan_instruction = f"""
+Eres un robot llamado Will-E, destinado a asistir y ayudar a Pedro. Ambos conviven en una casa. Todas las tareas que
+cumples como robot se desarrollan dentro de la casa.
+
+A continuación se muestra una lista de los objetos, cada objeto de la lista es sustituible por <objeto>:
+{make_list(simulation_data.objects_names)}
+Pedro
+
+En la casa también está Pedro, que es la persona a la que estás destinado a ayudar.
+
+A continuación se muestra una lista de tareas que se utilizan para elaborar un plan:
+{make_list(obj_actions)}
+
+Tu objetivo es, a partir de una orden (que se encuentra debajo donde dice Orden) en lenguaje natural,
+crear un plan utilizando únicamente las tareas de la lista de tareas antes mencionada. 
+
+Para poner una tarea en la lista debes completar la sección <objeto>.
+Ten en cuenta que solo puedes utilizar objetos que estén en la lista de objetos antes mencionada y que debes seleccionar el nombre del objeto 
+que más sentido tenga para la tarea que se va a realizar.
+
+Notar que para usar un objeto hay q caminar hasta él.
+
+Solo debes hacer tareas necesarias para completar la orden.
+
+Además debes devolver un mensaje para Pedro, que indique que la orden ya se cumplió. El mensaje se conforma en tiempo pretérito
+
+Por ejemplo: 
+para la orden (Poner una película), tu respuesta debe ser
+{{
+    "tareas": ["CAMINAR_HASTA tv", "ENCENDER tv"],
+    "mensaje": "Ya te he puesto una película en Netflix"
+}}
+para la orden (Tráeme el móvil), tu respuesta debe ser
+{{
+    "tareas": ["CAMINAR_HASTA móvil", "COGER móvil", "CAMINAR_HASTA Pedro", "SOLTAR móvil"],
+    "mensaje": "Aquí tienes el móvil"
+}}
+para la orden (Prepárame un baño de espuma),tu respuesta debe ser
+{{
+    "tareas": ["CAMINAR_HASTA bañera", "PREPARAR bañera", "CAMINAR_HASTA Pedro"],
+    "mensaje": "Tu baño de espuma ya está listo"
+}}
+
+
+Ahora si, debes procesar la siguiente orden
+Orden: {intention}
+"""
+    return plan_instruction
+
+
 
 ###################### Utils ########################
-def get_actions():
+def get_obj_actions():
     obj_actions = simulation_data.robot_obj_actions.copy()
     for i in range(len(obj_actions)):
         obj_actions[i] += " <objeto>"
+    return obj_actions
+
+def get_area_actions():
     area_actions = simulation_data.robot_area_actions.copy()
     for i in range(len(area_actions)):
         area_actions[i] += " <area>"
+    return area_actions
 
-    return obj_actions, area_actions
+def get_no_obj_actions():
+    return simulation_data.robot_no_obj_actions.copy()
+
 
 
 def make_list(arr: list):
