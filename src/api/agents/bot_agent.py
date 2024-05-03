@@ -16,7 +16,6 @@ NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
 class Bot_Belief(Belief):
     def __init__(self, house: House = None, other_beliefs={}):
         super().__init__(house, other_beliefs)
-        self.last_order = None
         # self.map
         # self.likes
         # self.dislikes
@@ -202,20 +201,6 @@ class Bot_Agent(BDI_Agent):
         r = 0
         return self.intentions[r]
 
-    # def filter(self, beliefs, desire, intentions):  # i'll use this method later
-    #     """return the filtered intentions based on the beliefs and selected desire
-
-    #     Args:
-    #         beliefs (list): all beliefs of the agent
-    #         desire (str): chosen desire
-    #         intentions (list): all intentions of the agent
-    #     """
-    #     for i in intentions:
-    #         if i == desire:
-    #             return i
-    #     pass
-
-
     def _are_new_conversations(self, perception: Perception):
         new_conversations = False
         try:
@@ -229,8 +214,8 @@ class Bot_Agent(BDI_Agent):
     def _detect_order(self):
         start = f"{self.human_id} dice: Oye {self.agent_id}"
         for o in self.beliefs.speaks:
-            if o.startswith(start):
-                return o
+            if o[0].startswith(start):
+                return Order(o[0], o[1])
         return None
     
     def _task_parser(self, t: str):

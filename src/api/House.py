@@ -150,10 +150,10 @@ class House:
             raise ValueError('Invalid direction')
         
     
-    def say(self, speaker: str, sentence: str):
+    def say(self, speaker: str, sentence: str, by_human_for_need:bool = False):
         '''Used for agents when they say something'''
         result = f"{speaker} dice: {sentence}"
-        self.__speaks_stack.append(result)
+        self.__speaks_stack.append((result, by_human_for_need))
 
     def update_speaks(self):
         self.__speaks = []

@@ -128,7 +128,7 @@ class Human_Agent(BDI_Agent):
                         level = self.needs
                         instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
                         instruction = self.llm(instruction, True)
-                        self.__house.say(self.agent_id, instruction)
+                        self.__house.say(self.agent_id, instruction, True)
 
 
 
