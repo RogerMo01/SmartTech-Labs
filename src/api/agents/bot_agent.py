@@ -127,7 +127,7 @@ class Bot_Agent(BDI_Agent):
                 require_object = only_response == 'no'
 
                 # Pedro order, boosts a need and is response type
-                if not require_object: 
+                if not require_object:
                     prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
                     response = self.llm(prompt)
                     
@@ -136,7 +136,9 @@ class Bot_Agent(BDI_Agent):
                     #####################################################
 
                     speak_task = Speak(self.agent_id, self.__house, self.beliefs, response)
+
                     new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
+                    self.intentions.insert(0, new_plan)
                 
                 # Pedro order, boosts a need and is action type
                 else:
@@ -158,6 +160,7 @@ class Bot_Agent(BDI_Agent):
                                 if task is None: is_valid_plan = False
                                 new_plan.add_task(task)
                             new_plan.add_task(Speak(self.agent_id, self.__house, self.beliefs, message))
+                            self.intentions.append(new_plan)
                         except:
                             is_valid_plan = False
 
