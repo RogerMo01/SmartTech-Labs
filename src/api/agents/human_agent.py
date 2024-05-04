@@ -107,14 +107,15 @@ class Human_Agent(BDI_Agent):
                 if assert_chance(0.8):
                     self._create_intention_by_human()
                 else:
-                    #robot helps
+                    # robot helps
                     need = self._get_min_need()
                     instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
                     instruction = self.llm(instruction, True)
                     
-                    # instanciar una tarea de Speak y encolar instaed
-                    self.__house.say(self.agent_id, instruction, True)
-                    #################################################
+                    speak_task = Speak(self.agent_id, self.__house, self.beliefs, instruction, human_need=True)
+                    plan = Plan(f"Ordenar a {self.bot_id}", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
+
+                    self.intentions.append(plan)
             
         
     

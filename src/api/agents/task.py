@@ -231,9 +231,10 @@ class Sleep(TimeTask):
 
 
 class Speak(TimeTask):
-    def __init__(self, author, house: House, beliefs: list[Belief], message: str):
+    def __init__(self, author, house: House, beliefs: list[Belief], message: str, human_need: bool = False):
         super().__init__(author, house, beliefs, timedelta(seconds=1), None, None, "Hablar")
         self.message = message
+        self.human_need = human_need
 
     def execute(self, *args):
         if self.is_successful: return                             
