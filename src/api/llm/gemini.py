@@ -22,10 +22,20 @@ class Gemini(LLM):
                 HarmCategory.HARM_CATEGORY_HARASSMENT: HarmBlockThreshold.BLOCK_NONE,
                 HarmCategory.HARM_CATEGORY_SEXUALLY_EXPLICIT: HarmBlockThreshold.BLOCK_NONE,
             }
-        response = self.model.generate_content(query, 
-            generation_config=genai.types.GenerationConfig(
-            # Only one candidate for now.
-            temperature=temperature),
-            safety_settings=safety_settings)
+        
+        deadline_exceed = True
+        while deadline_exceed:
+            try:
+                response = self.model.generate_content(query, 
+                    generation_config=genai.types.GenerationConfig(
+                    # Only one candidate for now.
+                    temperature=temperature),
+                    safety_settings=safety_settings)
+                deadline_exceed = False
+
+            except Exception as e:
+                if e.message != 'Deadline Exceeded':
+                    raise e
+
         
         return response.text 

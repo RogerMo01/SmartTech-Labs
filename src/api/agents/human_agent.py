@@ -4,6 +4,7 @@ from agents.plan import Plan
 from agents.task import *
 from search import *
 from agents.needs import Needs
+from utils import *
 from llm.gemini import *
 from llm.llm import *
 from llm.prompts import *
@@ -35,12 +36,13 @@ class Human_Agent(BDI_Agent):
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
         self.llm = Gemini()
 
-    def  run(self, submmit_event):
+    def run(self, submmit_event):
         
         perception = self.see()
         self.brf(perception)
 
         self.plan_intentions()
+
         current_plan = None
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
@@ -79,9 +81,6 @@ class Human_Agent(BDI_Agent):
         
         self.beliefs.last_notice = self._detect_notice()
 
-        if self.beliefs.last_notice is not None:
-            self.plan_with_notice()
-
         self.beliefs.bot_position = perception.bot_position
         self.beliefs.human_position = perception.human_position
 
@@ -93,20 +92,31 @@ class Human_Agent(BDI_Agent):
         if self.beliefs.last_notice is not None:
             self.plan_with_notice()
         
-        if not self._are_there_needs_at_limit() and len(self.intentions) == 0:
-            selected_helper = random.uniform(0,1)
-            if selected_helper <= 0.8:
-                self._create_intention_by_human()
-            else:
-                #robot helps
-                need = NEEDS_ORDER[0]
-                instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
-                instruction = self.llm(instruction, True)
-                
-                self.__house.say(self.agent_id, instruction, True)
-            
-        else:
+        limit_exceed = self._are_there_needs_at_limit()
+
+        if limit_exceed:
             self._create_intention_by_human()
+            return
+
+        # No plans and no limits exceed
+        if not limit_exceed and len(self.intentions) == 0:
+
+            # Decidir si hacer algo o no
+            if assert_chance(1.0):
+                # Decidir si hacerlo solo o con robot
+                if assert_chance(0.8):
+                    self._create_intention_by_human()
+                else:
+                    #robot helps
+                    need = self._get_min_need()
+                    instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
+                    instruction = self.llm(instruction, True)
+                    
+                    # instanciar una tarea de Speak y encolar instaed
+                    self.__house.say(self.agent_id, instruction, True)
+                    #################################################
+            
+        
     
 
     def _create_intention_by_human(self):
@@ -141,13 +151,14 @@ class Human_Agent(BDI_Agent):
                         task = self.llm(task, True)
                         task = json.loads(task)
                         move_task, object = self._task_parser(task[0])
-                        need_task = Need(self.agent_id, time, self.__house, self.beliefs, object.name,  need, self.needs)
+                        need_task = Need(self.agent_id, time, intention_name, self.__house, self.beliefs, object.name, need, self.needs)
 
-                        plan: Plan = Plan(intention_name, self.__house, 'Pedro', self.beliefs, [move_task,need_task], need)      # Hacer el plan
+                        plan: Plan = Plan(intention_name, self.__house, self.agent_id, self.beliefs, [move_task,need_task], need)      # Hacer el plan
 
                         self.intentions.append(plan)
                         self.overtake_plan(plan)
                     except Exception as e:
+                        # Did't make it
                         pass
     
 
@@ -159,33 +170,43 @@ class Human_Agent(BDI_Agent):
 
     def plan_with_notice(self):
         if self.beliefs.last_notice is not None:
-            is_valid_plan = True
+            # Veces q se intenta
+            tries = 0
+
+            # Interpretar lo que dijo el robot
+            prompt = human_plan_generator_by_robot_response(self.beliefs.last_notice.body)
             
-            # Check is a valid order here and build intention
-            prompt = validate_instruction_prompt(self.beliefs.last_notice)  # aqui entro Oye Pedro
-            intention = self.llm(prompt)
-            if intention == "No": 
-                is_valid_plan = False
-            else:
-                # Then make plan
-                prompt = bot_plan_generator_prompt(intention)
+            # Intentar 3 veces antes de renunciar
+            while tries < 3:
                 try:
-                    plan = self.llm(prompt)
-                    plan = json.loads(plan)
-                    new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                    for t in plan:
-                        task: Task|None = self._task_parser(t)
-                        if task is None: is_valid_plan = False
-                        new_plan.add_task(task)
+                    # Sacar la intención
+                    intention = self.llm(prompt)
 
+                    # Hacer  el plan con la intención
+                    task = human_plan_generator_prompt(intention)
+                    task = self.llm(task, True)
+                    task = json.loads(task)
+
+                    # Definir el tiempo a dedicarle
+                    time_request = time_for_intention(intention)
+                    time_and_need = self.llm(time_request)
+                    time_and_need = json.loads(time_and_need)
+                    seconds, need = time_and_need[0], time_and_need[1]
+
+                    move_task, object = self._task_parser(task[0])
+                    need_task = Need(self.agent_id, timedelta(seconds=seconds), intention, self.__house, self.beliefs, object.name, need, self.needs)
+
+                    plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [move_task, need_task], need=need)
+
+                    self.intentions.append(plan)
+                    return
                 except:
-                    is_valid_plan = False
+                    tries+=1
+            
+            # No pudo interpretar lo del robot => renunciar
+            pass
 
-            if not is_valid_plan:
-                self.__house.say(self.agent_id, "NO PUEDO HACER ESO (cambiar esto a ver que ponemos)")
-                return
-
-            self.intentions.append(new_plan)
+            
 
 
     def calculate_time(self, need, level):
@@ -262,7 +283,15 @@ class Human_Agent(BDI_Agent):
                     if not self.__house.get_is_music_playing() and need != ENTERTAINMENT:
                         self.needs.dec_level(need)
 
-            
+    def _get_min_need(self):
+        min = BLADDER
+        min_value = self.needs.bladder
+        for n in NEEDS_ORDER:
+            if self.needs[n] < min_value: 
+                min = n
+                min_value = self.needs[n]
+        return min
+
 
     def options(self):
         pass

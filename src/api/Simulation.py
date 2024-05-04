@@ -50,7 +50,7 @@ class Simulation:
             self.house.update_speaks()
             
             # Run one step in both agents
-            self.bot.run(self.submmit_event)
+            # self.bot.run(self.submmit_event)
             self.human.run(self.submmit_event)
 
             # print(f'Will-E is: {self.bot.beliefs.bot_position}')
@@ -59,9 +59,9 @@ class Simulation:
 
             # aqui supongo que se haga algo mas
 
-            # if i == 1:
-                # self.house.say("Pedro", "Oye Will-E, riega dos plantas de la casa")
-                # i+=1
+            if i == 1:
+                self.house.say("Will-E", "Ya he puesto la cama por ti")
+                i+=1
 
             # Add one step to current_datetime
             one_step = timedelta(seconds=1)

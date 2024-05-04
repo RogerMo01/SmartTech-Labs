@@ -205,8 +205,9 @@ class StopMusic(Task):
             self.is_successful = True
 
 class Need(Task):
-    def __init__(self, author, time: timedelta, house: House = None, beliefs: Belief = None, object_name: str = None, need: str = None, needs: Needs = None):
+    def __init__(self, author, time: timedelta, type: str, house: House = None, beliefs: Belief = None, object_name: str = None, need: str = None, needs: Needs = None):
         super().__init__(author, time, None, house, beliefs, object_name=object_name)
+        self.type = type
         self.needs = needs
         self.need = need
         self.inc = 100/BEST_TIMES[self.need]
@@ -221,6 +222,7 @@ class Need(Task):
         if self.elapsed_time == self.time:
             self.is_successful = True
         pass
+
 
 
 class Sleep(TimeTask):

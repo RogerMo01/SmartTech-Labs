@@ -44,7 +44,11 @@ def human_instruction_request_prompt(area):
 
 def human_instruction_request_for_need_prompt(need):
     human_instruction = f"""
-    Eres Pedro, un agente operando en un entorno virtual compartido, dicho entorno es una casa con varias áreas de estar y objetos con los que interactuar:
+    Eres Pedro, un agente operando en un entorno virtual compartido, dicho entorno es una casa con objetos con los que interactuar:
+
+    
+    A continuación se muestra una lista de las áreas que hay en la casa:
+    {make_list(simulation_data.areas)}
 
     A continuación se muestra una lista de los objetos que hay en la casa:
     {make_list(simulation_data.objects_names)}
@@ -52,15 +56,23 @@ def human_instruction_request_for_need_prompt(need):
 
     En la casa también está Will-E, que es el robot asistente destinado a ayudarte.
 
-    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los objetos y las áreas de la casa, además de algunas acciones especiales para satisfacer al humano:
+    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los objetos de la casa:
     {make_list(simulation_data.robot_obj_actions)}
+
+    A continuación se muestra una lista de posibles acciones que el robot puede realizar sobre los áreas de la casa:
     {make_list(simulation_data.robot_area_actions)}
+
+    A continuación se muestra una lista de capacidades del robot:
     {make_list(simulation_data.robot_need_actions)}
 
+
     Ahora mismo, quieres satisfacer la necesidad {need}, y para ello tienes que formular una única petición al agente Will-E.
-    Esta petición debe estar formada por una de las acciones de la lista de posibles acciones a realizar, estas acciones puede que impliquen el uso
-    de los objetos anteriores o no , tambien puden ser por una de las acciones de la lista de posibles acciones a realizar sobre las áreas de la casa y un área de la lista de áreas de la casa. 
-    
+    Esta petición debe ser realizable por Will-E mediante alguna de las siguientes opciones:
+    - Las acciones que él puede realizar sobre los objetos
+    - Las acciones que él puede realizar sobre las áreas
+    - Mediante sus capacidades
+
+    Toda peticion debe comenzar con: Oye Will-E,
 
     Por ejemplo:
     Si la necesidad es Entretenimiento posibles salidas serían:  
@@ -69,7 +81,7 @@ def human_instruction_request_for_need_prompt(need):
     Oye Will-E, cuéntame un chiste.
 
     Si la necesidad es Higiene posibles salidas serían:
-    Oye Will-E, limpia la sala de estar.
+    Oye Will-E, prepárame un baño con espuma
     Oye Will-E, limpia el baño.
 
     
@@ -136,6 +148,72 @@ Intención: {intention}
 """
 
     return plan_instruction
+
+
+def human_plan_generator_by_robot_response(response: str):
+    prompt = f"""
+Eres Pedro, un agente operando en una casa con varias áreas de estar y objetos con los que interactuar
+Tienes un robot llamado Will-E encargado de ayudarte en todo lo que pueda, anteriormente le diste una orden,
+para la cual Will-E te ha dicho lo siguiente:
+{response}
+
+Dada su respuesta, tu tarea es redactar una intención o acción que busque cumplir una necesidad tuya como ser humano,
+sabiendo que en la casa solo hay los siguientes objetos:
+
+Objetos:
+{make_list(simulation_data.objects_names)}
+
+Necesidades:
+Hambre
+Entretenimiento
+Higiene
+Energía
+Vejiga
+
+
+Ejemplos:
+Si el robot dice: Ya he encendido el televisor
+Tu respuesta debe ser: Ver la televisión
+Si el robot dice: He preparado la bañera para ti
+Tu respuesta puede ser: Darme un baño relajante
+Si el robot dice: Ya la cama está lista
+Tu respuesta puede ser: Ir a la cama a dormir
+"""
+    return prompt
+
+# Dada la intención, devuelve el timepo q toma y nombre de la necesidad
+def time_for_intention(intention: str):
+    prompt = f"""
+Eres Pedro, una persona que vive en una casa con varias áreas de estar y objetos con los que interactuar
+Tienes la siguiente intención:
+{intention}
+
+Tienes que responder con el tiempo que le vas a dedicar a la tarea en segundos, junto a el nombre de la necesidad que cubre
+Necesidades:
+{make_list(list(simulation_data.NEEDS_LIMIT.keys()))}
+
+Por ejemplo:
+Para la intención: Ducharme
+Tu respuesta puede ser: [300, "hygiene"]
+Para la intención: Ducharme
+Tu respuesta puede ser: [600, "hygiene"]
+Para la intención: Tomar un baño relajante
+Tu respuesta puede ser: [840, "hygiene"]
+Para la intención: Ver la tv
+Tu respuesta puede ser: [3600, "entertainment"]
+Para la intención: Ver la película
+Tu respuesta puede ser: [5400, "entertainment"]
+Para la intención: Dormir
+Tu respuesta puede ser: [28800, "energy"]
+Para la intención: Tomar una siesta
+Tu respuesta puede ser: [5400, "energy"]
+Para la intención: Jugar videojuegos
+Tu respuesta puede ser: [2900, "entertainment"]
+
+Da el tiempo en función del tiempo que una persona le dedicaría
+"""
+    return prompt
+
 
 
 ###################### Will-E prompts ########################
