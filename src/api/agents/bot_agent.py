@@ -6,7 +6,7 @@ from search import *
 from agents.task import *
 from agents.plan import *
 from llm.gemini import Gemini
-from llm.prompts import bot_plan_generator_prompt, validate_instruction_prompt
+from llm.prompts import bot_plan_generator_prompt, validate_instruction_prompt, bot_need_plan_generator_prompt, is_only_response_instruction_prompt, instance_query_robot_answer_prompt
 import simulation_data
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
@@ -112,31 +112,54 @@ class Bot_Agent(BDI_Agent):
     
 
     def plan_intentions(self):
-
+        
+        # Pedro order
         if self.beliefs.last_order is not None:
             is_valid_plan = True
             
-            # This order does boost a need
+            # Pedro order and boosts a need
             if self.beliefs.last_order.by_human_for_need:
-                # Check is a valid need order here and build intention
-                prompt = validate_need_instruction_prompt(self.beliefs.last_order)
-                intention = self.llm(prompt)
-                if intention == "No": 
-                    is_valid_plan = False
+
+                # Check is only response
+                prompt = is_only_response_instruction_prompt(self.beliefs.last_order.body)
+                only_response = self.llm(prompt)
+                
+                require_object = only_response == 'no'
+
+                # Pedro order, boosts a need and is response type
+                if not require_object: 
+                    prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
+                    response = self.llm(prompt)
+                    
+                    #####################################################
+                    # Identificar si es poner musica o responderle a algo
+                    #####################################################
+
+                    speak_task = Speak(self.agent_id, self.__house, self.beliefs, response)
+                    new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
+                
+                # Pedro order, boosts a need and is action type
                 else:
                     # Then make plan
-                    prompt = bot_need_plan_generator_prompt(intention)
-                    try:
-                        plan = self.llm(prompt)
-                        plan = json.loads(plan)
-                        new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                        for t in plan:
-                            task: Task|None = self._task_parser(t)
-                            if task is None: is_valid_plan = False
-                            new_plan.add_task(task)
-
-                    except:
+                    validate_prompt = validate_instruction_prompt(self.beliefs.last_order.body)
+                    intention = self.llm(validate_prompt)
+                    if intention == 'No':
                         is_valid_plan = False
+                    else:
+                        prompt = bot_need_plan_generator_prompt(intention)
+                        try:
+                            plan = self.llm(prompt, 0.1)
+                            plan = json.loads(plan)
+                            tasks = plan["tareas"]
+                            message = plan["mensaje"]
+                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                            for t in tasks:
+                                task: Task|None = self._task_parser(t)
+                                if task is None: is_valid_plan = False
+                                new_plan.add_task(task)
+                            new_plan.add_task(Speak(self.agent_id, self.__house, self.beliefs, message))
+                        except:
+                            is_valid_plan = False
 
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
@@ -145,18 +168,15 @@ class Bot_Agent(BDI_Agent):
 
                 self.intentions.append(new_plan)
             
-                    
-
-                # armar el plan, y tiene q terminar con tarea de say()
-                pass
+            # Pedro order and don't boosts any need
             else:
                 # Check is a valid order here and build intention
-                prompt = validate_instruction_prompt(self.beliefs.last_order)
+                prompt = validate_instruction_prompt(self.beliefs.last_order.body)
                 intention = self.llm(prompt)
                 if intention == "No": 
                     is_valid_plan = False
                 else:
-                    # Then make plan
+                    # Pass first filter
                     prompt = bot_plan_generator_prompt(intention)
                     try:
                         plan = self.llm(prompt)
