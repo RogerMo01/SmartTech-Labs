@@ -101,10 +101,10 @@ class Human_Agent(BDI_Agent):
         # No plans and no limits exceed
         if not limit_exceed and len(self.intentions) == 0:
 
-            # Decidir si hacer algo o no
-            if assert_chance(1.0):
+            # Decidir si hacer algo o no (cada 5 min)
+            if assert_chance(0.0033):
                 # Decidir si hacerlo solo o con robot
-                if assert_chance(0.8):
+                if assert_chance(0.5):
                     self._create_intention_by_human()
                 else:
                     # robot helps

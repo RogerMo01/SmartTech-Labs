@@ -300,6 +300,10 @@ class Bot_Agent(BDI_Agent):
             elif tag in simulation_data.areas:
                 # Caminar a un area
                 return Move(self.agent_id, self.__house, self.beliefs, self.__house.get_room_tile(self.agent_id, tag))
+            elif tag == "Pedro":
+                # Caminar hasta Pedro
+                return Move(self.agent_id, self.__house, self.beliefs, self.beliefs.human_position)
+
 
         elif action == simulation_data.CLEAN:
             # Limpiar
