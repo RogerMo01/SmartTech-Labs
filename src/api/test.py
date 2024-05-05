@@ -6,8 +6,8 @@ from llm.prompts import *
 import json
 
 llm = Gemini()
-instruction = bot_need_plan_generator_prompt("alcanzame el movil")
-resp = llm(instruction, 0.1)
+instruction = bot_no_obj_action_prompt("Oye Will-E, ponme musica")
+resp = llm(instruction)
 print(resp)
 # print("Acción:", values[0])
 # prompt = human_plan_generator_prompt(values[0])

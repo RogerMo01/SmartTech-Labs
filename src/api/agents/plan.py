@@ -50,16 +50,20 @@ class Plan:
     def is_out(self, current_task: Task):
         """Returns false if task take place in a room and agent is not there"""
         object = current_task.object_name
-        if not object is None:
+        if object is not None:
             object: Object = self.house.get_object(object)
             if object.carrier is not None: return True
 
             current_position = self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position
             return (not current_position in object.robot_face_tiles if self.author == 'Will-E' else not current_position in object.human_face_tiles) and current_task.type != 'Caminar'      
-        else:
+        
+        room = current_task.room
+        if room is not None:
             current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
             if current_task.room is None: return False
             return (current_task.room != current_area and current_task.type != 'Caminar')
+        
+        return False
     
 
     def recompute(self):

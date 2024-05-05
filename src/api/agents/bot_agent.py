@@ -6,7 +6,7 @@ from search import *
 from agents.task import *
 from agents.plan import *
 from llm.gemini import Gemini
-from llm.prompts import bot_plan_generator_prompt, validate_instruction_prompt, bot_need_plan_generator_prompt, is_only_response_instruction_prompt, instance_query_robot_answer_prompt
+from llm.prompts import bot_plan_generator_prompt, validate_instruction_prompt, bot_need_plan_generator_prompt, is_only_response_instruction_prompt, instance_query_robot_answer_prompt, bot_no_obj_action_prompt
 import simulation_data
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
@@ -131,38 +131,44 @@ class Bot_Agent(BDI_Agent):
                     prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
                     response = self.llm(prompt)
                     
-                    #####################################################
-                    # Identificar si es poner musica o responderle a algo
-                    #####################################################
-
                     speak_task = Speak(self.agent_id, self.__house, self.beliefs, response)
-
                     new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
+                    
                     self.intentions.insert(0, new_plan)
                 
                 # Pedro order, boosts a need and is action type
                 else:
-                    # Then make plan
-                    validate_prompt = validate_instruction_prompt(self.beliefs.last_order.body)
-                    intention = self.llm(validate_prompt)
-                    if intention == 'No':
-                        is_valid_plan = False
-                    else:
-                        prompt = bot_need_plan_generator_prompt(intention)
-                        try:
-                            plan = self.llm(prompt, 0.1)
-                            plan = json.loads(plan)
-                            tasks = plan["tareas"]
-                            message = plan["mensaje"]
-                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                            for t in tasks:
-                                task: Task|None = self._task_parser(t)
-                                if task is None: is_valid_plan = False
-                                new_plan.add_task(task)
-                            new_plan.add_task(Speak(self.agent_id, self.__house, self.beliefs, message))
-                            self.intentions.append(new_plan)
-                        except:
+                    bot_no_obj_prompt = bot_no_obj_action_prompt(self.beliefs.last_order.body)
+                    action = self.llm(bot_no_obj_prompt)
+                    action = json.loads(action)
+
+                    # Pedro order, boosts a need, is action type and use objects
+                    if action == "no":
+                        validate_prompt = validate_instruction_prompt(self.beliefs.last_order.body)
+                        intention = self.llm(validate_prompt)
+                        if intention == 'No':
                             is_valid_plan = False
+                        else:
+                            prompt = bot_need_plan_generator_prompt(intention)
+                            try:
+                                plan = self.llm(prompt, 0.1)
+                                plan = json.loads(plan)
+                                tasks = plan["tareas"]
+                                message = plan["mensaje"]
+                                new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                                for t in tasks:
+                                    task: Task|None = self._task_parser(t)
+                                    if task is None: is_valid_plan = False
+                                    new_plan.add_task(task)
+                                new_plan.add_task(Speak(self.agent_id, self.__house, self.beliefs, message))
+                            except:
+                                is_valid_plan = False
+                    
+                    # Pedro order, boosts a need, is action type and don't use objects
+                    else:
+                        if action[0] == simulation_data.PLAY_MUSIC:
+                            play_music_task = PlayMusic(self.agent_id, action[1], None, self.__house)
+                            new_plan = Plan("Reproducir música", self.__house, self.agent_id, self.beliefs, [play_music_task])
 
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human

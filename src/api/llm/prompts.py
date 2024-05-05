@@ -310,7 +310,7 @@ Orden: {order}
 
 def is_only_response_instruction_prompt(intention: str):
     instruction = f"""
-Eres Will-E, un robot con la finalidad de asistir y apoyar a Pedro. Ambos comparten un espacio de convivencia, una casa. Todas las labores que desempeñas como robot se llevan a cabo exclusivamente dentro del entorno doméstico.
+Eres Will-E, un robot con la finalidad de asistir y apoyar a Pedro. Ambos comparten en un espacio de convivencia, una casa. Todas las labores que desempeñas como robot se llevan a cabo exclusivamente dentro del entorno doméstico.
 
 Pedro presenta una necesidad específica que se detalla a continuación en el apartado "Orden".
 
@@ -335,7 +335,7 @@ Orden: {intention}
 
 def instance_query_robot_answer_prompt(intention: str):
     instruction = f"""
-Eres Will-E, un robot con la finalidad de asistir y apoyar a Pedro, tanto en sus tareas domésticas como en su entretenimiento. Se creativo. Ambos comparten un espacio de convivencia, una casa.
+Eres Will-E, un robot con la finalidad de asistir y apoyar a Pedro, tanto en sus tareas domésticas como en su entretenimiento. Se creativo. Ambos comparten en un espacio de convivencia, una casa.
 Entre tus funcionalidades está la de ser capaz de reporducir música por un altavoz. Por lo que Pedro puede ordenarte reproducir música, a lo que deberás responder: Reproduciendo música
 
 Pedro presenta una necesidad específica que se detalla a continuación en el apartado "Orden".
@@ -371,6 +371,43 @@ Para la orden (necesito una receta de batdio de plátano) tu resouesta puede ser
 Orden: {intention}
 """
 
+    return instruction
+
+
+def bot_no_obj_action_prompt(intention: str):
+    no_obj_actions = get_no_obj_actions()
+
+    instruction = f"""
+Eres Will-E, un robot destinado a a asistir a Pedro. Tu como asistente tienes un conjunto de posibles acciones a realizar sin necesidad de 
+interactuar con el medio.
+
+A continuación se muestra la lista de acciones que puedes realizar:
+{make_list(no_obj_actions)}
+
+Tu objetivo es, a partir de una orden (que se encuentra debajo donde dice Orden) en lenguaje natural, 
+ver si dicha orden la puedes ejecutar por medio de alguna de las acciones antes listadas sin la necesidad de contar con alguna base de conocimiento.
+
+En caso de que tu respuesta sea Si responde únicamente con el siguiente formato:
+[acción, tiempo]
+Donde: 
+acción: nombre de la acción correspondiente de la lista
+tiempo: un numero que representa el tiempo en segundos en el que se estará reproduciendo música
+
+En cualquier otro caso tu respuesta tiene que ser: no
+
+Por ejemplo:
+Para la orden (recominedame una canción) tu respuesta debe ser: 
+    no
+Para la orden (quiero escuchar la lista de mis canciones favoritas) tu respuesta debe ser: 
+    ["REPRODUCIR_MÚSICA", 300]
+    no
+Para la orden (ponme música) tu respuesta debe ser: 
+    ["REPRODUCIR_MÚSICA", 1500]
+
+
+Ahora si, debes procesar la siguiente orden
+Orden: {intention}
+"""
     return instruction
 
 
