@@ -215,6 +215,21 @@ Da el tiempo en función del tiempo que una persona le dedicaría
     return prompt
 
 
+def human_likes_instruction_prompt(conversation: list, likes: dict):
+    prompt = f"""
+En la siguiente lista se encuentra una conversación sostenida entre Pedro y Will-E, un humano y un robot asistente:
+conversación = {make_list(conversation)}
+
+A continuación te muestro un diccionario que representa los gustos de Pedro en cuanto a comida, gustos musicales, entre otros.
+gustos = {likes}
+
+Tu objetivo es analizar e interpretar dicha conversación con el fin de identificar algún gusto positivo.
+
+La respuesta la debes dar en un formato diccionario de python mateniendo las llaves del diccionario anterior y asignándole los gustos positivos que identifiques 
+en el apartado que corresponda.
+"""
+    return prompt
+
 
 ###################### Will-E prompts ########################
 def bot_plan_generator_prompt(intention: str):
