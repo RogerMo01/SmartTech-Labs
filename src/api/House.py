@@ -233,6 +233,7 @@ class House:
         House.place_object(objects, plant3, [A5], [A5])
         House.place_object(objects, tv_table, [D7, D8], [D7, D8])
         House.place_object(objects, tv, [D7, D8], [D7, D8])
+        House.place_object(objects, coffee_dispenser, [D11], [D11])
         House.place_object(objects, bed, [C0, C1, D0, D1], [B1, E1], [C0, C1, D0, D1])
         House.place_object(objects, bed_table, [B0], [B0])
         House.place_object(objects, flip_flops, [B1], [B1])

@@ -186,6 +186,7 @@ chair5 = Object('silla_5', overlappable=True, human_step=True, robot_step=True, 
 chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 tv_table = Object('mesa_de_tv', overlappable=True, human_step=True, robot_step=True)
 tv = Object('tv', overlappable=True, human_step=True, robot_step=True, switchable=True)
+coffee_dispenser = Object('dispensador_café', portable=False, overlappable=True, human_step=True, robot_step=True,switchable=True, waterable=True, cleanable=True)
 
 plant1 = Object('planta_1', overlappable=True, human_step=True, robot_step=True, waterable=True)
 plant2 = Object('planta_2', overlappable=True, human_step=True, robot_step=True, waterable=True)
@@ -209,7 +210,7 @@ stove = Object('fogón')
 bin = Object('cesto_de_basura', overlappable=True, human_step=True, robot_step=True)
 fridge = Object('refrigerador')
 
-objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv,
+objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv, coffee_dispenser,
                  plant1, plant2, plant3, bed, bed_table, flip_flops, closet, mobile,
                  toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin, fridge]
 objects_names = [o.name for o in objects_instances]
