@@ -55,9 +55,62 @@ likes = {
     "peliculas": ["documentales"]
 }
 
+# class Sentence:
+#     def __init__(self, speaker: str, message: str):
+#         self.speaker = speaker
+#         self.message = message
 
-instruction = human_likes_instruction_prompt(conversation2, likes)
-resp = llm(instruction)
+#     def __str__(self) -> str:
+#         return f"{self.speaker} dice: {self.message}"
+    
+# conversations = [Sentence("Pedro", "Que puedo hacer para la cena?"), 
+#                  Sentence("Will-E", "que te apetece para la cena?"),
+#                  Sentence("Pedro", "quizás comida mexicana"),
+#                  Sentence("Will-E", "tienes algun plato favorito?"),
+#                  Sentence("Pedro", "No, sugiereme tu algo")
+#                  ]
+
+# conversations = [Sentence]
+# prompt = f"""
+# Eres Will-E, un robot asistente de compañía, y vives en una casa acompañando a Pedro.
+# En este momento se encuentran en una conversación, a continuación se muestra la conversación.
+
+# Conversación:
+# {make_list([str(sentence) for sentence in conversations])}
+
+# Ten en cuenta que puedes sugerir recetas.
+# Es tu turno, puedes responderle algo, o simplemente terminar la conversación.
+# Responde solo lo necesario.
+# Sé lo más preciso y objetivo en tu respuesta.
+# La conversación debe ser corta.
+
+# Si decides responder, sustituye <out> con la respuesta de Will-E a Pedro en string con (")
+# Si decides terminar la conversación, sustituye <out> con el string "END"
+# Si entiendes que te pide una receta, sustituye <receta> con el string "SI", sino con "NO"
+
+# {{
+#     "response": <out>,
+#     "recipe": <receta>
+# }}
+
+# tu salida debe ser este json
+# """
+
+conversations5 = [
+    "Pedro: ¿Qué puedo hacer para la cena?",
+    "Will-E: Bueno, podrías cenar unos deliciosos tacos al pastor.",
+    "Pedro: ¡Suena genial! ¿Cómo se hacen?",
+    "Will-E: Tradicionalmente, se marinan trozos de carne de cerdo con una mezcla de especias y achiote, luego se asan en un trompo vertical y se sirven en tortillas de maíz con cebolla, piña y cilantro.",
+    "Pedro: Wow, suena delicioso! Pero ¿qué más podemos agregar?",
+    "Will-E: Podemos acompañarlos con guacamole fresco, salsa picante y frijoles refritos.",
+    "Pedro: ¡Perfecto! ¡Vamos a preparar esos tacos al pastor!",
+    "Will-E: ¿Alguna vez has probado un auténtico curry tailandés?",
+    "Pedro: No, nunca la he probado.",
+    "Will-E: Es un plato aromático y sabroso que combina carne o mariscos con leche de coco, pasta de curry y una variedad de hierbas y especias."
+]
+
+prompt = human_culinary_styles_likes_instruction_prompt(conversations5, simulation_data.culinary_styles)
+resp = llm(prompt)
 print(resp)
 # print("Acción:", values[0])
 # prompt = human_plan_generator_prompt(values[0])

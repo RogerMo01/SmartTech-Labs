@@ -236,7 +236,7 @@ class Sleep(TimeTask):
 
 
 class Speak(Task):
-    def __init__(self, author, listener, last_notice: list[str]|None, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False):
+    def __init__(self, author, listener, last_notice, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False):
         super().__init__(author, ZERO, None, house, beliefs)
         self.listener = listener
         self.start_message = message

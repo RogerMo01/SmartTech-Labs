@@ -253,6 +253,22 @@ En caso de identificar un gusto que no encaje en ninguno de los temas correspond
     return prompt
 # En caso de no identificar una llave de las ya creadas para el gusto identificado crea la llave con el nombre más genérico y descriptivo posible y agrega su valor correspondiente.
 
+def human_culinary_styles_likes_instruction_prompt(conversation: list, culinary_styless: list):
+    prompt = f"""
+En la siguiente lista se encuentra una conversación sostenida entre Pedro y Will-E, un humano y un robot asistente:
+conversación = {make_list(conversation)}
+
+A continuación te muestro un diccionario que representa los gustos de Pedro en cuanto a estilos culinarios.
+gustos = {culinary_styless}
+
+Tu objetivo es analizar e interpretar dicha conversación con el fin de identificar a cual o cuales estilos culinarios de los que se encuentran en 
+la lista antes mencionada, le gustan a Pedro.
+
+Aquellos estilos culinarios que logres identificar debes agregarlos exactamente con el mismo nombre que aparece en la lista anterior a la siguiente lista:
+gustos: []
+"""
+    return prompt
+
 
 def human_conversation_prompt(conversations: list[Sentence]):
 
