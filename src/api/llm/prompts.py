@@ -225,10 +225,14 @@ gustos = {likes}
 
 Tu objetivo es analizar e interpretar dicha conversación con el fin de identificar algún gusto positivo.
 
-La respuesta la debes dar en un formato diccionario de python mateniendo las llaves del diccionario anterior y asignándole los gustos positivos que identifiques 
-en el apartado que corresponda.
+Tu respuesta debe ser en formato JSON:
+gustos: {{}} 
+
+Debes agregar la información contenida en el diccionario anterior y los gustos positivos que identifiques en la conversación.
+En caso de identificar un gusto que no encaje en ninguno de los temas correspondientes a las llaves del diccionario NO lo tengas en cuenta.
 """
     return prompt
+# En caso de no identificar una llave de las ya creadas para el gusto identificado crea la llave con el nombre más genérico y descriptivo posible y agrega su valor correspondiente.
 
 
 ###################### Will-E prompts ########################
