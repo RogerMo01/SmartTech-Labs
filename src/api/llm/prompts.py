@@ -1,3 +1,4 @@
+from agents.sentence import *
 import simulation_data
 
 #################### Pedro prompts #######################
@@ -66,11 +67,12 @@ def human_instruction_request_for_need_prompt(need):
     {make_list(simulation_data.robot_need_actions)}
 
 
-    Ahora mismo, quieres satisfacer la necesidad {need}, y para ello tienes que formular una única petición al agente Will-E.
+    Ahora mismo, quieres satisfacer la necesidad: {need}
+    y para ello tienes que formular una única petición al agente Will-E.
     Esta petición debe ser realizable por Will-E mediante alguna de las siguientes opciones:
     - Las acciones que él puede realizar sobre los objetos
     - Las acciones que él puede realizar sobre las áreas
-    - Mediante sus capacidades
+    - Mediante su modelo del lenguaje integrado
 
     Toda peticion debe comenzar con: Oye Will-E,
 
@@ -79,10 +81,19 @@ def human_instruction_request_for_need_prompt(need):
     Oye Will-E, reproduce música.
     Oye Will-E, pon una buena canción.
     Oye Will-E, cuéntame un chiste.
+    Oye Will-E, hazme una historia.
 
     Si la necesidad es Higiene posibles salidas serían:
     Oye Will-E, prepárame un baño con espuma
     Oye Will-E, limpia el baño.
+
+    Si la necesidad es Energía se asocia al sueño, y posibles salidas serían:
+    Oye Will-E, prepárame el sofá para tomar una siesta
+    Oye Will-E, prepárame una taza de café
+
+    Si la necesidad es Hambre posibles salidas serían:
+    Oye Will-E, prepárame una ensalada
+    Oye Will-E, hazme algo para saciar el hambre
 
     
 
@@ -150,16 +161,19 @@ Intención: {intention}
     return plan_instruction
 
 
-def human_plan_generator_by_robot_response(response: str):
+def human_intention_by_robot_response(order: str, response: str):
     prompt = f"""
 Eres Pedro, un agente operando en una casa con varias áreas de estar y objetos con los que interactuar
-Tienes un robot llamado Will-E encargado de ayudarte en todo lo que pueda, anteriormente le diste una orden,
-para la cual Will-E te ha dicho lo siguiente:
+Tienes un robot llamado Will-E encargado de ayudarte en todo lo que pueda, anteriormente le diste la siguiente orden:
+{order}
+Luego Will-E te ha dicho lo siguiente:
 {response}
 
-Dada su respuesta, tu tarea es redactar una intención o acción que busque cumplir una necesidad tuya como ser humano,
-sabiendo que en la casa solo hay los siguientes objetos:
+Tu tarea como llm es determinar si lo que ha dicho Will-E, confirma cumplir la orden que le diste, en cuyo caso
+debes redactar una intención o acción que busque cumplir una necesidad tuya como ser humano, y esa debe ser tu respuesta
+En caso de que lo dicho por Will-E no responda a la orden, debes responder: No
 
+Sabiendo que en la casa solo hay los siguientes objetos:
 Objetos:
 {make_list(simulation_data.objects_names)}
 
@@ -172,12 +186,17 @@ Vejiga
 
 
 Ejemplos:
-Si el robot dice: Ya he encendido el televisor
+Si la orden es: Enciende el televisor
+Y el robot dice: Ya he encendido el televisor
 Tu respuesta debe ser: Ver la televisión
+
+Si la orden es: Prepara la bañera para tomar un baño
 Si el robot dice: He preparado la bañera para ti
 Tu respuesta puede ser: Darme un baño relajante
+
+Si la orden es: Prepara la cama para dormir una siesta
 Si el robot dice: Ya la cama está lista
-Tu respuesta puede ser: Ir a la cama a dormir
+Tu respuesta puede ser: Ir a la cama a tomar una siesta
 """
     return prompt
 
@@ -233,6 +252,33 @@ En caso de identificar un gusto que no encaje en ninguno de los temas correspond
 """
     return prompt
 # En caso de no identificar una llave de las ya creadas para el gusto identificado crea la llave con el nombre más genérico y descriptivo posible y agrega su valor correspondiente.
+
+
+def human_conversation_prompt(conversations: list[Sentence]):
+
+    prompt = f"""
+Eres Pedro, una persona que vive con un robot asistente de compañía llamado Will-E.
+En este momento se encuentran en una conversación, a continuación se muestra la conversación.
+
+Conversación:
+{make_list([str(sentence) for sentence in conversations])}
+
+Es tu turno, puedes responderle algo, o simplemente terminar la conversación.
+Responde solo lo necesario.
+Sé lo más preciso y objetivo en tu respuesta.
+La conversación debe ser corta.
+
+Si decides responder, sustituye <out> con la respuesta de Pedro a Will-E en string
+Si decides terminar la conversación, sustituye <out> con el string "END"
+
+{{
+    "response": "<out>"
+}}
+
+tu salida debe ser este json
+"""
+    return prompt
+
 
 
 ###################### Will-E prompts ########################
@@ -320,6 +366,7 @@ para la orden (Pedro dice: Oye Will-E, siéntate en el sofá) tu respuesta debe 
 para la orden (Pedro dice: Oye Will-E, alcánzame un vaso de agua) tu respuesta debe ser: No
 porque el vaso no está en la lista de objetos
 para la orden (Pedro dice: Oye Will-E, alcánzame las chancletas) tu respuesta debe ser: Llevar las chanclas a Pedro
+para la orden (Pedro dice: Oye Will-E, prepárame café) tu respuesta debe ser: Preparar dispensador_café
 
 Ahora si, analiza la siguiente orden dada por Pedro:
 Orden: {order}
@@ -360,7 +407,7 @@ Entre tus funcionalidades está la de ser capaz de reporducir música por un alt
 Pedro presenta una necesidad específica que se detalla a continuación en el apartado "Orden".
 
 Tu objetivo es dar respuesta a la petición de Pedro en lenguaje natural. 
-Sé lo más preciso y objetivo en tu respuesta.
+                   
 
 Ten en cuenta que NO pregutarle nada a Pedro, solamente darle una respuesta explicitamente para lo que pide.
 Tu respuesta siempre debe ser positiva.
@@ -476,12 +523,50 @@ para la orden (Prepárame un baño de espuma),tu respuesta debe ser
     "tareas": ["CAMINAR_HASTA bañera", "PREPARAR bañera", "CAMINAR_HASTA Pedro"],
     "mensaje": "Tu baño de espuma ya está listo"
 }}
+para la orden (Prepárame un bocadillo),tu respuesta puede ser
+{{
+    "tareas": ["CAMINAR_HASTA refrigerador", "CAMINAR_HASTA encimera_1", "USAR encimera_1", "CAMINAR_HASTA Pedro"],
+    "mensaje": "El bocadillo está listo"
+}}
+para la orden (Hazme algo de comer),tu respuesta puede ser
+{{
+    "tareas": ["CAMINAR_HASTA refrigerador", "CAMINAR_HASTA fogón", "ENCENDER fogón", "USAR fogón", "APAGAR fogón", "CAMINAR_HASTA Pedro"],
+    "mensaje": "Ya tienes una deliciosa comida lista en el fogón"
+}}
 
 
 Ahora si, debes procesar la siguiente orden
 Orden: {intention}
 """
     return plan_instruction
+
+
+def robot_conversation_prompt(conversations: list[Sentence]):
+
+    prompt = f"""
+Eres Will-E, un robot asistente de compañía llamado Will-E, y vives en una casa acompañando a Pedro.
+En este momento se encuentran en una conversación, a continuación se muestra la conversación.
+
+Conversación:
+{make_list([str(sentence) for sentence in conversations])}
+
+Es tu turno, puedes responderle algo, o simplemente terminar la conversación.
+Responde solo lo necesario.
+Sé lo más preciso y objetivo en tu respuesta.
+La conversación debe ser corta.
+
+Si decides responder, sustituye <out> con la respuesta de Will-E a Pedro en string con (")
+Si decides terminar la conversación, sustituye <out> con el string "END"
+Si entiendes que te pide una receta, sustituye <receta> con el string "SI", sino con "NO"
+
+{{
+    "response": <out>,
+    "recipe": <receta>
+}}
+
+tu salida debe ser este json
+"""
+    return prompt
 
 
 

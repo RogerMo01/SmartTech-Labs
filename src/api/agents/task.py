@@ -1,3 +1,4 @@
+import json
 from Tile import Tile
 from search import House
 from search import *
@@ -5,6 +6,9 @@ from agents.bdi_agent import Belief
 from datetime import datetime, timedelta
 from agents.needs import Needs
 from simulation_data import BEST_TIMES
+from llm.prompts import human_conversation_prompt, robot_conversation_prompt
+from llm.gemini import Gemini
+from agents.sentence import *
 
 ZERO = timedelta(seconds=0)
 
@@ -230,18 +234,67 @@ class Sleep(TimeTask):
         super().__init__(author, house, beliefs, timedelta(seconds=15), room, object, "Dormir")
 
 
-class Speak(TimeTask):
-    def __init__(self, author, house: House, beliefs: list[Belief], message: str, human_need: bool = False):
-        super().__init__(author, house, beliefs, timedelta(seconds=1), None, None, "Hablar")
-        self.message = message
-        self.human_need = human_need
 
-    def execute(self, *args):
-        if self.is_successful: return                             
+class Speak(Task):
+    def __init__(self, author, listener, last_notice: list[str]|None, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False):
+        super().__init__(author, ZERO, None, house, beliefs)
+        self.listener = listener
+        self.start_message = message
+        self.human_need = human_need
+        self.last_notice = last_notice
+        self.conversation = []
+        self.my_turn = True
+        self.type = f"Hablar a {self.listener}"
+        # self.my_turn = True if message is not None else False
+        self.llm = Gemini()
+        self.requested_recipe = False
+
+    def execute(self):
+        if self.is_successful: return    
+
+        if self.my_turn:
+            
+            if self.last_notice is None:
+                # Listener did't speak and I am not starter
+                if len(self.conversation) > 0:
+                    self.is_successful = True
+                    return
+            # Listener sayed something
+            else:
+                # Update with last_notice
+                self.conversation.append(Sentence(self.listener, self.last_notice[0]))
+
+
+            # Start conversation case
+            if len(self.conversation) == 0:
+                response = self.start_message
+            # Reply case
+            else:
+                conversation_prompt = robot_conversation_prompt(self.conversation) if self.author == "Will-E" else human_conversation_prompt(self.conversation)
+                out = self.llm(conversation_prompt)
+                out = json.loads(out)
+                response = out["response"]
+
+                # Use customized response for recipe
+                recipe_query = out["recipe"] == "SI"
+                if self.author == "Will-E" and not self.requested_recipe and recipe_query:
+                    self.requested_recipe = True
+                    #######################################################
+                    # Prompt para recomendar receta con el sistema experto
+                    response = response
+                    #######################################################
+                
+
+            self.house.say(self.author, response, by_human_for_need=self.human_need)
+            self.conversation.append(Sentence(self.author, response))
+
+            # Wait 1 loop
+            self.my_turn = False
         
-        self.house.say(self.author, self.message)
+        # Not my turn
+        else:
+            # waiting...
+            self.my_turn = True
         
         self.elapsed_time += timedelta(seconds=1)
-
-        if self.elapsed_time == self.time:
-            self.is_successful = True
+        self.time += timedelta(seconds=1)

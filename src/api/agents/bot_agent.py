@@ -128,10 +128,12 @@ class Bot_Agent(BDI_Agent):
 
                 # Pedro order, boosts a need and is response type
                 if not require_object:
-                    prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
-                    response = self.llm(prompt)
+                    speak_task = Speak(self.agent_id, self.human_id, [self.beliefs.last_order.body], self.__house, self.beliefs)
+
+                    # prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
+                    # response = self.llm(prompt)
                     
-                    speak_task = Speak(self.agent_id, self.__house, self.beliefs, response)
+                    # speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_order.body, self.__house, self.beliefs, response, )
                     new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
                     
                     self.intentions.insert(0, new_plan)
@@ -140,35 +142,47 @@ class Bot_Agent(BDI_Agent):
                 else:
                     bot_no_obj_prompt = bot_no_obj_action_prompt(self.beliefs.last_order.body)
                     action = self.llm(bot_no_obj_prompt)
-                    action = json.loads(action)
 
                     # Pedro order, boosts a need, is action type and use objects
                     if action == "no":
-                        validate_prompt = validate_instruction_prompt(self.beliefs.last_order.body)
-                        intention = self.llm(validate_prompt)
-                        if intention == 'No':
-                            is_valid_plan = False
-                        else:
+                        # Testing not using this
+                        #############################################################################
+                        # validate_prompt = validate_instruction_prompt(self.beliefs.last_order.body)
+                        # intention = self.llm(validate_prompt)
+                        # if intention == 'No':
+                        #     is_valid_plan = False
+                        # else:
+                        #############################################################################
+
+                        intention = self.beliefs.last_order.body
+
+                        try:
+
                             prompt = bot_need_plan_generator_prompt(intention)
-                            try:
-                                plan = self.llm(prompt, 0.1)
-                                plan = json.loads(plan)
-                                tasks = plan["tareas"]
-                                message = plan["mensaje"]
-                                new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                                for t in tasks:
-                                    task: Task|None = self._task_parser(t)
-                                    if task is None: is_valid_plan = False
-                                    new_plan.add_task(task)
-                                new_plan.add_task(Speak(self.agent_id, self.__house, self.beliefs, message))
-                            except:
-                                is_valid_plan = False
+                            plan = self.llm(prompt, 0.1)
+                            plan = json.loads(plan)
+                            tasks = plan["tareas"]
+                            message = plan["mensaje"]
+                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                            for t in tasks:
+                                task: Task|None = self._task_parser(t)
+                                if task is None: is_valid_plan = False
+                                new_plan.add_task(task)
+                            
+                            # Notify human plan is done
+                            new_plan.add_task(Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, message))
+                        except:
+                            is_valid_plan = False
                     
                     # Pedro order, boosts a need, is action type and don't use objects
                     else:
-                        if action[0] == simulation_data.PLAY_MUSIC:
-                            play_music_task = PlayMusic(self.agent_id, action[1], None, self.__house)
-                            new_plan = Plan("Reproducir música", self.__house, self.agent_id, self.beliefs, [play_music_task])
+                        try:
+                            action = json.loads(action)
+                            if action[0] == simulation_data.PLAY_MUSIC:
+                                play_music_task = PlayMusic(self.agent_id, action[1], None, self.__house)
+                                new_plan = Plan("Reproducir música", self.__house, self.agent_id, self.beliefs, [play_music_task])
+                        except:
+                            is_valid_plan = False
 
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
@@ -355,6 +369,18 @@ class Bot_Agent(BDI_Agent):
                 obj: Object = self.__house.get_object(tag)
                 return Drop(self.agent_id, obj, self.__house, self.pocket)
             
+        elif action == simulation_data.SET_UP:
+            if tag in simulation_data.objects_names:
+                # Preparar objeto
+                obj: Object = self.__house.get_object(tag)
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 180)), object=obj, type="Preparar")
+
+        elif action == simulation_data.USE:
+            if tag in simulation_data.objects_names:
+                # Use some object
+                obj: Object = self.__house.get_object(tag)
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 40)), object=obj, type="Preparar")
+
         elif action == simulation_data.PLAY_MUSIC:
             time = timedelta(seconds = 600)
             return PlayMusic(self.agent_id,time, house = self.__house)

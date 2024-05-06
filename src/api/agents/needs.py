@@ -3,8 +3,8 @@ from simulation_data import DEC_LIMIT, NEEDS_LIMIT, ENERGY, HYGIENE, HUNGRY, BLA
 class Needs:
     def __init__(self):
         self.energy = 60
-        self.hungry = 60
-        self.bladder = 20
+        self.hungry = 59
+        self.bladder = 60
         self.hygiene = 60
         self.entertainment = 60
 

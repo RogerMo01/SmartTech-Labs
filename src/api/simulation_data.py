@@ -231,6 +231,7 @@ OFF_OBJ = "APAGAR"
 TAKE_OBJ = "COGER"
 DROP_OBJ = "SOLTAR"
 SET_UP = "PREPARAR"
+USE = "USAR"
 
 PLAY_MUSIC = "REPRODUCIR_MÚSICA"
 
@@ -239,8 +240,8 @@ SAY_JOKE = "DECIR_CHISTE"
 RECOMMEND = "HACER_RECOMENDACIÓN"
 
 robot_need_actions = [PLAY_MUSIC] 
-robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, PLAY_MUSIC, SET_UP]
-robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, SET_UP]
+robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, PLAY_MUSIC, SET_UP, USE]
+robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, SET_UP, USE]
 robot_no_obj_actions = [PLAY_MUSIC]
 robot_area_actions = [WALK, CLEAN]
 

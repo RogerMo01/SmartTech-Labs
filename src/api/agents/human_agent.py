@@ -35,6 +35,7 @@ class Human_Agent(BDI_Agent):
         # self.intentions: list[Plan] =  Plan("Hacer pipi", self.__house, self.agent_id, self.beliefs, [Sleep(self.agent_id, self.__house, self.beliefs, object='cama')], need='bladder')]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
         self.llm = Gemini()
+        self.last_given_order = None
 
     def run(self, submmit_event):
         
@@ -102,9 +103,11 @@ class Human_Agent(BDI_Agent):
         if not limit_exceed and len(self.intentions) == 0:
 
             # Decidir si hacer algo o no (cada 5 min)
-            if assert_chance(0.0033):
+            # if assert_chance(0.0033):
+            if assert_chance(1):
                 # Decidir si hacerlo solo o con robot
-                if assert_chance(0.5):
+                # if assert_chance(0.5):
+                if assert_chance(0):
                     self._create_intention_by_human()
                 else:
                     # robot helps
@@ -112,7 +115,8 @@ class Human_Agent(BDI_Agent):
                     instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
                     instruction = self.llm(instruction, True)
                     
-                    speak_task = Speak(self.agent_id, self.__house, self.beliefs, instruction, human_need=True)
+                    self.last_given_order = instruction
+                    speak_task = Speak(self.agent_id, self.bot_id, None, self.__house, self.beliefs, instruction, human_need=True)
                     plan = Plan(f"Ordenar a {self.bot_id}", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
 
                     self.intentions.append(plan)
@@ -175,39 +179,47 @@ class Human_Agent(BDI_Agent):
             tries = 0
 
             # Interpretar lo que dijo el robot
-            prompt = human_plan_generator_by_robot_response(self.beliefs.last_notice.body)
+            prompt = human_intention_by_robot_response(self.last_given_order, self.beliefs.last_notice.body)
+            intention = self.llm(prompt)
+
+            # Robot confirms last human order
+            order_confirmation = intention != "No"
+
+            if order_confirmation:
+                # Intentar 3 veces antes de renunciar
+                while tries < 3:
+                    try:
+                        # Hacer  el plan con la intención
+                        task = human_plan_generator_prompt(intention)
+                        task = self.llm(task, True)
+                        task = json.loads(task)
+
+                        # Definir el tiempo a dedicarle
+                        time_request = time_for_intention(intention)
+                        time_and_need = self.llm(time_request)
+                        time_and_need = json.loads(time_and_need)
+                        seconds, need = time_and_need[0], time_and_need[1]
+
+                        move_task, object = self._task_parser(task[0])
+                        need_task = Need(self.agent_id, timedelta(seconds=seconds), intention, self.__house, self.beliefs, object.name, need, self.needs)
+
+                        plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [move_task, need_task], need=need)
+
+                        self.intentions.append(plan)
+                        return
+                    except:
+                        tries+=1
+                
+                # No pudo interpretar lo del robot => renunciar
+                pass
             
-            # Intentar 3 veces antes de renunciar
-            while tries < 3:
-                try:
-                    # Sacar la intención
-                    intention = self.llm(prompt)
-
-                    # Hacer  el plan con la intención
-                    task = human_plan_generator_prompt(intention)
-                    task = self.llm(task, True)
-                    task = json.loads(task)
-
-                    # Definir el tiempo a dedicarle
-                    time_request = time_for_intention(intention)
-                    time_and_need = self.llm(time_request)
-                    time_and_need = json.loads(time_and_need)
-                    seconds, need = time_and_need[0], time_and_need[1]
-
-                    move_task, object = self._task_parser(task[0])
-                    need_task = Need(self.agent_id, timedelta(seconds=seconds), intention, self.__house, self.beliefs, object.name, need, self.needs)
-
-                    plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [move_task, need_task], need=need)
-
-                    self.intentions.append(plan)
-                    return
-                except:
-                    tries+=1
-            
-            # No pudo interpretar lo del robot => renunciar
-            pass
-
-            
+            # Robot says anything else
+            else:
+                # 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+                # raise NotImplementedError("Robot says anything else")
+                # Robot did't understand
+                print(f"{self.agent_id} reported: {self.bot_id} me dijo ({self.beliefs.last_notice.body}) y yo había ordenado ({self.last_given_order})")
+                pass
 
 
     def calculate_time(self, need, level):
