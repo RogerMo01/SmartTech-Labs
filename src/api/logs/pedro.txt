@@ -1,0 +1,28 @@
+[2024-01-24 13:41:39] Pedro planifica >Beber café<
+[2024-01-24 14:00:01] Pedro planifica >Orinar<
+[2024-01-24 14:00:01] Pedro adelanta >Orinar<
+[2024-01-24 15:34:46] Pedro planifica >Ir al baño<
+[2024-01-24 15:34:46] Pedro adelanta >Ir al baño<
+[2024-01-24 17:02:58] Pedro planifica >Dormir una siesta<
+[2024-01-24 18:00:00] Pedro planifica >Comer unos tacos<
+[2024-01-24 18:00:00] Pedro adelanta >Comer unos tacos<
+[2024-01-24 19:44:12] Pedro planifica >Ir al baño<
+[2024-01-24 19:44:12] Pedro adelanta >Ir al baño<
+[2024-01-24 21:28:42] Pedro planifica >Ver una película<
+[2024-01-24 22:06:11] Pedro planifica >Ir al baño<
+[2024-01-24 22:06:11] Pedro adelanta >Ir al baño<
+[2024-01-24 22:36:43] Pedro planifica >Ducharse<
+[2024-01-24 23:14:11] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+<
+[2024-01-24 23:15:36] Pedro planifica >Tomar café<
+[2024-01-25 00:28:17] Pedro planifica >Ir al inodoro<
+[2024-01-25 01:17:02] Pedro planifica >Comer un trozo de pizza<
+[2024-01-25 02:42:44] Pedro planifica >Mirar una película<
+[2024-01-25 04:10:32] Pedro planifica >Ir al inodoro<
+[2024-01-25 04:50:29] Pedro planifica >Comer un bocadillo<
+[2024-01-25 05:47:49] Pedro planifica >Tomar una siesta<
+[2024-01-25 07:15:23] Pedro planifica >Usar una bacinica<
+[2024-01-25 07:15:23] Pedro adelanta >Usar una bacinica<
+[2024-01-25 08:40:44] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+<
+[2024-01-25 09:10:43] Pedro planifica >Ir al orinal<
+[2024-01-25 10:08:21] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+<
+[2024-01-25 11:59:12] Pedro planifica >Ver una película<

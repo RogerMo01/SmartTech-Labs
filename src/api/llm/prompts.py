@@ -132,7 +132,7 @@ Para una necesidad Energía, otra posible salida es:
 ["Acostarse a dormir", 80]
 
 Ten en cuenta que después de realizada la acción el valor de cantidad_incremento más alto que se puede alcanzar es (100 - {level}) y que mientras más bajo sea el valor de level mayor será el aumento de cantidad_incremento.
-Por tanto, en cantidad incremento devuelve un valor entre [1, 100-{level}]
+Por tanto, en cantidad incremento devuelve un valor entre [1, {100-level}]
 Debes responder solamente con el array
 
 Ahora si, analiza la siguiente necesidad de Pedro:

@@ -129,7 +129,7 @@ BOT = 'bot'
 HUMAN = 'human'
 
 class WalkProblem(Problem):
-    def __init__(self, initial: Tile, goal: Tile, agent='bot'):
+    def __init__(self, initial: Tile, goal: Tile, agent=BOT):
         self.initial = initial
         self.goal = goal
         self.agent = agent

@@ -199,7 +199,7 @@ closet = Object('armario')
 mobile = Object('móvil', portable=True, overlappable=True, human_step=True, robot_step=True)
 
 toilet = Object('inodoro', overlappable=True, human_step=True, robot_step=True, cleanable=True)
-bathtub = Object('bañera', cleanable=True)
+bathtub = Object('bañera', cleanable=True, human_step=True)
 washbasin = Object('lavamanos', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 
 worktop1 = Object('encimera_1', cleanable=True)

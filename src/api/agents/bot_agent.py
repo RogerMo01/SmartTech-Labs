@@ -388,7 +388,8 @@ class Bot_Agent(BDI_Agent):
             if tag in simulation_data.objects_names:
                 # Soltar objeto
                 obj: Object = self.__house.get_object(tag)
-                return Drop(self.agent_id, obj, self.__house, self.pocket)
+                if obj.portable and obj.carrier is self.agent_id:
+                    return Drop(self.agent_id, obj, self.__house, self.pocket)
             
         elif action == simulation_data.SET_UP:
             if tag in simulation_data.objects_names:

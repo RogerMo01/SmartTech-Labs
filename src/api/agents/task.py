@@ -67,7 +67,7 @@ class Move(Task):
     
     def create_path(self, new_src=None):
         src = new_src if new_src else self.src
-        p = WalkProblem(src, self.dest)
+        p = WalkProblem(src, self.dest, agent = 'bot' if self.author == "Will-E" else 'human')
         sln = astar_search(p)
         actions = path_actions(sln)
         return actions
@@ -83,7 +83,7 @@ class Move(Task):
             self.recompute(self.elapsed_time + timedelta(seconds=len(self.steps)), 
                            self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position)                                    # recompute path
 
-        if len(self.steps) > 0:
+        if len(self.steps) != 0:
             direction = self.steps.pop(0) 
             self.house.move(direction, self.author)
                 
@@ -96,9 +96,9 @@ class Move(Task):
     def recompute(self, time, new_src=None):
         self.src = self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position
         if new_src:
-            self.steps = self.create_path()
-        else:
             self.steps = self.create_path(new_src)
+        else:
+            self.steps = self.create_path()
         self.time = time
         self.is_successful = True if len(self.steps) == 0 else False
 
@@ -217,6 +217,9 @@ class Need(Task):
         self.needs = needs
         self.need = need
         self.inc = 100/BEST_TIMES[self.need]
+        # Para incremento infimo en funcion del tiempo, subir entre 5 y 10
+        if time.seconds * self.inc < 5:
+            self.inc = random.randint(5, 8)/time.seconds
 
     def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return     
@@ -225,7 +228,7 @@ class Need(Task):
         
         self.elapsed_time += timedelta(seconds=1)
 
-        if self.elapsed_time == self.time:
+        if self.elapsed_time == self.time or self.needs[self.need] > 99:
             self.is_successful = True
         pass
 

@@ -313,6 +313,8 @@ class Human_Agent(BDI_Agent):
         needs = NEEDS_ORDER.copy()
         
         if current_plan is not None:
+            # Que no baje la del plan actual
+            needs.remove(current_plan.need)
 
             if current_plan.need == ENERGY:
                 # No bajar más del límite estos parámetros
@@ -328,9 +330,8 @@ class Human_Agent(BDI_Agent):
                 # Subirlo (1 hora => +20)
                 self.needs.sum_level(ENTERTAINMENT, 20/3600)
 
-            for need in needs:
-                if need != current_plan.need:
-                    self.needs.dec_level(need)
+        for need in needs:
+            self.needs.dec_level(need)
 
     def _get_min_need(self):
         min = BLADDER
