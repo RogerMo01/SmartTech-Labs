@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 from agents.bdi_agent import *
 from agents.plan import Plan
 from agents.task import *
@@ -10,10 +11,10 @@ from llm.llm import *
 from llm.prompts import *
 from simulation_data import BEST_TIMES, NEEDS_LIMIT, ENERGY, HUNGRY, HYGIENE, BLADDER, ENTERTAINMENT
 
-SPANISH_NEEDS = {'bladder':'Vejiga','hungry':'Hambre', 'energy':'Energia', 'hygiene':'Higiene', 'entertainment':'Entretenimiento'}
+FILE_SRC = "src/api/logs/pedro.txt"
+
 NEEDS_ORDER = ['bladder', 'hungry', 'energy', 'hygiene', 'entertainment']
-
-
+SPANISH_NEEDS = {'bladder':'Vejiga','hungry':'Hambre', 'energy':'Energia', 'hygiene':'Higiene', 'entertainment':'Entretenimiento'}
 
 class Human_Belief(Belief):
     def __init__(self, house: House, other_beliefs: dict):
@@ -36,9 +37,11 @@ class Human_Agent(BDI_Agent):
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa",house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E9), Move(self.agent_id, house, self.beliefs, E5)])]
         self.llm = Gemini()
         self.last_given_order = None
+        self.current_datetime = None
 
-    def run(self, submmit_event):
-        
+    def run(self, submmit_event, current_datetime: datetime):
+        self.current_datetime = current_datetime
+
         perception = self.see()
         self.brf(perception)
 
@@ -47,10 +50,10 @@ class Human_Agent(BDI_Agent):
         current_plan = None
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
-            current_plan.run(submmit_event)
+            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice)
 
             if current_plan.is_successful:
-                print("PLAN COMPLETED")
+                print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
                 self.intentions.pop(0)
 
         perception = self.see()
@@ -102,27 +105,25 @@ class Human_Agent(BDI_Agent):
         # No plans and no limits exceed
         if not limit_exceed and len(self.intentions) == 0:
 
-            # Decidir si hacer algo o no (cada 5 min)
-            # if assert_chance(0.0033):
-            if assert_chance(1):
+            # Decidir si hacer algo o no (cada 30 min)
+            if assert_chance(1/3600):
+                need = self._get_min_need()
                 # Decidir si hacerlo solo o con robot
                 # if assert_chance(0.5):
-                if assert_chance(0):
-                    self._create_intention_by_human()
+                if assert_chance(0.5):
+                    self._create_individual_plan(need)
                 else:
                     # robot helps
-                    need = self._get_min_need()
                     instruction = human_instruction_request_for_need_prompt(need=SPANISH_NEEDS[need])
                     instruction = self.llm(instruction, True)
                     
                     self.last_given_order = instruction
-                    speak_task = Speak(self.agent_id, self.bot_id, None, self.__house, self.beliefs, instruction, human_need=True)
-                    plan = Plan(f"Ordenar a {self.bot_id}", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
+                    speak_task = Speak(self.agent_id, self.bot_id, self.beliefs.last_notice, self.__house, self.beliefs, instruction, human_need=True)
+                    plan = Plan(f"Ordenar a {self.bot_id} para q ayude en +{need}+", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
 
+                    self.register_log(f"Pedro planifica >{plan.intention_name}<", True)
                     self.intentions.append(plan)
             
-        
-    
 
     def _create_intention_by_human(self):
         for need in NEEDS_ORDER:
@@ -144,28 +145,52 @@ class Human_Agent(BDI_Agent):
 
                 # No hay plan adelantado => poner plan
                 if not covered:
-                    level = self.needs[need]
-                    prompt = generate_action_values(SPANISH_NEEDS[need], level)
-                    response = self.llm(prompt)
-                    try:
-                        response = json.loads(response)
-                        level = response[1]
-                        time = self.calculate_time(need, level)
-                        intention_name = response[0]
-                        task = human_plan_generator_prompt(intention_name)
-                        task = self.llm(task, True)
-                        task = json.loads(task)
-                        move_task, object = self._task_parser(task[0])
-                        need_task = Need(self.agent_id, time, intention_name, self.__house, self.beliefs, object.name, need, self.needs)
-
-                        plan: Plan = Plan(intention_name, self.__house, self.agent_id, self.beliefs, [move_task,need_task], need)      # Hacer el plan
-
-                        self.intentions.append(plan)
-                        self.overtake_plan(plan)
-                    except Exception as e:
-                        # Did't make it
-                        pass
+                    self._create_individual_plan(need)
     
+
+    def _create_individual_plan(self, need: str):
+        """Creates an individual plan for Pedro, for an especific need"""
+        level = self.needs[need]
+        prompt = generate_action_values(SPANISH_NEEDS[need], level)
+        response = self.llm(prompt)
+        try:
+            response = json.loads(response)
+            level = response[1]
+            time = self.calculate_time(need, level)
+            intention_name = response[0]
+            task = human_plan_generator_prompt(intention_name)
+            task = self.llm(task, True)
+            task = json.loads(task)
+                
+            move_task, object = self._task_parser(task[0])
+            need_task = Need(self.agent_id, time, intention_name, self.__house, self.beliefs, object.name, need, self.needs)
+            
+            plan: Plan = Plan(intention_name, self.__house, self.agent_id, self.beliefs, [], need)
+            
+            # Consider ask something to Will-E at plan beginning 
+            hungry_chance = need == HUNGRY and assert_chance(0.9)
+            bladder_chance = need == BLADDER and assert_chance(0.1)
+            hygiene_chance = need == HYGIENE and assert_chance(0.6)
+            entertainment_chance = need == ENTERTAINMENT and assert_chance(0.8)
+            energy_chance = need == ENERGY and assert_chance(0.6)
+            #
+            if hungry_chance or entertainment_chance or bladder_chance or hygiene_chance or energy_chance:
+                message = pre_task_question(intention_name, self.current_datetime)
+                message = self.llm(message)
+                # Speak to Will-E
+                ask_task = Speak(self.agent_id, self.bot_id, self.beliefs.last_notice, self.__house, self.beliefs, message, human_need=True)
+                plan.add_task(ask_task)
+            
+            plan.add_task(move_task)
+            plan.add_task(need_task)
+
+            self.register_log(f"Pedro planifica >{plan.intention_name}<", True)
+            self.intentions.append(plan)
+            self.overtake_plan(plan)
+        except Exception as e:
+            # Did't make it
+            pass
+
 
     def _are_there_needs_at_limit(self):
         for need in NEEDS_ORDER:
@@ -177,6 +202,9 @@ class Human_Agent(BDI_Agent):
         if self.beliefs.last_notice is not None:
             # Veces q se intenta
             tries = 0
+
+            # Continue in speaking
+            if len(self.intentions) > 0 and len(self.intentions[0].tasks) > 0 and isinstance(self.intentions[0].tasks[0], Speak): return
 
             # Interpretar lo que dijo el robot
             prompt = human_intention_by_robot_response(self.last_given_order, self.beliefs.last_notice.body)
@@ -205,6 +233,7 @@ class Human_Agent(BDI_Agent):
 
                         plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [move_task, need_task], need=need)
 
+                        self.register_log(f"Pedro planifica >{intention}<", True)
                         self.intentions.append(plan)
                         return
                     except:
@@ -249,6 +278,7 @@ class Human_Agent(BDI_Agent):
         for p in self.intentions:
             # Busca el primer plan con menor prioridad e inserta
             if p.need is None or NEEDS_ORDER.index(p.need) > NEEDS_ORDER.index(plan.need):
+                self.register_log(f"Pedro adelanta >{plan.intention_name}<")
                 self.intentions.insert(index, plan)
                 return
             index +=1
@@ -283,18 +313,24 @@ class Human_Agent(BDI_Agent):
         needs = NEEDS_ORDER.copy()
         
         if current_plan is not None:
-            if current_plan.need == ENERGY:
 
+            if current_plan.need == ENERGY:
                 # No bajar más del límite estos parámetros
                 if self.needs[BLADDER] <= NEEDS_LIMIT[BLADDER]:
                     needs.remove(BLADDER)
                 if self.needs[ENTERTAINMENT] <= NEEDS_LIMIT[ENTERTAINMENT]:
                     needs.remove(ENTERTAINMENT)
+            
+            # Si hay música puesta, subir ENTERTAINMENT
+            if self.__house.get_is_music_playing():
+                # Evitar que baje más
+                needs.remove(ENTERTAINMENT)
+                # Subirlo (1 hora => +20)
+                self.needs.sum_level(ENTERTAINMENT, 20/3600)
 
             for need in needs:
                 if need != current_plan.need:
-                    if not self.__house.get_is_music_playing() and need != ENTERTAINMENT:
-                        self.needs.dec_level(need)
+                    self.needs.dec_level(need)
 
     def _get_min_need(self):
         min = BLADDER
@@ -323,3 +359,10 @@ class Human_Agent(BDI_Agent):
 
     def excecute(self, action):
         pass
+        
+    def register_log(self, text: str, show_intentions = False):
+        with open(FILE_SRC, 'a', encoding='utf-8') as file:
+            text = f"[{self.current_datetime.strftime('%Y-%m-%d %H:%M:%S')}] {text}"
+            file.write(text + '\n')
+            # if show_intentions:
+            #     file.write(f"Intentions: {self.intentions}" + '\n\n')

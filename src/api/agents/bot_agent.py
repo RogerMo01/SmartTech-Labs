@@ -1,22 +1,28 @@
 import json
-from agents.bdi_agent import *
 import random
+from datetime import datetime
+from agents.bdi_agent import *
 from House import *
 from search import *
 from agents.task import *
 from agents.plan import *
 from llm.gemini import Gemini
-from llm.prompts import bot_plan_generator_prompt, validate_instruction_prompt, bot_need_plan_generator_prompt, is_only_response_instruction_prompt, instance_query_robot_answer_prompt, bot_no_obj_action_prompt
+from llm.prompts import *
 import simulation_data
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
                      "No tengo las habilidades para hacer eso, lo siento",
                      "No sé como hacer lo que me pides, lo siento"]
 
+FILE_SRC = "src/api/logs/will-e.txt"
+
+
+
 class Bot_Belief(Belief):
     def __init__(self, house: House = None, other_beliefs={}):
         super().__init__(house, other_beliefs)
         self.last_order: Order = None
+        self.last_notice: Order = None
         # self.map
         # self.likes
         # self.dislikes
@@ -41,9 +47,10 @@ class Bot_Agent(BDI_Agent):
                                         # Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
         #                              Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
+        self.current_datetime = None
 
-
-    def run(self, submmit_event):
+    def run(self, submmit_event, current_datetime: datetime):
+       self.current_datetime = current_datetime
         
        perception = self.see()
        self.brf(perception)
@@ -52,10 +59,11 @@ class Bot_Agent(BDI_Agent):
        
        if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
-            current_plan.run(submmit_event)
+            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice)
 
             if current_plan.is_successful:
-                print("PLAN COMPLETED")
+                # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
+                self.register_log(f"Will-E terminó >{current_plan.intention_name}<")
                 self.intentions.pop(0)
                 
             self.increment_postponed_plan(current_plan)
@@ -65,7 +73,8 @@ class Bot_Agent(BDI_Agent):
             _reconsider, selected_intention = self.reconsider(current_plan, 0.1)
             
             if _reconsider:
-                print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
+                # print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
+                self.register_log(f"Will-E reconsideró >{current_plan.intention_name}< en lugar de {selected_intention.intention_name}")
                 self.reorder_intentions(selected_intention, current_plan)
         
 
@@ -101,6 +110,7 @@ class Bot_Agent(BDI_Agent):
         # Set last order
         if detected_conversations:
             self.beliefs.last_order = self._detect_order()
+            self.beliefs.last_notice = self._detect_notice()
         else:
             self.beliefs.last_order = None
 
@@ -128,7 +138,7 @@ class Bot_Agent(BDI_Agent):
 
                 # Pedro order, boosts a need and is response type
                 if not require_object:
-                    speak_task = Speak(self.agent_id, self.human_id, [self.beliefs.last_order.body], self.__house, self.beliefs)
+                    speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_notice, self.__house, self.beliefs)
 
                     # prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
                     # response = self.llm(prompt)
@@ -136,7 +146,9 @@ class Bot_Agent(BDI_Agent):
                     # speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_order.body, self.__house, self.beliefs, response, )
                     new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
                     
+                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
                     self.intentions.insert(0, new_plan)
+                    return
                 
                 # Pedro order, boosts a need and is action type
                 else:
@@ -153,8 +165,8 @@ class Bot_Agent(BDI_Agent):
                         #     is_valid_plan = False
                         # else:
                         #############################################################################
-
-                        intention = self.beliefs.last_order.body
+                        
+                        intention = self.llm(action_to_intention_prompt(self.beliefs.last_order.body))
 
                         try:
 
@@ -187,9 +199,9 @@ class Bot_Agent(BDI_Agent):
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
                     self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
-                    return
-
-                self.intentions.append(new_plan)
+                else:
+                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
+                    self.intentions.append(new_plan)
             
             # Pedro order and don't boosts any need
             else:
@@ -216,10 +228,11 @@ class Bot_Agent(BDI_Agent):
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
                     self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
-                    return
-
-                self.intentions.append(new_plan)
+                else:
+                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
+                    self.intentions.append(new_plan)
             
+
 
 
 
@@ -241,7 +254,7 @@ class Bot_Agent(BDI_Agent):
     def get_room_plan(self, plan: Plan):
         room = ""
         for task in plan.tasks:
-            if room == "" or task.room == room:
+            if room == "" or (task.room is not None and task.room == room):
                 room = task.room
             else:
                 return ""
@@ -295,6 +308,14 @@ class Bot_Agent(BDI_Agent):
             if o[0].startswith(start):
                 return Order(o[0], o[1])
         return None
+    
+    def _detect_notice(self):
+        start = f"{self.human_id} dice:"
+        for o in self.beliefs.speaks:
+            if o[0].startswith(start):
+                return Order(o[0], o[1])
+        return None
+
     
     def _task_parser(self, t: str):
         splited_str = t.split()
@@ -373,13 +394,13 @@ class Bot_Agent(BDI_Agent):
             if tag in simulation_data.objects_names:
                 # Preparar objeto
                 obj: Object = self.__house.get_object(tag)
-                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 180)), object=obj, type="Preparar")
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 180)), object=obj.name, type="Preparar")
 
         elif action == simulation_data.USE:
             if tag in simulation_data.objects_names:
                 # Use some object
                 obj: Object = self.__house.get_object(tag)
-                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 40)), object=obj, type="Preparar")
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 40)), object=obj.name, type="Preparar")
 
         elif action == simulation_data.PLAY_MUSIC:
             time = timedelta(seconds = 600)
@@ -388,4 +409,11 @@ class Bot_Agent(BDI_Agent):
 
         return None
 
-        
+    def register_log(self, text: str, show_intentions = False):
+        with open(FILE_SRC, 'a', encoding='utf-8') as file:
+            text = f"[{self.current_datetime.strftime('%Y-%m-%d %H:%M:%S')}] {text}"
+            file.write(text + '\n')
+            # if show_intentions:
+            #     file.write(f"Intentions: {self.intentions}" + '\n')
+            # else:
+            #     file.write('\n')

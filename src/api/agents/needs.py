@@ -2,8 +2,8 @@ from simulation_data import DEC_LIMIT, NEEDS_LIMIT, ENERGY, HYGIENE, HUNGRY, BLA
 
 class Needs:
     def __init__(self):
-        self.energy = 60
-        self.hungry = 59
+        self.energy = 24
+        self.hungry = 60
         self.bladder = 60
         self.hygiene = 60
         self.entertainment = 60
@@ -45,5 +45,20 @@ class Needs:
         else: self[need]=sum
 
     def dec_level(self, need):
-        self[need] -= (100-NEEDS_LIMIT[need])/DEC_LIMIT[need]
+        result = self[need] - (100-NEEDS_LIMIT[need])/DEC_LIMIT[need]
+        if result < 1:
+            self[need] = 1
+        else:
+            self[need] = result
     
+    def __str__(self) -> str:
+        return f"""
+{HUNGRY}        : {self.hungry}
+{BLADDER}       : {self.bladder}
+{HYGIENE}       : {self.hygiene}
+{ENTERTAINMENT} : {self.entertainment}
+{ENERGY}        : {self.energy}
+        """
+    
+    def __repr__(self) -> str:
+        return self.__str__()

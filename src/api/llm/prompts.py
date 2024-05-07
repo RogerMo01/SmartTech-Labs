@@ -1,4 +1,5 @@
 from agents.sentence import *
+from datetime import *
 import simulation_data
 
 #################### Pedro prompts #######################
@@ -132,6 +133,7 @@ Para una necesidad Energía, otra posible salida es:
 
 Ten en cuenta que después de realizada la acción el valor de cantidad_incremento más alto que se puede alcanzar es (100 - {level}) y que mientras más bajo sea el valor de level mayor será el aumento de cantidad_incremento.
 Por tanto, en cantidad incremento devuelve un valor entre [1, 100-{level}]
+Debes responder solamente con el array
 
 Ahora si, analiza la siguiente necesidad de Pedro:
 Necesidad: {need}
@@ -197,6 +199,8 @@ Tu respuesta puede ser: Darme un baño relajante
 Si la orden es: Prepara la cama para dormir una siesta
 Si el robot dice: Ya la cama está lista
 Tu respuesta puede ser: Ir a la cama a tomar una siesta
+
+Responde solamente con la inteción en caso de existir
 """
     return prompt
 
@@ -296,6 +300,36 @@ tu salida debe ser este json
     return prompt
 
 
+def pre_task_question(intention: str, current_datetime: datetime):
+    prompt = f"""
+Eres Pedro, una persona q vive con un robot de compañía llamado Will-E.
+Actualmente están en la casa , de la que tienes conocimiento total
+Ahora mismo la hora es:
+{current_datetime.strftime("%H:%M:%S")}
+y vas a hacer la siguiente tarea: 
+{intention} 
+
+Will-E tiene integrado un modelo del lenguaje, por lo q le puedes preguntar cosas. 
+Debes preguntar cosas que puedan ser respondidas por un modelo del lenguaje
+Si quieres preguntarle algo, redacta una oración con la pregunta que harías a un modelo del lenguaje, solamente respondiendo con la pregunta, antecedida por: Oye Will-E,
+Si el tema es sobre comida, debes preguntar, pues Will-E es especialista en recetas.
+
+Ejemplos:
+Para la tarea: Preparar un bocadillo
+Una posible respuesta puede ser: Oye Will-E, ¿me das alguna receta para preparar un buen bocadillo?
+Para la tarea: Preparar un bocadillo
+Una posible respuesta puede ser: Oye Will-E, ¿qué tipo de bocadillo es saludable?
+Para la tarea: Darme un baño relajante
+Una posible respuesta puede ser: Oye Will-E, ¿cuál es la temperatura ideal del agua para un baño relajante?
+Para la tarea: Cocinar el almuerzo
+Una posible respuesta puede ser: Oye Will-E, ¿me recuerdas que hora es mientras preparo el almuerzo?
+Para la tarea: Ir al baño
+Una posible respuesta puede ser: Oye Will-E, ¿me recuerdas que hora es mientras voy al baño?
+
+"""
+    return prompt
+
+
 
 ###################### Will-E prompts ########################
 def bot_plan_generator_prompt(intention: str):
@@ -389,25 +423,39 @@ Orden: {order}
 """
     return instruction
 
+def action_to_intention_prompt(action: str):
+    prompt = f"""
+Tu tarea es, a partir de una orden dada por Pedro, convertirla en una acción a realizar
+
+Por ejemplo:
+para la orden (Pedro dice: Oye Will-E, por favor riega las plantas) tu respuesta debe ser: Regar las plantas
+para la orden (Pedro dice: Oye Will-E, ve hasta la sala y pon el canal 123) tu respuesta debe ser: Ir a la sala y poner el canal 123
+para la orden (Pedro dice: Oye Will-E, prepara una taza de cafe) tu respuesta debe ser: Preparar taza de café a Pedro
+para la orden (Pedro dice: Oye Will-E, ve a la cocina) tu respuesta debe ser: Ir a la cocina 
+para la orden (Pedro dice: Oye Will-E, alcánzame las chancletas) tu respuesta debe ser: Llevar las chanclas a Pedro
+para la orden (Pedro dice: Oye Will-E, prepárame café) tu respuesta debe ser: Preparar café para Pedro
+
+Orden:
+{action}
+"""
+    return prompt
+
 
 def is_only_response_instruction_prompt(intention: str):
     instruction = f"""
-Eres Will-E, un robot con la finalidad de asistir y apoyar a Pedro. Ambos comparten en un espacio de convivencia, una casa. Todas las labores que desempeñas como robot se llevan a cabo exclusivamente dentro del entorno doméstico.
+Eres Will-E, un robot con la finalidad de asistir y apoyar a Pedro.
 
-Pedro presenta una necesidad específica que se detalla a continuación en el apartado "Orden".
+Tu objetivo es determinar si la necesidad de Pedro puede verse como una tarea que puedas realizar de manera autónoma, 
+pudiendo responder con el uso de un modelo de lenguaje, que pueda ser ejecutada por ti sin necesidad de interactuar con el entorno físico que te rodea, que la puedas realizar de manera independiente.
 
-Tu objetivo es determinar si la necesidad de Pedro puede verse como una tarea que puedas realizar de manera autónoma, contando 
-con una base de conocimientos preestablecida, que pueda ser ejecutada por ti sin necesidad de interactuar con el entorno físico que te rodea, que la puedas realizar de manera independiente.
-
-En el caso de que la solicitud de Pedro represente una acción factible de realizar utilizando únicamente información preexistente y pueda ser respondida en lenguaje natural, responde: si
-
+En el caso de que la solicitud de Pedro se pueda responder utilizando un LLM, y pueda ser respondida en lenguaje natural, responde: si
 En caso de que la solicitud de Pedro pueda entenderse como una acción que requiere manipulación de objetos domésticos, responde: no
 
 Por ejemplo:
-Para la orden (Que hora es?) tu respuesta debe ser: si
-Para la orden (Necesito una receta de cocina para hacer un pastel) tu respuesta debe ser: si
-Para la orden (Recomiendame una película de acción por favor) tu respuesta debe ser: si
-Para la orden (Pon mi lista de reproducción favortia) tu respuesta debe ser: si
+Para la orden (Oye Will-E: ¿qué hora es?) tu respuesta debe ser: si
+Para la orden (Oye Will-E: necesito una receta de cocina para hacer un pastel) tu respuesta debe ser: si
+Para la orden (Oye Will-E: recomiéndame una película de acción, por favor) tu respuesta debe ser: si
+Para la orden (Oye Will-E: pon mi lista de reproducción favortia) tu respuesta debe ser: no
 
 Orden: {intention}
 """
@@ -575,12 +623,13 @@ Si decides responder, sustituye <out> con la respuesta de Will-E a Pedro en stri
 Si decides terminar la conversación, sustituye <out> con el string "END"
 Si entiendes que te pide una receta, sustituye <receta> con el string "SI", sino con "NO"
 
+Plantilla:
 {{
     "response": <out>,
-    "recipe": <receta>
+    "receta": <receta>
 }}
 
-tu salida debe ser este json
+tu salida debe ser en formato JSON, utilizando la plantilla anterior
 """
     return prompt
 

@@ -5,7 +5,7 @@ from agents.human_agent import Human_Agent
 from event import Event
 
 ZERO = timedelta(seconds=0)
-
+FILE_SRC = "src/api/logs/vitals.txt"
 
 class Simulation:
     
@@ -48,11 +48,13 @@ class Simulation:
             # print(self.end_datetime - self.current_datetime)
             # Take conversations in the last loop
             self.house.update_speaks()
+
+            
             
             # Run one step in both agents
-            self.bot.run(self.submmit_event)
-            self.human.run(self.submmit_event)
-
+            self.bot.run(self.submmit_event, self.current_datetime)
+            self.human.run(self.submmit_event, self.current_datetime)
+ 
             # print(f'Will-E is: {self.bot.beliefs.bot_position}')
             # print(f'Pedro is: {self.bot.beliefs.human_position}')
             # print('.......................................')
@@ -61,17 +63,27 @@ class Simulation:
 
             # if i == 1:
             #     self.house.say("Pedro", "Oye Will-E, estoy bajo de ánimo, puedes hacerme un chiste?", True)
-            #     i+=1
+            i+=1
+
+            # Report zone
+            if i %(1800+1) == 0:
+                print(self.current_datetime)
+            self.register_vitals()
+
 
             # Add one step to current_datetime
             one_step = timedelta(seconds=1)
             self.current_datetime += one_step
-            print("1")
+            # print(self.current_datetime.time())
 
         print("END")
 
     def submmit_event(self, event: Event):
         self.events.append(event)
+
+    def register_vitals(self):
+        with open(FILE_SRC, 'w', encoding='utf-8') as file:
+            file.write(str(self.human.needs) + '\n')
 
     
 

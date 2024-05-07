@@ -5,3 +5,6 @@ class Sentence:
 
     def __str__(self) -> str:
         return f"{self.speaker} dice: {self.message}"
+    
+    def __repr__(self) -> str:
+        return self.__str__()

@@ -2,7 +2,7 @@ import json
 from Tile import Tile
 from search import House
 from search import *
-from agents.bdi_agent import Belief
+from agents.bdi_agent import Belief, Order
 from datetime import datetime, timedelta
 from agents.needs import Needs
 from simulation_data import BEST_TIMES
@@ -37,7 +37,7 @@ class Task:
         else:
             return f"{self.type} {finished if self.is_successful else in_queue}"
 
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         """
         Decrease 1 second of simulation completing this task.
         - must change is_successful flag
@@ -73,7 +73,7 @@ class Move(Task):
         return actions
     
 
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return                             # plan already finished
 
         if self.elapsed_time == ZERO:                             # initial execution
@@ -83,9 +83,10 @@ class Move(Task):
             self.recompute(self.elapsed_time + timedelta(seconds=len(self.steps)), 
                            self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position)                                    # recompute path
 
-        direction = self.steps.pop(0) 
-        self.house.move(direction, self.author)
-            
+        if len(self.steps) > 0:
+            direction = self.steps.pop(0) 
+            self.house.move(direction, self.author)
+                
         self.elapsed_time += timedelta(seconds=1)
 
         if len(self.steps) == 0:
@@ -107,7 +108,7 @@ class TimeTask(Task):
         self.type = type
         # self.is_successful
     
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return                             
         
         self.elapsed_time += timedelta(seconds=1)
@@ -136,7 +137,7 @@ class Take(Task):
         in_queue = "in queue"
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para coger el objeto
@@ -164,7 +165,7 @@ class Drop(Task):
         in_queue = "in queue"
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para soltar el objeto 
@@ -181,7 +182,7 @@ class PlayMusic(Task):
     def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = False):
         super().__init__(author, time, room, house, None, is_priority, None)
 
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return 
 
         if not self.house.get_is_music_playing():
@@ -190,23 +191,24 @@ class PlayMusic(Task):
         self.elapsed_time += timedelta(seconds=1)
 
         if self.elapsed_time == self.time:
-            self.is_successful = True
-
-class StopMusic(Task):
-    def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = True):
-        super().__init__(author, time, room, house, None, is_priority, None)
-        self.time = 1
-
-    def execute(self, *args):
-        if self.is_successful: return 
-
-        if not self.house.get_is_music_playing():
             self.house.set_is_music_playing(False)
-
-        self.elapsed_time += timedelta(seconds=1)
-
-        if self.elapsed_time == self.time:
             self.is_successful = True
+
+# class StopMusic(Task):
+#     def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = True):
+#         super().__init__(author, time, room, house, None, is_priority, None)
+#         self.time = 1
+
+#     def execute(self, current_datetime: datetime, *args):
+#         if self.is_successful: return 
+
+#         if not self.house.get_is_music_playing():
+#             self.house.set_is_music_playing(False)
+
+#         self.elapsed_time += timedelta(seconds=1)
+
+#         if self.elapsed_time == self.time:
+#             self.is_successful = True
 
 class Need(Task):
     def __init__(self, author, time: timedelta, type: str, house: House = None, beliefs: Belief = None, object_name: str = None, need: str = None, needs: Needs = None):
@@ -216,7 +218,7 @@ class Need(Task):
         self.need = need
         self.inc = 100/BEST_TIMES[self.need]
 
-    def execute(self, *args):
+    def execute(self, current_datetime: datetime, *args):
         if self.is_successful: return     
 
         self.needs.sum_level(self.need, self.inc)
@@ -249,12 +251,12 @@ class Speak(Task):
         self.llm = Gemini()
         self.requested_recipe = False
 
-    def execute(self):
+    def execute(self, current_datetime: datetime, last_notice: Order, *args):
         if self.is_successful: return    
 
         if self.my_turn:
             
-            if self.last_notice is None:
+            if last_notice is None :
                 # Listener did't speak and I am not starter
                 if len(self.conversation) > 0:
                     self.is_successful = True
@@ -262,7 +264,7 @@ class Speak(Task):
             # Listener sayed something
             else:
                 # Update with last_notice
-                self.conversation.append(Sentence(self.listener, self.last_notice[0]))
+                self.conversation.append(Sentence(self.listener, last_notice.body))
 
 
             # Start conversation case
@@ -275,14 +277,23 @@ class Speak(Task):
                 out = json.loads(out)
                 response = out["response"]
 
+                if response == "END":
+                    self.is_successful = True
+                    return
+                
                 # Use customized response for recipe
-                recipe_query = out["recipe"] == "SI"
-                if self.author == "Will-E" and not self.requested_recipe and recipe_query:
-                    self.requested_recipe = True
-                    #######################################################
-                    # Prompt para recomendar receta con el sistema experto
-                    response = response
-                    #######################################################
+                if self.author == "Will-E":
+                    try:
+                        recipe_query = out["receta"] == "SI"
+                        if not self.requested_recipe and recipe_query:
+                            self.requested_recipe = True
+                            #######################################################
+                            # Prompt para recomendar receta con el sistema experto
+                            response = response
+                            #######################################################
+                    except:
+                        # Take as no recipe
+                        pass
                 
 
             self.house.say(self.author, response, by_human_for_need=self.human_need)

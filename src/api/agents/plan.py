@@ -13,7 +13,7 @@ class Plan:
         self.need = need
         
 
-    def run(self, submmit_event):
+    def run(self, submmit_event, current_datetime, last_notice: Order):
         if self.is_successful: return        # plan already finished
 
         
@@ -30,7 +30,7 @@ class Plan:
             
         current_task = self.tasks[0]
 
-        current_task.execute()
+        current_task.execute(current_datetime, last_notice)
 
         if current_task.is_successful:
             self.report_task(current_task, submmit_event)
@@ -38,12 +38,12 @@ class Plan:
             if len(self.tasks) == 0:
                 self.is_successful = True
 
-    def report_task(self, current_task, submmit_event):
-        if current_task.failed:
-            print("TASK COMPLETED")
-        else:
-            print("TASK COMPLETED")
-        print(f'{self.author} completed the task in {self.beliefs.bot_position.area if self.author=="Will-E" else self.beliefs.human_position.area}')
+    def report_task(self, current_task: Task, submmit_event):
+        completed = 'completed'
+        failed = 'failed'
+        # print(f'{self.author} {failed if current_task.failed else completed} the task ~{current_task.type}~ standing in ~{self.beliefs.bot_position.area if self.author=="Will-E" else self.beliefs.human_position.area}~ ')
+        report = f'{self.author} {failed if current_task.failed else completed} the task >{current_task.type}< and now is in >{self.beliefs.bot_position.area if self.author=="Will-E" else self.beliefs.human_position.area}<'
+        print(report)
         submmit_event(Event(self.author, self.intention_name, current_task))
         self.tasks.pop(0)
 
@@ -86,7 +86,10 @@ class Plan:
         finished = "finished"
         in_queue = "in queue"
         return f"{self.tasks.__repr__()} {finished if self.is_successful else in_queue}"
-        
+    
+    def __str__(self) -> str:
+        return f"({self.intention_name})"
+    
     def add_task(self, task: Task):
         self.tasks.append(task)
         self.is_successful = False
