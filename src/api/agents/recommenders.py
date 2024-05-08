@@ -233,7 +233,23 @@ class CulinaryStyleRecommendation:
         
     def __call__(self, *args: np.Any, **kwds: np.Any):
         return self.recommend_culinary_style(args)
-        
+
+
+def call_recommenders(diseases,culinary_styles, hour):
+    mediterranean = culinary_styles['mediterranean']
+    mexican = culinary_styles['mexican']
+    cuban = culinary_styles['cuban']
+    asian = culinary_styles['asian']
+
+    diabetes = diseases['diabetes']
+    heart_disease = diseases['heart_disease']
+
+    culinary_style_recommender = CulinaryStyleRecommendation()
+    culinary_style: str = culinary_style_recommender.recommend_culinary_style(mediterranean, mexican, cuban, asian, hour)
+    recipe_recommender = RecipeRecommendationSystem()
+    culinary_constraint: str = recipe_recommender.recommend_recipe(diabetes, heart_disease)
+    return culinary_style.lower() + culinary_constraint.lower()
+
 # Ejemplo de uso
 # if __name__ == "__main__":
 #     system = RecipeRecommendationSystem()
