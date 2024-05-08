@@ -90,13 +90,17 @@ def human_instruction_request_for_need_prompt(need):
 
     Si la necesidad es Energía se asocia al sueño, y posibles salidas serían:
     Oye Will-E, prepárame el sofá para tomar una siesta
+    Oye Will-E, prepárame el sofá para tomar una siesta
+    Oye Will-E, prepárame la cama para dormir
     Oye Will-E, prepárame una taza de café
 
     Si la necesidad es Hambre posibles salidas serían:
     Oye Will-E, prepárame una ensalada
     Oye Will-E, hazme algo para saciar el hambre
 
-    
+    Si la necesidad es Vejiga posibles salidas serían:
+    Oye Will-E, limpia el inodoro que voy a ir a orinar
+
 
     Ten en cuenta que dicha petición tiene que reflejar una tarea que un robot real realizaría por ti en un entorno doméstico.
 
@@ -296,6 +300,7 @@ Si decides terminar la conversación, sustituye <out> con el string "END"
 }}
 
 tu salida debe ser este json
+Recuerda terminar la conversación cuanto antes
 """
     return prompt
 
@@ -630,6 +635,7 @@ Plantilla:
 }}
 
 tu salida debe ser en formato JSON, utilizando la plantilla anterior
+Recuerda terminar la conversación cuanto antes
 """
     return prompt
 

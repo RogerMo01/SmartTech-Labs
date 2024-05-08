@@ -19,7 +19,7 @@ class Plan:
         
         current_task = self.tasks[0]
 
-        if self.is_postponed or self.is_out(current_task):
+        if self.is_postponed or (current_task is not None and self.is_out(current_task)):
             success = self.recompute()
             if not success:
                 current_task.failed = True
@@ -48,7 +48,8 @@ class Plan:
         self.tasks.pop(0)
 
     def is_out(self, current_task: Task):
-        """Returns false if task take place in a room and agent is not there"""
+        """Returns false if task take place in a room or using an object and agent is not there"""
+
         object = current_task.object_name
         if object is not None:
             object: Object = self.house.get_object(object)

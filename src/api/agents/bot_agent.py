@@ -198,7 +198,10 @@ class Bot_Agent(BDI_Agent):
 
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
-                    self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                    nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
+                    plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
+                    self.intentions.append(plan)
+                    # self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
                 else:
                     self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
                     self.intentions.append(new_plan)

@@ -105,12 +105,12 @@ class Human_Agent(BDI_Agent):
         # No plans and no limits exceed
         if not limit_exceed and len(self.intentions) == 0:
 
-            # Decidir si hacer algo o no (cada 30 min)
-            if assert_chance(1/3600):
+            # Decidir si hacer algo o no (cada 45 min)
+            if assert_chance(1/2700):
                 need = self._get_min_need()
                 # Decidir si hacerlo solo o con robot
                 # if assert_chance(0.5):
-                if assert_chance(0.5):
+                if assert_chance(0.5) or need==BLADDER: #BLADDER just as individual
                     self._create_individual_plan(need)
                 else:
                     # robot helps
@@ -121,7 +121,7 @@ class Human_Agent(BDI_Agent):
                     speak_task = Speak(self.agent_id, self.bot_id, self.beliefs.last_notice, self.__house, self.beliefs, instruction, human_need=True)
                     plan = Plan(f"Ordenar a {self.bot_id} para q ayude en +{need}+", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
 
-                    self.register_log(f"Pedro planifica >{plan.intention_name}<", True)
+                    self.register_log(f"Pedro planifica >{plan.intention_name}< preguntando >{instruction}<", True)
                     self.intentions.append(plan)
             
 
@@ -272,13 +272,13 @@ class Human_Agent(BDI_Agent):
     def overtake_plan(self, plan: Plan):
         """Overtakes plan after current head plan, according to tasks order"""
         if len(self.intentions) == 1: return
-        self.intentions.remove(plan)
 
         index = 0
         for p in self.intentions:
             # Busca el primer plan con menor prioridad e inserta
             if p.need is None or NEEDS_ORDER.index(p.need) > NEEDS_ORDER.index(plan.need):
                 self.register_log(f"Pedro adelanta >{plan.intention_name}<")
+                self.intentions.remove(plan)
                 self.intentions.insert(index, plan)
                 return
             index +=1
@@ -319,14 +319,14 @@ class Human_Agent(BDI_Agent):
             if current_plan.need == ENERGY:
                 # No bajar más del límite estos parámetros
                 if self.needs[BLADDER] <= NEEDS_LIMIT[BLADDER]:
-                    needs.remove(BLADDER)
+                    if BLADDER in needs: needs.remove(BLADDER)
                 if self.needs[ENTERTAINMENT] <= NEEDS_LIMIT[ENTERTAINMENT]:
-                    needs.remove(ENTERTAINMENT)
+                    if ENTERTAINMENT in needs: needs.remove(ENTERTAINMENT)
             
             # Si hay música puesta, subir ENTERTAINMENT
             if self.__house.get_is_music_playing():
                 # Evitar que baje más
-                needs.remove(ENTERTAINMENT)
+                if ENTERTAINMENT in needs: needs.remove(ENTERTAINMENT)
                 # Subirlo (1 hora => +20)
                 self.needs.sum_level(ENTERTAINMENT, 20/3600)
 
