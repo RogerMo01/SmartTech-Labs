@@ -277,9 +277,18 @@ class Speak(Task):
             # Reply case
             else:
                 conversation_prompt = robot_conversation_prompt(self.conversation) if self.author == "Will-E" else human_conversation_prompt(self.conversation)
-                out = self.llm(conversation_prompt)
-                out = json.loads(out)
-                response = out["response"]
+                
+                # Try get response 3 times
+                tries = 0
+                while tries < 3:
+                    try:
+                        out = self.llm(conversation_prompt)
+                        out = json.loads(out)
+                        response = out["response"]
+                        tries = 3
+                    except:
+                        tries+=1
+                    
 
                 if response == "END":
                     self.is_successful = True

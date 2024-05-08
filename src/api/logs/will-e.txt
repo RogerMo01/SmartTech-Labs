@@ -1,30 +1,24 @@
-[2024-01-24 13:41:40] Will-E planifica >Responder a Pedro<
-[2024-01-24 13:41:44] Will-E terminó >Responder a Pedro<
-[2024-01-24 17:02:59] Will-E planifica >Responder a Pedro<
-[2024-01-24 17:03:03] Will-E terminó >Responder a Pedro<
-[2024-01-24 18:00:01] Will-E planifica >Responder a Pedro<
-[2024-01-24 18:00:07] Will-E terminó >Responder a Pedro<
-[2024-01-24 21:28:43] Will-E planifica >Responder a Pedro<
-[2024-01-24 21:28:53] Will-E terminó >Responder a Pedro<
-[2024-01-24 22:06:12] Will-E planifica >Responder a Pedro<
-[2024-01-24 22:06:22] Will-E terminó >Responder a Pedro<
-[2024-01-24 22:36:44] Will-E planifica >Responder a Pedro<
-[2024-01-24 22:36:48] Will-E terminó >Responder a Pedro<
-[2024-01-24 23:14:12] Will-E planifica >Preparar café para Pedro<
-[2024-01-24 23:15:37] Will-E terminó >Preparar café para Pedro<
-[2024-01-25 01:17:03] Will-E planifica >Responder a Pedro<
-[2024-01-25 01:17:07] Will-E terminó >Responder a Pedro<
-[2024-01-25 02:42:45] Will-E planifica >Responder a Pedro<
-[2024-01-25 02:42:51] Will-E terminó >Responder a Pedro<
-[2024-01-25 04:50:30] Will-E planifica >Responder a Pedro<
-[2024-01-25 04:50:34] Will-E terminó >Responder a Pedro<
-[2024-01-25 05:47:50] Will-E planifica >Responder a Pedro<
-[2024-01-25 05:47:52] Will-E terminó >Responder a Pedro<
-[2024-01-25 08:40:45] Will-E planifica >Responder a Pedro<
-[2024-01-25 08:40:47] Will-E terminó >Responder a Pedro<
-[2024-01-25 09:10:44] Will-E planifica >Recordar a Pedro a qué hora debe ir al baño<
-[2024-01-25 09:10:46] Will-E terminó >Recordar a Pedro a qué hora debe ir al baño<
-[2024-01-25 10:08:22] Will-E planifica >Poner la televisión en el canal favorito de Pedro<
-[2024-01-25 10:08:50] Will-E terminó >Poner la televisión en el canal favorito de Pedro<
-[2024-01-25 11:59:13] Will-E planifica >Responder a Pedro<
-[2024-01-25 11:59:17] Will-E terminó >Responder a Pedro<
+[2024-01-24 08:05:25] Will-E planifica >Responder a Pedro<
+[2024-01-24 08:05:27] Will-E terminó >Responder a Pedro<
+[2024-01-24 11:10:47] Will-E planifica >Responder a Pedro<
+[2024-01-24 11:10:51] Will-E terminó >Responder a Pedro<
+[2024-01-24 12:12:19] Will-E planifica >Llevl a Pedro al inodoro<
+[2024-01-24 12:12:41] Will-E terminó >Llevl a Pedro al inodoro<
+[2024-01-24 18:15:15] Will-E planifica >Responder a Pedro<
+[2024-01-24 18:15:17] Will-E terminó >Responder a Pedro<
+[2024-01-24 19:06:34] Will-E planifica >Poner programa de televisión en la sala de estar<
+[2024-01-24 19:06:48] Will-E terminó >Poner programa de televisión en la sala de estar<
+[2024-01-24 20:19:10] Will-E planifica >Preparar baño con agua caliente<
+[2024-01-24 20:19:36] Will-E terminó >Preparar baño con agua caliente<
+[2024-01-24 23:48:44] Will-E planifica >Responder a Pedro<
+[2024-01-24 23:48:46] Will-E terminó >Responder a Pedro<
+[2024-01-25 06:54:03] Will-E planifica >Responder a Pedro<
+[2024-01-25 06:54:05] Will-E terminó >Responder a Pedro<
+[2024-01-25 07:23:01] Will-E planifica >Responder a Pedro<
+[2024-01-25 07:23:03] Will-E terminó >Responder a Pedro<
+[2024-01-25 08:40:24] Will-E planifica >Limpiar el baño y preparar el agua caliente de la bañera<
+[2024-01-25 08:41:07] Will-E terminó >Limpiar el baño y preparar el agua caliente de la bañera<
+[2024-01-25 09:23:24] Will-E planifica >Responder a Pedro<
+[2024-01-25 09:23:26] Will-E terminó >Responder a Pedro<
+[2024-01-25 11:54:58] Will-E planifica >Preparar café para saciar el hambre de Pedro<
+[2024-01-25 11:56:33] Will-E terminó >Preparar café para saciar el hambre de Pedro<

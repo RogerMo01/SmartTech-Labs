@@ -92,7 +92,6 @@ def human_instruction_request_for_need_prompt(need):
     Oye Will-E, prepárame el sofá para tomar una siesta
     Oye Will-E, prepárame el sofá para tomar una siesta
     Oye Will-E, prepárame la cama para dormir
-    Oye Will-E, prepárame una taza de café
 
     Si la necesidad es Hambre posibles salidas serían:
     Oye Will-E, prepárame una ensalada
@@ -110,7 +109,7 @@ def human_instruction_request_for_need_prompt(need):
 
     return human_instruction
 
-def generate_action_values(need:str, level:int):  #acción, cuanto sube la necesidad.
+def generate_action_values(need:str, level:int, time: datetime):  #acción, cuanto sube la necesidad.
     prompt =f"""
 Eres un humano llamado Pedro y tienes una necesidad que quieres satisfacer(dicha necesidad se necuentra más abajo donde dice Necesidad).
 
@@ -129,11 +128,8 @@ Para una necesidad Vejiga, otra posible salida es:
 Para una necesidad Hambre, una posible salida es:
 ["Comer un bocadillo", 35]    
 
-Para una necesidad Energía, una posible salida es:
-["Dormir una siesta",50]
-    
 Para una necesidad Energía, otra posible salida es:
-["Acostarse a dormir", 80]
+["Acostarse a dormir", 90]
 
 Ten en cuenta que después de realizada la acción el valor de cantidad_incremento más alto que se puede alcanzar es (100 - {level}) y que mientras más bajo sea el valor de level mayor será el aumento de cantidad_incremento.
 Por tanto, en cantidad incremento devuelve un valor entre [1, {100-level}]
@@ -141,6 +137,8 @@ Debes responder solamente con el array
 
 Ahora si, analiza la siguiente necesidad de Pedro:
 Necesidad: {need}
+
+Ten en cuenta que en este momento la hora del día es: {time.time}
 """
     return prompt
 
@@ -625,13 +623,13 @@ Sé lo más preciso y objetivo en tu respuesta.
 La conversación debe ser corta.
 
 Si decides responder, sustituye <out> con la respuesta de Will-E a Pedro en string con (")
-Si decides terminar la conversación, sustituye <out> con el string "END"
-Si entiendes que te pide una receta, sustituye <receta> con el string "SI", sino con "NO"
+Si decides terminar la conversación, sustituye <out> con el string: "END"
+Si entiendes que te pide una receta, sustituye <receta> con el string: "SI", sino con "NO"
 
 Plantilla:
 {{
-    "response": <out>,
-    "receta": <receta>
+    "response": "<out>",
+    "receta": "<receta>"
 }}
 
 tu salida debe ser en formato JSON, utilizando la plantilla anterior

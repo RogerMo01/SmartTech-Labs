@@ -47,6 +47,15 @@ class Human_Agent(BDI_Agent):
 
         self.plan_intentions()
 
+
+        #······Temporal for debug ······
+        for i in self.intentions:
+            if i is None:
+                print(i)
+                pass
+        #·······························
+            
+
         current_plan = None
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
@@ -105,9 +114,9 @@ class Human_Agent(BDI_Agent):
         # No plans and no limits exceed
         if not limit_exceed and len(self.intentions) == 0:
 
-            # Decidir si hacer algo o no (cada 45 min)
-            if assert_chance(1/2700):
-                need = self._get_min_need()
+            # Decidir si hacer algo o no (cada 1 hora)
+            if assert_chance(1/3600):
+                need = self._get_min_need() # skips ENERGY
                 # Decidir si hacerlo solo o con robot
                 # if assert_chance(0.5):
                 if assert_chance(0.5) or need==BLADDER: #BLADDER just as individual
@@ -145,19 +154,30 @@ class Human_Agent(BDI_Agent):
 
                 # No hay plan adelantado => poner plan
                 if not covered:
-                    self._create_individual_plan(need)
+                    # Dormir solo después de las 11pm, y antes de las 4am
+                    if need == ENERGY and (self.current_datetime.hour < 23 and self.current_datetime.hour > 4):
+                        pass
+                    else:
+                        self._create_individual_plan(need)
     
 
     def _create_individual_plan(self, need: str):
         """Creates an individual plan for Pedro, for an especific need"""
         level = self.needs[need]
-        prompt = generate_action_values(SPANISH_NEEDS[need], level)
+        prompt = generate_action_values(SPANISH_NEEDS[need], level, self.current_datetime)
         response = self.llm(prompt)
         try:
             response = json.loads(response)
             level = response[1]
             time = self.calculate_time(need, level)
+
             intention_name = response[0]
+
+            # Sleep long time (7-8 hours)
+            if need == ENERGY:
+                time = timedelta(seconds=random.randint(25200, 28800))
+                intention_name = random.choice(["Dormir", "Ir a dormir"])
+
             task = human_plan_generator_prompt(intention_name)
             task = self.llm(task, True)
             task = json.loads(task)
@@ -318,10 +338,17 @@ class Human_Agent(BDI_Agent):
 
             if current_plan.need == ENERGY:
                 # No bajar más del límite estos parámetros
-                if self.needs[BLADDER] <= NEEDS_LIMIT[BLADDER]:
+                if self.needs[BLADDER] <= NEEDS_LIMIT[BLADDER]+1:
                     if BLADDER in needs: needs.remove(BLADDER)
-                if self.needs[ENTERTAINMENT] <= NEEDS_LIMIT[ENTERTAINMENT]:
+                if self.needs[ENTERTAINMENT] <= NEEDS_LIMIT[ENTERTAINMENT]+1:
                     if ENTERTAINMENT in needs: needs.remove(ENTERTAINMENT)
+                if self.needs[HUNGRY] <= NEEDS_LIMIT[HUNGRY]+1:
+                    if HUNGRY in needs: needs.remove(HUNGRY)
+
+                # Ganas de orinar cada 12 horas durante el sueño
+                if assert_chance(1/43200) and self.needs[BLADDER] <= NEEDS_LIMIT[BLADDER]+1:
+                    self.needs[BLADDER] -= 2
+
             
             # Si hay música puesta, subir ENTERTAINMENT
             if self.__house.get_is_music_playing():
@@ -331,12 +358,18 @@ class Human_Agent(BDI_Agent):
                 self.needs.sum_level(ENTERTAINMENT, 20/3600)
 
         for need in needs:
+            # Si la energia esta por debajo del limite, y no es entre 11 y 9, no bajar
+            if need == ENERGY and (self.needs[ENERGY]<NEEDS_LIMIT[ENERGY]) and (self.current_datetime.hour < 23 or self.current_datetime.hour > 9):
+                continue
+
             self.needs.dec_level(need)
+
 
     def _get_min_need(self):
         min = BLADDER
         min_value = self.needs.bladder
         for n in NEEDS_ORDER:
+            if n == ENERGY: continue
             if self.needs[n] < min_value: 
                 min = n
                 min_value = self.needs[n]

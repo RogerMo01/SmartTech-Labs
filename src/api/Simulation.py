@@ -14,7 +14,7 @@ class Simulation:
         # with open('config.json', 'r') as f:
         #     config: dict = json.load(f)
         
-        start = "2024-01-24T12:00:00.000000"
+        start = "2024-01-24T08:00:00.000000"
         end = "2024-01-25T12:00:00.000000"
         format = "%Y-%m-%dT%H:%M:%S.%f"
         self.start_datetime = datetime.strptime(start, format)

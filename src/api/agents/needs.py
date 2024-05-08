@@ -2,11 +2,11 @@ from simulation_data import DEC_LIMIT, NEEDS_LIMIT, ENERGY, HYGIENE, HUNGRY, BLA
 
 class Needs:
     def __init__(self):
-        self.energy = 24
-        self.hungry = 60
-        self.bladder = 60
-        self.hygiene = 60
-        self.entertainment = 60
+        self.energy = 99
+        self.hungry = 30
+        self.bladder = 20
+        self.hygiene = 70
+        self.entertainment = 50
 
     def __getitem__(self, need: str):
         if need == ENERGY:
