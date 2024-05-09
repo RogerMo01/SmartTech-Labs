@@ -9,6 +9,7 @@ from agents.plan import *
 from llm.gemini import Gemini
 from llm.prompts import *
 import simulation_data
+from battery import Battery
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
                      "No tengo las habilidades para hacer eso, lo siento",
@@ -16,6 +17,7 @@ NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
 
 FILE_SRC = "src/api/logs/will-e.txt"
 
+consumption_per_task = simulation_data.CONSUMPTION_PER_TASK
 
 
 class Bot_Belief(Belief):
@@ -48,6 +50,7 @@ class Bot_Agent(BDI_Agent):
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
         #                              Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
         self.current_datetime = None
+        self.battery = Battery()
 
     def run(self, submmit_event, current_datetime: datetime):
        self.current_datetime = current_datetime
@@ -59,7 +62,13 @@ class Bot_Agent(BDI_Agent):
        
        if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
-            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice)
+
+            if isinstance(current_plan, Charge):
+                self.battery.is_charging = True
+            else:
+                self.battery.is_charging = False
+
+            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice, self.battery)
 
             if current_plan.is_successful:
                 # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
@@ -77,6 +86,10 @@ class Bot_Agent(BDI_Agent):
                 self.register_log(f"Will-E reconsideró >{current_plan.intention_name}< en lugar de {selected_intention.intention_name}")
                 self.reorder_intentions(selected_intention, current_plan)
         
+       else:
+           if not self.battery.is_charging:
+                self.battery.decrease_battery(0.0005)
+           
 
         
     def see(self):
@@ -236,21 +249,49 @@ class Bot_Agent(BDI_Agent):
                     self.intentions.append(new_plan)
             
 
+        # ---------------- Verficiar que Will-E tenga mas de 20% de bateria -------------------
+        if self.battery.percent_battery < 20 and not self.battery.is_charging:
+            self._create_charge_plan()
+
+        if len(self.intentions) > 0:
+            current_plan: Plan = self.intentions[0]
+            # ------------------ Verificar q le alcance la bateria para ejecutar todas las tareas del plan --------
+            if not isinstance(current_plan, Charge) and current_plan.started == False:
+                plan_battery_consumption = self.battery_management(current_plan)
+                if(self.battery.percent_battery - plan_battery_consumption < 10):
+                    self._create_charge_plan()
+                    current_plan.started = True
+
+
+    def _create_charge_plan(self):
+        charge_station: Object = self.__house.get_object("estación_de_carga")
+
+        move_task = Move(self.agent_id, self.__house, self.beliefs, charge_station.robot_face_tiles[0])
+        charge_task = Charge(self.agent_id, self.__house, self.beliefs, charge_station.name)
+
+        plan = Plan("Ir a cargar", self.__house, self.agent_id, self.beliefs, [move_task, charge_task])
+
+        self.intentions.append(plan)
+
+        if len(self.intentions) > 0:
+            self.reorder_intentions(plan, self.intentions[0])
+
 
 
 
     def reconsider(self, current_plan: Plan, probability: float):
-        _reconsider = random.uniform(0,1)
-        posible_plans = []
-        if _reconsider <= probability:
-            for intention in self.intentions:
-                if self.beliefs.bot_position.area == self.get_room_plan(intention) and intention.intention_name != current_plan.intention_name:
-                    posible_plans.append(intention)
-            
-            if len(posible_plans) != 0:
-                selected_plan = random.randint(0, len(posible_plans) - 1)
-                return True, posible_plans[selected_plan]
-            else: return False, None
+        if len(self.intentions)>0 and not isinstance(self.intentions[0], Charge):
+            _reconsider = random.uniform(0,1)
+            posible_plans = []
+            if _reconsider <= probability:
+                for intention in self.intentions:
+                    if self.beliefs.bot_position.area == self.get_room_plan(intention) and intention.intention_name != current_plan.intention_name:
+                        posible_plans.append(intention)
+                
+                if len(posible_plans) != 0:
+                    selected_plan = random.randint(0, len(posible_plans) - 1)
+                    return True, posible_plans[selected_plan]
+                else: return False, None
 
         else: return False, None
 
@@ -275,6 +316,23 @@ class Bot_Agent(BDI_Agent):
     # -------------- #
     # Unused methods #
     # -------------- #
+
+    def battery_management(plan: Plan):
+        plan_battery_consumption = 0
+        for task in plan.tasks:
+            if isinstance(task, Move) or isinstance(task, Speak):
+                # Consumir 0.05% de batería por cada segundo 60s ~ 0.3%
+                plan_battery_consumption += consumption_per_task["move_speak"]
+            elif isinstance(task, TimeTask):
+                plan_battery_consumption += consumption_per_task["time_task"] * task.time
+            elif isinstance(task, Take) or isinstance(task, Drop):
+                plan_battery_consumption += consumption_per_task["take_drop"] * task.time
+            elif isinstance(task, PlayMusic):
+                plan_battery_consumption += consumption_per_task["play_music"] * task.time
+
+        return plan_battery_consumption
+
+
 
     def filter(self, beliefs, desire, intentions):  # i'll use this method later
             """return the filtered intentions based on the beliefs and selected desire

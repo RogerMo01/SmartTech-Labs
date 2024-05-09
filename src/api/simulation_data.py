@@ -187,6 +187,7 @@ chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True, 
 tv_table = Object('mesa_de_tv', overlappable=True, human_step=True, robot_step=True)
 tv = Object('tv', overlappable=True, human_step=True, robot_step=True, switchable=True)
 coffee_dispenser = Object('dispensador_café', portable=False, overlappable=True, human_step=True, robot_step=True, switchable=True, waterable=True, cleanable=True)
+charge_station = Object('estación_de_carga',overlappable=True, human_step=True, robot_step=True, switchable=True)
 
 plant1 = Object('planta_1', overlappable=True, human_step=True, robot_step=True, waterable=True)
 plant2 = Object('planta_2', overlappable=True, human_step=True, robot_step=True, waterable=True)
@@ -210,7 +211,7 @@ stove = Object('fogón', switchable=True)
 bin = Object('cesto_de_basura', overlappable=True, human_step=True, robot_step=True)
 fridge = Object('refrigerador')
 
-objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv, coffee_dispenser,
+objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv, coffee_dispenser, charge_station,
                  plant1, plant2, plant3, bed, bed_table, flip_flops, closet, mobile,
                  toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin, fridge]
 objects_names = [o.name for o in objects_instances]
@@ -264,3 +265,10 @@ BEST_TIMES = {'bladder': 900, 'hungry': 1800, 'energy': 28800, 'hygiene': 1200, 
 # siente la necesidad cada estos numeros (ejemplo: sueño cada 16 horas)
 # energy: 16*3600, hygiene: 31*3600, 4*3600[miccionar]
 DEC_LIMIT = {'bladder': 14400, 'hungry': 50400, 'energy': 57600, 'hygiene': 111600, 'entertainment': 64800}
+
+CONSUMPTION_PER_TASK = {
+    "move_speak": 0.005,
+    "time_task": 0.01,
+    "take_drop": 0.001,
+    "play_music": 0.001
+}
