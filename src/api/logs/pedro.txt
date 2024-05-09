@@ -1,0 +1,26 @@
+[2024-01-24 08:00:00] Pedro planifica >Ir al baño<
+[2024-01-24 08:00:00] Pedro planifica >Comer una pizza<
+[2024-01-24 09:50:26] Pedro planifica >Ir al baño<
+[2024-01-24 11:10:46] Pedro planifica >Ver una pelicula<
+[2024-01-24 12:12:18] Pedro planifica >Ir al inodoro<
+[2024-01-24 12:12:40] Pedro planifica >Ir hacia la derecha del pasillo<
+[2024-01-24 16:21:43] Pedro planifica >Orinar un poco<
+[2024-01-24 17:40:36] Pedro planifica >Ir al inodoro<
+[2024-01-24 18:15:14] Pedro planifica >Comer una pizza<
+[2024-01-24 19:06:33] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+< preguntando >Oye Will-E, pon un programa de televisión en la sala de estar.<
+[2024-01-24 19:06:47] Pedro planifica >Ver el programa de televisión<
+[2024-01-24 20:19:09] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+< preguntando >Oye Will-E, prepara un baño con agua calentita<
+[2024-01-24 20:19:35] Pedro planifica >Bañarme en agua calentita<
+[2024-01-24 21:21:07] Pedro planifica >Ir al inodoro<
+[2024-01-24 23:48:43] Pedro planifica >Dormir<
+[2024-01-25 02:43:54] Pedro planifica >Ir al baño<
+[2024-01-25 02:43:54] Pedro adelanta >Ir al baño<
+[2024-01-25 06:43:18] Pedro planifica >Ir al baño<
+[2024-01-25 06:46:49] Pedro planifica >Comer una pizza<
+[2024-01-25 07:23:00] Pedro planifica >Ver una serie<
+[2024-01-25 08:40:23] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+< preguntando >Oye Will-E, limpia el baño y prepara el agua caliente de la bañera<
+[2024-01-25 08:41:06] Pedro planifica >Darme un baño relajante<
+[2024-01-25 09:23:23] Pedro planifica >Ver una película<
+[2024-01-25 10:24:02] Pedro planifica >Ir al inodoro<
+[2024-01-25 11:54:57] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+< preguntando >Oye Will-E, prepara un poco de café para saciar mi hambre.<
+[2024-01-25 11:56:32] Pedro planifica >Tomar un café<

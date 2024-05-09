@@ -176,41 +176,49 @@ map = {
 
 
 ################# Objects ##################
-sofa = Object('sofá', human_step=True)
+sofa = Object('sofá', human_step=True, cleanable=True)
 table = Object('mesa_comedor', cleanable=True)
-chair1 = Object('silla_1', overlappable=True, human_step=True, robot_step=True)
-chair2 = Object('silla_2', overlappable=True, human_step=True, robot_step=True)
-chair3 = Object('silla_3', overlappable=True, human_step=True, robot_step=True)
-chair4 = Object('silla_4', overlappable=True, human_step=True, robot_step=True)
-chair5 = Object('silla_5', overlappable=True, human_step=True, robot_step=True)
-chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True)
+chair1 = Object('silla_1', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair2 = Object('silla_2', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair3 = Object('silla_3', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair4 = Object('silla_4', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair5 = Object('silla_5', overlappable=True, human_step=True, robot_step=True, cleanable=True)
+chair6 = Object('silla_6', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 tv_table = Object('mesa_de_tv', overlappable=True, human_step=True, robot_step=True)
 tv = Object('tv', overlappable=True, human_step=True, robot_step=True, switchable=True)
+coffee_dispenser = Object('dispensador_café', portable=False, overlappable=True, human_step=True, robot_step=True, switchable=True, waterable=True, cleanable=True)
 
 plant1 = Object('planta_1', overlappable=True, human_step=True, robot_step=True, waterable=True)
 plant2 = Object('planta_2', overlappable=True, human_step=True, robot_step=True, waterable=True)
 plant3 = Object('planta_3', overlappable=True, human_step=True, robot_step=True, waterable=True)
 
-bed = Object('cama')
+bed = Object('cama', human_step=True)
 bed_table = Object('mesa_de_noche', overlappable=True, human_step=True, robot_step=True)
 flip_flops = Object('chanclas', portable=True, overlappable=True, human_step=True, robot_step=True)
 closet = Object('armario')
+mobile = Object('móvil', portable=True, switchable=True, overlappable=True, human_step=True, robot_step=True)
 
 toilet = Object('inodoro', overlappable=True, human_step=True, robot_step=True, cleanable=True)
-bathtub = Object('bañera', cleanable=True)
+bathtub = Object('bañera', cleanable=True, waterable=True, human_step=True)
 washbasin = Object('lavamanos', overlappable=True, human_step=True, robot_step=True, cleanable=True)
 
 worktop1 = Object('encimera_1', cleanable=True)
 worktop2 = Object('encimera_2', cleanable=True)
 worktop3 = Object('encimera_3', cleanable=True)
-sink = Object('fregadero')
-stove = Object('fogón')
+sink = Object('fregadero', cleanable=True)
+stove = Object('fogón', switchable=True)
 bin = Object('cesto_de_basura', overlappable=True, human_step=True, robot_step=True)
+fridge = Object('refrigerador')
 
-objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv,
-                 plant1, plant2, plant3, bed, bed_table, flip_flops, closet,
-                 toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin]
+objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6, tv_table, tv, coffee_dispenser,
+                 plant1, plant2, plant3, bed, bed_table, flip_flops, closet, mobile,
+                 toilet, bathtub, washbasin, worktop1, worktop2, worktop3, sink, stove, bin, fridge]
 objects_names = [o.name for o in objects_instances]
+
+#################### Human likes #####################
+musical_genres = ["rock", "pop", "electrónica", "hip hop", "jazz", "salsa", "bachata", "merengue"]
+film_genres = ["acción", "comedia", "drama", "ciencia ficción", "terror", "documental", "animación", "fantasía", "suspenso"]
+culinary_styles = ["mediterránea", "mexicana", "italiana", "francesa", "cubana", "japonesa", "china", "india", "tailandesa", "árabe", "peruana"]
 
 
 #################### Areas #####################
@@ -220,15 +228,39 @@ areas = ['dormitorio', 'sala_de_estar', 'baño', 'cocina']
 #################### Robot Actions ########################
 CLEAN = "LIMPIAR"
 WALK = "CAMINAR_HASTA"
+# NOTIFY = "AVISAR"
 
 WATER_OBJ = "ECHAR_AGUA_A"
 ON_OBJ = "ENCENDER"
 OFF_OBJ = "APAGAR"
 TAKE_OBJ = "COGER"
 DROP_OBJ = "SOLTAR"
+SET_UP = "PREPARAR"
+USE = "USAR"
 
-robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
-robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ]
+PLAY_MUSIC = "REPRODUCIR_MÚSICA"
+
+SAY_JOKE = "DECIR_CHISTE"
+
+RECOMMEND = "HACER_RECOMENDACIÓN"
+
+robot_need_actions = [PLAY_MUSIC] 
+robot_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, PLAY_MUSIC, SET_UP, USE]
+robot_obj_actions = actions = [WALK, CLEAN, WATER_OBJ, ON_OBJ, OFF_OBJ, TAKE_OBJ, DROP_OBJ, SET_UP, USE]
+robot_no_obj_actions = [PLAY_MUSIC]
 robot_area_actions = [WALK, CLEAN]
 
 robot_water_actions = [CLEAN, WATER_OBJ]
+
+
+ENERGY = 'energy'
+BLADDER = 'bladder'
+HUNGRY = 'hungry'
+HYGIENE = 'hygiene'
+ENTERTAINMENT = 'entertainment'
+ 
+NEEDS_LIMIT = {'bladder': 20, 'hungry': 30, 'energy': 15, 'hygiene': 10, 'entertainment': 10}
+BEST_TIMES = {'bladder': 900, 'hungry': 1800, 'energy': 28800, 'hygiene': 1200, 'entertainment': 9000}
+# siente la necesidad cada estos numeros (ejemplo: sueño cada 16 horas)
+# energy: 16*3600, hygiene: 31*3600, 4*3600[miccionar]
+DEC_LIMIT = {'bladder': 14400, 'hungry': 50400, 'energy': 57600, 'hygiene': 111600, 'entertainment': 64800}

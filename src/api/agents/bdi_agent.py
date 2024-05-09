@@ -5,17 +5,27 @@ from Tile import Tile
 #   - is the information that the agent has about the world
 #   - is the information that the agent has about itself
 #   - is the information that the agent has about other agents
+
+class Order:
+    def __init__(self, body: str, by_human_for_need: bool):
+        self.body = body
+        self.by_human_for_need = by_human_for_need
+
+
 class Belief:
     def __init__(self, house: House, other_beliefs = {}):
         self.map, self.objects, self.bot_position, self.human_position, self.speaks = house.get_data()
-        self.likes, self.dislikes, self.constraints = self.get_belief(other_beliefs)
+        self.likes, self.diseases = self.get_belief(other_beliefs)
 
     def update_belief(self):
         pass
 
     @staticmethod
     def get_belief(beliefs):
-        return beliefs['likes'], beliefs['dislikes'], beliefs['constraints']
+        return beliefs['likes'], beliefs['diseases']
+    
+    def get_data_for_recommender(self):
+        return self.likes['culinary_styles'], self.diseases
 
 class Perception:
     def __init__(self, map: dict, objects: dict, bot_position: Tile, human_position: Tile, speaks: list[str]):

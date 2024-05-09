@@ -1,22 +1,28 @@
 import json
-from agents.bdi_agent import *
 import random
+from datetime import datetime
+from agents.bdi_agent import *
 from House import *
 from search import *
 from agents.task import *
 from agents.plan import *
 from llm.gemini import Gemini
-from llm.prompts import plan_generator_prompt, validate_instruction_prompt
+from llm.prompts import *
 import simulation_data
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
                      "No tengo las habilidades para hacer eso, lo siento",
                      "No sé como hacer lo que me pides, lo siento"]
 
+FILE_SRC = "src/api/logs/will-e.txt"
+
+
+
 class Bot_Belief(Belief):
     def __init__(self, house: House = None, other_beliefs={}):
         super().__init__(house, other_beliefs)
-        self.last_order = None
+        self.last_order: Order = None
+        self.last_notice: Order = None
         # self.map
         # self.likes
         # self.dislikes
@@ -41,9 +47,10 @@ class Bot_Agent(BDI_Agent):
                                         # Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
         #                              Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
+        self.current_datetime = None
 
-
-    def run(self, submmit_event):
+    def run(self, submmit_event, current_datetime: datetime):
+       self.current_datetime = current_datetime
         
        perception = self.see()
        self.brf(perception)
@@ -52,10 +59,11 @@ class Bot_Agent(BDI_Agent):
        
        if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
-            current_plan.run(submmit_event)
+            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice)
 
             if current_plan.is_successful:
-                print("PLAN COMPLETED")
+                # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
+                self.register_log(f"Will-E terminó >{current_plan.intention_name}<")
                 self.intentions.pop(0)
                 
             self.increment_postponed_plan(current_plan)
@@ -65,7 +73,8 @@ class Bot_Agent(BDI_Agent):
             _reconsider, selected_intention = self.reconsider(current_plan, 0.1)
             
             if _reconsider:
-                print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
+                # print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
+                self.register_log(f"Will-E reconsideró >{current_plan.intention_name}< en lugar de {selected_intention.intention_name}")
                 self.reorder_intentions(selected_intention, current_plan)
         
 
@@ -101,6 +110,7 @@ class Bot_Agent(BDI_Agent):
         # Set last order
         if detected_conversations:
             self.beliefs.last_order = self._detect_order()
+            self.beliefs.last_notice = self._detect_notice()
         else:
             self.beliefs.last_order = None
 
@@ -112,37 +122,120 @@ class Bot_Agent(BDI_Agent):
     
 
     def plan_intentions(self):
-
+        
+        # Pedro order
         if self.beliefs.last_order is not None:
             is_valid_plan = True
             
-            # Check is a valid order here and build intention
-            prompt = validate_instruction_prompt(self.beliefs.last_order)
-            intention = self.llm(prompt)
-            if intention == "No": 
-                is_valid_plan = False
-            else:
-                # Then make plan
-                prompt = plan_generator_prompt(intention)
-                try:
-                    plan = self.llm(prompt)
-                    plan = json.loads(plan)
-                    new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
-                    for t in plan:
-                        task: Task|None = self._task_parser(t)
-                        if task is None: is_valid_plan = False
-                        new_plan.add_task(task)
+            # Pedro order and boosts a need
+            if self.beliefs.last_order.by_human_for_need:
 
-                except:
-                    is_valid_plan = False
+                # Check is only response
+                prompt = is_only_response_instruction_prompt(self.beliefs.last_order.body)
+                only_response = self.llm(prompt)
+                
+                require_object = only_response == 'no'
 
-            if not is_valid_plan:
-                # Generate negative feedback and say it to human
-                self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
-                return
+                # Pedro order, boosts a need and is response type
+                if not require_object:
+                    speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_notice, self.__house, self.beliefs)
 
-            self.intentions.append(new_plan)
+                    # prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
+                    # response = self.llm(prompt)
+                    
+                    # speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_order.body, self.__house, self.beliefs, response, )
+                    new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
+                    
+                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
+                    self.intentions.insert(0, new_plan)
+                    return
+                
+                # Pedro order, boosts a need and is action type
+                else:
+                    bot_no_obj_prompt = bot_no_obj_action_prompt(self.beliefs.last_order.body)
+                    action = self.llm(bot_no_obj_prompt)
+
+                    # Pedro order, boosts a need, is action type and use objects
+                    if action == "no":
+                        # Testing not using this
+                        #############################################################################
+                        # validate_prompt = validate_instruction_prompt(self.beliefs.last_order.body)
+                        # intention = self.llm(validate_prompt)
+                        # if intention == 'No':
+                        #     is_valid_plan = False
+                        # else:
+                        #############################################################################
+                        
+                        intention = self.llm(action_to_intention_prompt(self.beliefs.last_order.body))
+
+                        try:
+
+                            prompt = bot_need_plan_generator_prompt(intention)
+                            plan = self.llm(prompt, 0.1)
+                            plan = json.loads(plan)
+                            tasks = plan["tareas"]
+                            message = plan["mensaje"]
+                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                            for t in tasks:
+                                task: Task|None = self._task_parser(t)
+                                if task is None: is_valid_plan = False
+                                new_plan.add_task(task)
+                            
+                            # Notify human plan is done
+                            new_plan.add_task(Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, message))
+                        except:
+                            is_valid_plan = False
+                    
+                    # Pedro order, boosts a need, is action type and don't use objects
+                    else:
+                        try:
+                            action = json.loads(action)
+                            if action[0] == simulation_data.PLAY_MUSIC:
+                                play_music_task = PlayMusic(self.agent_id, action[1], None, self.__house)
+                                new_plan = Plan("Reproducir música", self.__house, self.agent_id, self.beliefs, [play_music_task])
+                        except:
+                            is_valid_plan = False
+
+                if not is_valid_plan:
+                    # Generate negative feedback and say it to human
+                    nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
+                    plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
+                    self.intentions.append(plan)
+                    # self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                else:
+                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
+                    self.intentions.append(new_plan)
             
+            # Pedro order and don't boosts any need
+            else:
+                # Check is a valid order here and build intention
+                prompt = validate_instruction_prompt(self.beliefs.last_order.body)
+                intention = self.llm(prompt)
+                if intention == "No": 
+                    is_valid_plan = False
+                else:
+                    # Pass first filter
+                    prompt = bot_plan_generator_prompt(intention)
+                    try:
+                        plan = self.llm(prompt)
+                        plan = json.loads(plan)
+                        new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                        for t in plan:
+                            task: Task|None = self._task_parser(t)
+                            if task is None: is_valid_plan = False
+                            new_plan.add_task(task)
+
+                    except:
+                        is_valid_plan = False
+
+                if not is_valid_plan:
+                    # Generate negative feedback and say it to human
+                    self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                else:
+                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
+                    self.intentions.append(new_plan)
+            
+
 
 
 
@@ -164,7 +257,7 @@ class Bot_Agent(BDI_Agent):
     def get_room_plan(self, plan: Plan):
         room = ""
         for task in plan.tasks:
-            if room == "" or task.room == room:
+            if room == "" or (task.room is not None and task.room == room):
                 room = task.room
             else:
                 return ""
@@ -202,20 +295,6 @@ class Bot_Agent(BDI_Agent):
         r = 0
         return self.intentions[r]
 
-    # def filter(self, beliefs, desire, intentions):  # i'll use this method later
-    #     """return the filtered intentions based on the beliefs and selected desire
-
-    #     Args:
-    #         beliefs (list): all beliefs of the agent
-    #         desire (str): chosen desire
-    #         intentions (list): all intentions of the agent
-    #     """
-    #     for i in intentions:
-    #         if i == desire:
-    #             return i
-    #     pass
-
-
     def _are_new_conversations(self, perception: Perception):
         new_conversations = False
         try:
@@ -229,24 +308,40 @@ class Bot_Agent(BDI_Agent):
     def _detect_order(self):
         start = f"{self.human_id} dice: Oye {self.agent_id}"
         for o in self.beliefs.speaks:
-            if o.startswith(start):
-                return o
+            if o[0].startswith(start):
+                return Order(o[0], o[1])
         return None
+    
+    def _detect_notice(self):
+        start = f"{self.human_id} dice:"
+        for o in self.beliefs.speaks:
+            if o[0].startswith(start):
+                return Order(o[0], o[1])
+        return None
+
     
     def _task_parser(self, t: str):
         splited_str = t.split()
         action = splited_str[0]
-        tag = splited_str[1]
+        if len(splited_str) > 1:
+            tag = splited_str[1]
+        else:
+            tag = ""   # ver que hacer aqui
 
         if action == simulation_data.WALK:
             # Caminar
             if tag in simulation_data.objects_names:
                 # Caminar a un objeto
                 obj: Object = self.__house.get_object(tag)
-                return Move(self.agent_id, self.__house, self.beliefs, obj.face_tiles[0])
+                if obj.carrier is None:
+                    return Move(self.agent_id, self.__house, self.beliefs, obj.robot_face_tiles[0])
             elif tag in simulation_data.areas:
                 # Caminar a un area
                 return Move(self.agent_id, self.__house, self.beliefs, self.__house.get_room_tile(self.agent_id, tag))
+            elif tag == "Pedro":
+                # Caminar hasta Pedro
+                return Move(self.agent_id, self.__house, self.beliefs, self.beliefs.human_position)
+
 
         elif action == simulation_data.CLEAN:
             # Limpiar
@@ -289,15 +384,40 @@ class Bot_Agent(BDI_Agent):
             if tag in simulation_data.objects_names:
                 # Tomar objeto
                 obj: Object = self.__house.get_object(tag)
-                if obj.portable:
+                if obj.portable and obj.carrier is None:
                     return Take(self.agent_id, obj, self.__house, self.pocket)
 
         elif action == simulation_data.DROP_OBJ:
             if tag in simulation_data.objects_names:
                 # Soltar objeto
                 obj: Object = self.__house.get_object(tag)
-                return Drop(self.agent_id, obj, self.__house, self.pocket)
+                if obj.portable and obj.carrier is self.agent_id:
+                    return Drop(self.agent_id, obj, self.__house, self.pocket)
+            
+        elif action == simulation_data.SET_UP:
+            if tag in simulation_data.objects_names:
+                # Preparar objeto
+                obj: Object = self.__house.get_object(tag)
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 180)), object=obj.name, type="Preparar")
+
+        elif action == simulation_data.USE:
+            if tag in simulation_data.objects_names:
+                # Use some object
+                obj: Object = self.__house.get_object(tag)
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 40)), object=obj.name, type="Preparar")
+
+        elif action == simulation_data.PLAY_MUSIC:
+            time = timedelta(seconds = 600)
+            return PlayMusic(self.agent_id,time, house = self.__house)
+
 
         return None
 
-        
+    def register_log(self, text: str, show_intentions = False):
+        with open(FILE_SRC, 'a', encoding='utf-8') as file:
+            text = f"[{self.current_datetime.strftime('%Y-%m-%d %H:%M:%S')}] {text}"
+            file.write(text + '\n')
+            # if show_intentions:
+            #     file.write(f"Intentions: {self.intentions}" + '\n')
+            # else:
+            #     file.write('\n')
