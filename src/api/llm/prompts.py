@@ -95,7 +95,7 @@ def human_instruction_request_for_need_prompt(need):
 
     Si la necesidad es Hambre posibles salidas serían:
     Oye Will-E, prepárame una ensalada
-    Oye Will-E, hazme algo para saciar el hambre
+    Oye Will-E, hazme algo de comer
 
     Si la necesidad es Vejiga posibles salidas serían:
     Oye Will-E, limpia el inodoro que voy a ir a orinar
@@ -624,18 +624,39 @@ La conversación debe ser corta.
 
 Si decides responder, sustituye <out> con la respuesta de Will-E a Pedro en string con (")
 Si decides terminar la conversación, sustituye <out> con el string: "END"
-Si entiendes que te pide una receta, sustituye <receta> con el string: "SI", sino con "NO"
+Si entiendes que Pedro va a comer algo, sustituye <comida> con el string: "SI", sino con "NO"
 
 Plantilla:
 {{
     "response": "<out>",
-    "receta": "<receta>"
+    "comida": "<comida>"
 }}
 
 tu salida debe ser en formato JSON, utilizando la plantilla anterior
 Recuerda terminar la conversación cuanto antes
 """
     return prompt
+
+
+
+def recipe_constructor_prompt(conversations: list[Sentence], features: str):
+
+    prompt = f"""
+Eres Will-E, un robot asistente de compañía llamado Will-E, y vives en una casa acompañando a Pedro.
+En este momento se encuentran en una conversación, a continuación se muestra la conversación.
+
+Conversación:
+{make_list([str(sentence) for sentence in conversations])}
+
+Tu tarea es responderle a pedro en correspondencia con la conversación anterior y recomendarle a Pedro una receta
+Se conocen gustos y posibles restricciones sobre la dieta de Pedro que debes cumplir:
+{features}
+
+Debes responder solamente con el texto de lo que responderías a Pedro, incluida una introducción 
+que explique por qué recomiendas eso, debes responderle lo que dijo anteriormente y luego darle la receta en tu respuesta.
+"""
+    return prompt
+
 
 
 

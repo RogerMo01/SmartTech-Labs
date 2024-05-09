@@ -89,7 +89,7 @@ class RecipeRecommendationSystem:
         else: return "Normal"
 
 
-    def __call__(self, *args: np.Any, **kwds: np.Any):
+    def __call__(self, *args: np.any, **kwds: np.any):
          return self.recommend_recipe(args)
     
 
@@ -243,7 +243,7 @@ class CulinaryStyleRecommendation:
         elif value <33:
             return 'Merienda asiatica'
         
-    def __call__(self, *args: np.Any, **kwds: np.Any):
+    def __call__(self, *args: np.any, **kwds: np.any):
         return self.recommend_culinary_style(args)
 
 
