@@ -72,7 +72,6 @@ class Bot_Agent(BDI_Agent):
 
             if current_plan.is_successful:
                 # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
-                self.register_log(f"Will-E terminó >{current_plan.intention_name}<")
                 self.intentions.pop(0)
                 
             self.increment_postponed_plan(current_plan)
@@ -83,7 +82,7 @@ class Bot_Agent(BDI_Agent):
             
             if _reconsider:
                 # print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
-                self.register_log(f"Will-E reconsideró >{current_plan.intention_name}< en lugar de {selected_intention.intention_name}")
+                logger.log_overtake(current_plan, selected_intention)
                 self.reorder_intentions(selected_intention, current_plan)
         
        else:
@@ -159,7 +158,6 @@ class Bot_Agent(BDI_Agent):
                     # speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_order.body, self.__house, self.beliefs, response, )
                     new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
                     
-                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
                     self.intentions.insert(0, new_plan)
                     return
                 
@@ -213,12 +211,11 @@ class Bot_Agent(BDI_Agent):
                     # Generate negative feedback and say it to human
                     nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
                     plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
-                    self.intentions.append(plan)
-                    # self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                    self.intentions.insert(0, plan)
+                    logger.log_understand_error(self.beliefs.last_order)
                 else:
-                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
                     self.intentions.append(new_plan)
-            
+
             # Pedro order and don't boosts any need
             else:
                 # Check is a valid order here and build intention
@@ -243,9 +240,11 @@ class Bot_Agent(BDI_Agent):
 
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
-                    self.__house.say(self.agent_id, random.choice(NEGATIVE_FEEDBACK))
+                    nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
+                    plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
+                    self.intentions.insert(0, plan)
+                    logger.log_understand_error(self.beliefs.last_order)
                 else:
-                    self.register_log(f"Will-E planifica >{new_plan.intention_name}<", True)
                     self.intentions.append(new_plan)
             
 
@@ -471,11 +470,4 @@ class Bot_Agent(BDI_Agent):
 
         return None
 
-    def register_log(self, text: str, show_intentions = False):
-        with open(FILE_SRC, 'a', encoding='utf-8') as file:
-            text = f"[{self.current_datetime.strftime('%Y-%m-%d %H:%M:%S')}] {text}"
-            file.write(text + '\n')
-            # if show_intentions:
-            #     file.write(f"Intentions: {self.intentions}" + '\n')
-            # else:
-            #     file.write('\n')
+

@@ -11,8 +11,6 @@ from llm.llm import *
 from llm.prompts import *
 from simulation_data import BEST_TIMES, NEEDS_LIMIT, ENERGY, HUNGRY, HYGIENE, BLADDER, ENTERTAINMENT
 
-FILE_SRC = "src/api/logs/pedro.txt"
-
 NEEDS_ORDER = ['bladder', 'hungry', 'energy', 'hygiene', 'entertainment']
 SPANISH_NEEDS = {'bladder':'Vejiga','hungry':'Hambre', 'energy':'Energia', 'hygiene':'Higiene', 'entertainment':'Entretenimiento'}
 
@@ -68,6 +66,7 @@ class Human_Agent(BDI_Agent):
         perception = self.see()
         self.brf(perception)
         self.decrease_needs(current_plan)
+        self._set_cold()   # esta feo aqui, cambiar de ubicacion.
 
         if self.reconsider():
             # reevaluate intentions
@@ -77,6 +76,11 @@ class Human_Agent(BDI_Agent):
 
     def see(self):
         """Percepts changes in enviroment"""
+        
+        getting_cold_prob = random.uniform(0, 1)
+        if getting_cold_prob < 0.0000001286:   # each 45 days
+            self._getting_cold()
+
 
         perception = Perception(*self.__house.get_data())
         return perception
@@ -130,7 +134,6 @@ class Human_Agent(BDI_Agent):
                     speak_task = Speak(self.agent_id, self.bot_id, self.beliefs.last_notice, self.__house, self.beliefs, instruction, human_need=True)
                     plan = Plan(f"Ordenar a {self.bot_id} para q ayude en +{need}+", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
 
-                    self.register_log(f"Pedro planifica >{plan.intention_name}< preguntando >{instruction}<", True)
                     self.intentions.append(plan)
             
 
@@ -159,6 +162,7 @@ class Human_Agent(BDI_Agent):
                         pass
                     else:
                         self._create_individual_plan(need)
+                        return
     
 
     def _create_individual_plan(self, need: str):
@@ -204,7 +208,6 @@ class Human_Agent(BDI_Agent):
             plan.add_task(move_task)
             plan.add_task(need_task)
 
-            self.register_log(f"Pedro planifica >{plan.intention_name}<", True)
             self.intentions.append(plan)
             self.overtake_plan(plan)
         except Exception as e:
@@ -253,7 +256,6 @@ class Human_Agent(BDI_Agent):
 
                         plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [move_task, need_task], need=need)
 
-                        self.register_log(f"Pedro planifica >{intention}<", True)
                         self.intentions.append(plan)
                         return
                     except:
@@ -297,7 +299,6 @@ class Human_Agent(BDI_Agent):
         for p in self.intentions:
             # Busca el primer plan con menor prioridad e inserta
             if p.need is None or NEEDS_ORDER.index(p.need) > NEEDS_ORDER.index(plan.need):
-                self.register_log(f"Pedro adelanta >{plan.intention_name}<")
                 self.intentions.remove(plan)
                 self.intentions.insert(index, plan)
                 return
@@ -375,6 +376,18 @@ class Human_Agent(BDI_Agent):
                 min_value = self.needs[n]
         return min
 
+    def _getting_cold(self):
+        level = random.randint(4, 10)
+        if self.beliefs.diseases['cold'] < 4:
+            self.beliefs.diseases['cold'] = level
+        else:
+            self.beliefs.diseases['cold'] = 10  # max level
+        
+    def _set_cold(self):
+        if self.beliefs.diseases['cold']>=4:
+            self.beliefs.diseases['cold'] -= 1/(5*24*3600)
+        else:
+            return
 
     def options(self):
         pass
@@ -394,9 +407,3 @@ class Human_Agent(BDI_Agent):
     def excecute(self, action):
         pass
         
-    def register_log(self, text: str, show_intentions = False):
-        with open(FILE_SRC, 'a', encoding='utf-8') as file:
-            text = f"[{self.current_datetime.strftime('%Y-%m-%d %H:%M:%S')}] {text}"
-            file.write(text + '\n')
-            # if show_intentions:
-            #     file.write(f"Intentions: {self.intentions}" + '\n\n')
