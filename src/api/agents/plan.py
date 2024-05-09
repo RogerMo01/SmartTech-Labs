@@ -1,5 +1,6 @@
 from agents.task import *
 from event import Event
+from logger import logger
 
 class Plan:
     def __init__(self, intention_name, house: House, author, beliefs, tasks=[], need=None):
@@ -11,6 +12,14 @@ class Plan:
         self.is_postponed: bool = False
         self.is_successful: bool = True if len(tasks) == 0 else False
         self.need = need
+
+        # Log plan
+        if author == "Will-E":
+            logger.log_robot_plan(self)
+        elif author == "Pedro":
+            logger.log_human_plan(self)
+        
+
         
 
     def run(self, submmit_event, current_datetime, last_notice: Order):

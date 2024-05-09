@@ -3,6 +3,7 @@ from House import *
 from agents.bot_agent import Bot_Agent
 from agents.human_agent import Human_Agent
 from event import Event
+from logger import logger
 
 ZERO = timedelta(seconds=0)
 FILE_SRC = "src/api/logs/vitals.txt"
@@ -43,11 +44,10 @@ class Simulation:
         i = 1
         while self.end_datetime - self.current_datetime > ZERO:
             # print(self.end_datetime - self.current_datetime)
+            logger.set_datetime(self.current_datetime)
             # Take conversations in the last loop
             self.house.update_speaks()
 
-            
-            
             # Run one step in both agents
             self.bot.run(self.submmit_event, self.current_datetime)
             self.human.run(self.submmit_event, self.current_datetime)
@@ -61,6 +61,7 @@ class Simulation:
             # if i == 1:
             #     self.house.say("Pedro", "Oye Will-E, estoy bajo de ánimo, puedes hacerme un chiste?", True)
             i+=1
+            d = logger.__dict__
 
             # Report zone
             if i %(1800+1) == 0:
@@ -73,6 +74,7 @@ class Simulation:
             self.current_datetime += one_step
             # print(self.current_datetime.time())
 
+        logger
         print("END")
 
     def submmit_event(self, event: Event):
