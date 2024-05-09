@@ -6,7 +6,7 @@ from agents.bdi_agent import Belief, Order
 from datetime import datetime, timedelta
 from agents.needs import Needs
 from simulation_data import BEST_TIMES
-from llm.prompts import human_conversation_prompt, robot_conversation_prompt
+from llm.prompts import human_conversation_prompt, robot_conversation_prompt, recipe_constructor_prompt
 from llm.gemini import Gemini
 from agents.sentence import *
 from agents.recommenders import call_recommenders
@@ -297,14 +297,15 @@ class Speak(Task):
                 # Use customized response for recipe
                 if self.author == "Will-E":
                     try:
-                        recipe_query = out["receta"] == "SI"
+                        recipe_query = out["comida"] == "SI"
                         if not self.requested_recipe and recipe_query:
                             self.requested_recipe = True
                             #######################################################
                             culinary_styles, diseases = self.beliefs.get_data_for_recommender()
                             recommend_dish = call_recommenders(diseases, culinary_styles, current_datetime.hour)
                             # Prompt para recomendar receta con el sistema experto
-                            response = response
+                            recipe_prompt = recipe_constructor_prompt(self.conversation, recommend_dish)
+                            response = self.llm(recipe_prompt)
                             #######################################################
                     except:
                         # Take as no recipe
