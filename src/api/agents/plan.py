@@ -1,6 +1,7 @@
 from agents.task import *
 from event import Event
 from logger import logger
+from battery import Battery
 
 class Plan:
     def __init__(self, intention_name, house: House, author, beliefs, tasks=[], need=None):
@@ -19,10 +20,9 @@ class Plan:
         elif author == "Pedro":
             logger.log_human_plan(self)
         
+        self.started = False
 
-        
-
-    def run(self, submmit_event, current_datetime, last_notice: Order):
+    def run(self, submmit_event, current_datetime, last_notice: Order, battery: Battery):
         if self.is_successful: return        # plan already finished
 
         
@@ -39,7 +39,7 @@ class Plan:
             
         current_task = self.tasks[0]
 
-        current_task.execute(current_datetime, last_notice)
+        current_task.execute(current_datetime, last_notice, battery)
 
         if current_task.is_successful:
             self.report_task(current_task, submmit_event)

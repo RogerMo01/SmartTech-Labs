@@ -5,11 +5,12 @@ from search import *
 from agents.bdi_agent import Belief, Order
 from datetime import datetime, timedelta
 from agents.needs import Needs
-from simulation_data import BEST_TIMES
 from llm.prompts import human_conversation_prompt, robot_conversation_prompt, recipe_constructor_prompt
+from simulation_data import BEST_TIMES, CONSUMPTION_PER_TASK
 from llm.gemini import Gemini
 from agents.sentence import *
 from agents.recommenders import call_recommenders
+from battery import Battery
 
 ZERO = timedelta(seconds=0)
 
@@ -74,7 +75,7 @@ class Move(Task):
         return actions
     
 
-    def execute(self, current_datetime: datetime, *args):
+    def execute(self, current_datetime: datetime, battery: Battery = None, *args):
         if self.is_successful: return                             # plan already finished
 
         if self.elapsed_time == ZERO:                             # initial execution
@@ -89,6 +90,9 @@ class Move(Task):
             self.house.move(direction, self.author)
                 
         self.elapsed_time += timedelta(seconds=1)
+
+        if self.author == 'Will-E':
+            battery.decrease_battery(CONSUMPTION_PER_TASK["move_speak"])
 
         if len(self.steps) == 0:
             self.is_successful = True
@@ -109,10 +113,12 @@ class TimeTask(Task):
         self.type = type
         # self.is_successful
     
-    def execute(self, current_datetime: datetime, *args):
+    def execute(self, current_datetime: datetime, battery: Battery, *args):
         if self.is_successful: return                             
         
         self.elapsed_time += timedelta(seconds=1)
+
+        battery.decrease_battery(CONSUMPTION_PER_TASK("time_task"))
 
         if self.elapsed_time == self.time:
             self.is_successful = True
@@ -138,7 +144,7 @@ class Take(Task):
         in_queue = "in queue"
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
-    def execute(self, current_datetime: datetime, *args):
+    def execute(self, current_datetime: datetime, battery: Battery, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para coger el objeto
@@ -149,6 +155,8 @@ class Take(Task):
             self.failed = True
 
         self.elapsed_time += timedelta(seconds=1)
+
+        battery.decrease_battery(CONSUMPTION_PER_TASK["take_drop"])
 
         if self.elapsed_time == self.time:
             self.is_successful = True
@@ -166,7 +174,7 @@ class Drop(Task):
         in_queue = "in queue"
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
-    def execute(self, current_datetime: datetime, *args):
+    def execute(self, current_datetime: datetime, battery: Battery, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para soltar el objeto 
@@ -174,6 +182,8 @@ class Drop(Task):
         self.pocket.remove(self.obj)
         
         self.elapsed_time += timedelta(seconds=1)
+
+        battery.decrease_battery(CONSUMPTION_PER_TASK["take_drop"])
 
         if self.elapsed_time == self.time:
             self.is_successful = True
@@ -183,13 +193,15 @@ class PlayMusic(Task):
     def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = False):
         super().__init__(author, time, room, house, None, is_priority, None)
 
-    def execute(self, current_datetime: datetime, *args):
+    def execute(self, current_datetime: datetime, battery: Battery, *args):
         if self.is_successful: return 
 
         if not self.house.get_is_music_playing():
             self.house.set_is_music_playing(True)
 
         self.elapsed_time += timedelta(seconds=1)
+
+        battery.decrease_battery(CONSUMPTION_PER_TASK["play_music"])
 
         if self.elapsed_time == self.time:
             self.house.set_is_music_playing(False)
@@ -210,6 +222,21 @@ class PlayMusic(Task):
 
 #         if self.elapsed_time == self.time:
 #             self.is_successful = True
+
+class Charge(Task):
+    def __init__(self, author, house: House = None, beliefs: Belief = None, object_name: str = None):
+        super().__init__(author, ZERO, None, house, beliefs, False, object_name)
+
+    def execute(self, current_datetime: datetime, battery: Battery, *args):
+        if self.is_successful: return     
+        
+        battery.increase_battery()
+
+        self.elapsed_time += timedelta(seconds=1)
+
+        if self.elapsed_time == 100:
+            self.is_successful = True
+
 
 class Need(Task):
     def __init__(self, author, time: timedelta, type: str, house: House = None, beliefs: Belief = None, object_name: str = None, need: str = None, needs: Needs = None):
@@ -255,7 +282,7 @@ class Speak(Task):
         self.llm = Gemini()
         self.requested_recipe = False
 
-    def execute(self, current_datetime: datetime, last_notice: Order, *args):
+    def execute(self, current_datetime: datetime, last_notice: Order, battery: Battery = None, *args):
         if self.is_successful: return    
 
         if self.my_turn:
@@ -325,3 +352,5 @@ class Speak(Task):
         
         self.elapsed_time += timedelta(seconds=1)
         self.time += timedelta(seconds=1)
+
+        battery.decrease_battery(CONSUMPTION_PER_TASK["move_speak"])
