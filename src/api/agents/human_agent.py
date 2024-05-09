@@ -68,6 +68,7 @@ class Human_Agent(BDI_Agent):
         perception = self.see()
         self.brf(perception)
         self.decrease_needs(current_plan)
+        self._set_cold()   # esta feo aqui, cambiar de ubicacion.
 
         if self.reconsider():
             # reevaluate intentions
@@ -77,6 +78,11 @@ class Human_Agent(BDI_Agent):
 
     def see(self):
         """Percepts changes in enviroment"""
+        
+        getting_cold_prob = random.uniform(0, 1)
+        if getting_cold_prob < 0.0000001286:   # each 45 days
+            self._getting_cold()
+
 
         perception = Perception(*self.__house.get_data())
         return perception
@@ -375,6 +381,18 @@ class Human_Agent(BDI_Agent):
                 min_value = self.needs[n]
         return min
 
+    def _getting_cold(self):
+        level = random.randint(4, 10)
+        if self.beliefs.diseases['cold'] < 4:
+            self.beliefs.diseases['cold'] = level
+        else:
+            self.beliefs.diseases['cold'] = 10  # max level
+        
+    def _set_cold(self):
+        if self.beliefs.diseases['cold']>=4:
+            self.beliefs.diseases['cold'] -= 1/(5*24*3600)
+        else:
+            return
 
     def options(self):
         pass

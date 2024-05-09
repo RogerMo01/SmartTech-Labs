@@ -28,7 +28,7 @@ class Simulation:
                 'culinary_styles':{'mediterranean':6, 'cuban':8, 'mexican':2, 'asian':1},
                 'cinema':['Star Wars', 'Lord of the Rings']
             },
-            'diseases':{'diabetes':2,'heart_disease':1}
+            'diseases':{'diabetes':2,'heart_disease':1, 'cold':0}
             }
 
         self.bot = Bot_Agent(self.house, other_beliefs)
