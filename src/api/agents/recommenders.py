@@ -10,8 +10,8 @@ class RecipeRecommendationSystem:
     def __init__(self):
         self.diabetes = ctrl.Antecedent(np.arange(0,11,1), 'diabetes')
         self.heart_disease = ctrl.Antecedent(np.arange(0,11,1), 'heart_disease')
-        self.recommended_dish = ctrl.Consequent(np.arange(0, 11, 1), 'recommended_dish')
-        
+        self.cold = ctrl.Antecedent(np.arange(0, 11, 1), 'cold')
+        self.recommended_dish = ctrl.Consequent(np.arange(0, 18, 1), 'recommended_dish')
         self._create_universes()
         self._create_membership_functions()
         self._create_rules()
@@ -21,43 +21,49 @@ class RecipeRecommendationSystem:
     def _create_universes(self):
         self.diabetes.automf(3)
         self.heart_disease.automf(3)
-    
+        self.cold.automf(3)
+
         # Define el universo de salida como una lista de platillos específicos
-        self.recommended_dish['low_sugar_and_low_salt'] = fuzzy.trimf(self.recommended_dish.universe, [0, 2, 3])   # el segundo parámetro que recibe es limite izquierdo, punto maximo y donde empieza a disminuir
-        self.recommended_dish['low_salt'] = fuzzy.trimf(self.recommended_dish.universe, [2, 5, 6])   # el segundo parámetro que recibe es limite izquierdo, punto maximo y donde empieza a disminuir
-        self.recommended_dish['low_sugar'] = fuzzy.trimf(self.recommended_dish.universe, [5, 6, 7])
-        self.recommended_dish['normal'] = fuzzy.trimf(self.recommended_dish.universe, [6, 8, 9])
-        self.recommended_dish['high_everything'] = fuzzy.trimf(self.recommended_dish.universe, [8, 10, 10])
+        self.recommended_dish['low_sugar_and_low_salt_and_C'] = fuzzy.trimf(self.recommended_dish.universe, [0, 2, 3])
+        self.recommended_dish['low_salt_and_C'] = fuzzy.trimf(self.recommended_dish.universe, [2, 4, 5])
+        self.recommended_dish['low_sugar_and_C'] = fuzzy.trimf(self.recommended_dish.universe, [4, 6, 7])
+        self.recommended_dish['low_sugar_and_low_salt'] = fuzzy.trimf(self.recommended_dish.universe, [6, 8, 9])
+        self.recommended_dish['low_salt'] = fuzzy.trimf(self.recommended_dish.universe, [8, 10, 11])   
+        self.recommended_dish['low_sugar'] = fuzzy.trimf(self.recommended_dish.universe, [10, 12, 13])
+        self.recommended_dish['with_C'] = fuzzy.trimf(self.recommended_dish.universe, [12, 14, 15])
+        self.recommended_dish['normal'] = fuzzy.trimf(self.recommended_dish.universe, [14, 16, 17])
         
 
     def _create_membership_functions(self):
-        self.heart_disease['low'] = fuzzy.trimf(self.heart_disease.universe, [0, 2, 3])
-        self.heart_disease['average'] = fuzzy.trimf(self.heart_disease.universe, [1, 5, 7])
-        self.heart_disease['high'] = fuzzy.trimf(self.heart_disease.universe, [6, 10, 10])
-        self.diabetes['low'] = fuzzy.trimf(self.diabetes.universe, [0, 2, 3])
-        self.diabetes['average'] = fuzzy.trimf(self.diabetes.universe, [2, 5, 7])
-        self.diabetes['high'] = fuzzy.trimf(self.diabetes.universe, [6, 10, 10])
-
+        self.heart_disease['low'] = fuzzy.trimf(self.heart_disease.universe, [0, 2, 4])
+        self.heart_disease['average'] = fuzzy.trimf(self.heart_disease.universe, [3, 5, 7])
+        self.heart_disease['high'] = fuzzy.trimf(self.heart_disease.universe, [6, 8, 10])
+        self.diabetes['low'] = fuzzy.trimf(self.diabetes.universe, [0, 2, 4])
+        self.diabetes['average'] = fuzzy.trimf(self.diabetes.universe, [3, 5, 7])
+        self.diabetes['high'] = fuzzy.trimf(self.diabetes.universe, [6, 8, 10])
+        self.cold['low'] = fuzzy.trimf(self.diabetes.universe, [0, 2, 4])
+        self.cold['average'] = fuzzy.trimf(self.diabetes.universe, [3, 5, 7])
+        self.cold['high'] = fuzzy.trimf(self.diabetes.universe, [6, 8, 10])
 
     def _create_rules(self):
-        rule1 = ctrl.Rule(self.diabetes['high'] & self.heart_disease['high'], self.recommended_dish['low_sugar_and_low_salt'])
-        rule2 = ctrl.Rule(self.diabetes['high'] & self.heart_disease['low'], self.recommended_dish['low_sugar'])
-        rule3 = ctrl.Rule(self.diabetes['high'] & self.heart_disease['average'], self.recommended_dish['low_sugar'])
-        rule4 = ctrl.Rule(self.diabetes['average'] & self.heart_disease['average'], self.recommended_dish['normal'])
-        rule5 = ctrl.Rule(self.diabetes['average'] & self.heart_disease['low'], self.recommended_dish['normal'])
-        rule6 = ctrl.Rule(self.diabetes['average'] & self.heart_disease['high'], self.recommended_dish['low_salt'])
-        rule7 = ctrl.Rule(self.diabetes['low'] & self.heart_disease['high'], self.recommended_dish['low_salt'])
-        rule8 = ctrl.Rule(self.diabetes['low'] & self.heart_disease['average'], self.recommended_dish['normal'])
-        rule9 = ctrl.Rule(self.diabetes['low'] & self.heart_disease['low'], self.recommended_dish['high_everything'])
-
-        self.recipe_recommendation_ctrl = ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9])
+        rule1 = ctrl.Rule((self.diabetes['high'] | self.diabetes['average']) & (self.heart_disease['high'] | self.heart_disease['average']) & (self.cold['high'] | self.cold['average']), self.recommended_dish['low_sugar_and_low_salt_and_C'])
+        rule2 = ctrl.Rule((self.diabetes['high'] | self.diabetes['average']) & self.heart_disease['low'] & self.cold['low'], self.recommended_dish['low_sugar'])
+        rule3 = ctrl.Rule(self.diabetes['low'] & (self.heart_disease['high'] | self.heart_disease['average']) & self.cold['low'], self.recommended_dish['low_salt'])
+        rule4 = ctrl.Rule(self.diabetes['low'] & self.heart_disease['low'] & (self.cold['high'] | self.cold['average']), self.recommended_dish['with_C'])
+        rule5 = ctrl.Rule((self.diabetes['high'] | self.diabetes['average']) & (self.heart_disease['high'] | self.heart_disease['average']) & self.cold['low'], self.recommended_dish['low_sugar_and_low_salt'])
+        rule6 = ctrl.Rule(self.diabetes['low'] & self.heart_disease['low'] & self.cold['low'], self.recommended_dish['normal'])
+        rule7 = ctrl.Rule(self.diabetes['low'] & (self.heart_disease['high'] | self.heart_disease['average']) & (self.cold['average'] | self.cold['high']), self.recommended_dish['low_salt_and_C'])
+        rule8 = ctrl.Rule((self.diabetes['average'] | self.diabetes['high']) & self.heart_disease['low'] & (self.cold['average'] | self.cold['high']), self.recommended_dish['low_sugar_and_C'])
+        
+        self.recipe_recommendation_ctrl = ctrl.ControlSystem([rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8])
         self.recipe_recommendation = ctrl.ControlSystemSimulation(self.recipe_recommendation_ctrl)
 
     
 
-    def recommend_recipe(self, diabetes, heart_disease):
+    def recommend_recipe(self, diabetes, heart_disease, cold):
         self.recipe_recommendation.input['diabetes'] = diabetes
         self.recipe_recommendation.input['heart_disease'] = heart_disease
+        self.recipe_recommendation.input['cold'] = cold
         self.recipe_recommendation.compute()
         out = self.recipe_recommendation.output['recommended_dish']
         # Mapea el valor de salida a un platillo específico
@@ -66,16 +72,22 @@ class RecipeRecommendationSystem:
 
     def _map_to_dish(self, output_value):
         # Define una función de mapeo de salida difusa a platillo específico
-        if output_value <= 2:
-            return "Muy sano, bajo de sal y azucar"
-        elif 3  < output_value <= 5:        
+        if output_value < 3:
+            return "Muy sano, bajo de sal y azucar y rico en vitamina C"
+        elif output_value < 5:
+            return "Muy sano, bajo de sal y rico en vitamina C"
+        elif output_value < 7:
+            return "Muy sano, bajo de azúcar y rico en vitamina C"
+        elif output_value < 9:
+            return "Muy sano, bajo de sal y azúcar"
+        elif output_value < 11:
             return "Bajo de sal"
-        elif 6 <= output_value < 7:
-            return 'Bajo de azucar'
-        elif 7 <= output_value <= 8:
-            return "Normal, sin restricciones, pero sin excesos"
-        else:
-            return "Sin restricciones y permitiendo excesos"
+        elif output_value < 13:
+            return "Bajo de azúcar"
+        elif output_value < 15:
+            return "Rico en vitamina C"
+        else: return "Normal"
+
 
     def __call__(self, *args: np.Any, **kwds: np.Any):
          return self.recommend_recipe(args)
