@@ -94,7 +94,6 @@ class RecipeRecommendationSystem:
     
 
 
-
 class CulinaryStyleRecommendation:
     def __init__(self):
             self.cuban = ctrl.Antecedent(np.arange(0,11,1), 'cuban')
@@ -108,6 +107,8 @@ class CulinaryStyleRecommendation:
             
             self._create_universes()
             self._create_rules()
+
+    
 
     def _create_universes(self):
         self.cuban.automf(3)
@@ -164,18 +165,33 @@ class CulinaryStyleRecommendation:
     def _create_rules(self):
             rules = []
             random_style = random.randint(0, len(styles)-1)
-
+            # ---------------------------------------- #
+            med_mex_cub_random = random.choice([0,1,2])
+            med_mex_asi_random = random.choice([0,1,3])
+            med_cub_asi_random = random.choice([0,2,3])
+            mex_cub_asi_random = random.choice([1,2,3])
+            # ---------------------------------------- #
+            med_mex_random = random.choice([0,1])
+            med_cub_random = random.choice([0,2])
+            med_asi_random = random.choice([0,3])
+            mex_cub_random = random.choice([1,2])
+            mex_asi_random = random.choice([1,3])
+            cub_asi_random = random.choice([2,3])
+            # ---------------------------------- #
             for i in times:
-                rule1 = ctrl.Rule(self.cuban['low'] & self.mexican['low'] & self.mediterranean['low'] & self.asian['low'] & self.current_hour[i], self.culinary_style[styles[random_style]+'_'+i])
-                rule2 = ctrl.Rule(self.cuban['average'] & self.mexican['average'] & self.mediterranean['average'] & self.asian['average'] & self.current_hour[i], self.culinary_style[styles[random_style]+'_'+i])
-                rule3 = ctrl.Rule(self.cuban['high'] & self.mexican['high'] & self.mediterranean['high'] & self.asian['high'] & self.current_hour[i], self.culinary_style[styles[random_style]+'_'+i])
-                rules += [rule1,rule2, rule3]
+                # if each style has the same rating
+                rule1 = ctrl.Rule((self.cuban['low'] & self.mexican['low'] & self.mediterranean['low'] & self.asian['low']) | 
+                                  (self.cuban['average'] & self.mexican['average'] & self.mediterranean['average'] & self.asian['average']) | 
+                                  (self.cuban['high'] & self.mexican['high'] & self.mediterranean['high'] & self.asian['high']) & self.current_hour[i], 
+                                  self.culinary_style[styles[random_style]+'_'+i])
+                rules += [rule1]
                 rule1 = ctrl.Rule(self.cuban['high'] & (self.mexican['low'] | self.mexican['average']) & (self.mediterranean['low'] | self.mediterranean['average']) & (self.asian['low'] | self.asian['average']) & self.current_hour[i], self.culinary_style['cuban_'+i])
                 rule2 = ctrl.Rule((self.cuban['low'] | self.cuban['average']) & self.mexican['high'] & (self.mediterranean['low'] | self.mediterranean['average']) & (self.asian['low'] | self.asian['average']) & self.current_hour[i], self.culinary_style['mexican_'+i])
                 rule3 = ctrl.Rule((self.cuban['low'] | self.cuban['average']) & (self.mexican['low'] | self.mexican['average']) & self.mediterranean['high'] & (self.asian['low'] | self.asian['average']) & self.current_hour[i], self.culinary_style['mediterranean_'+i])
                 rule4 = ctrl.Rule((self.cuban['low'] | self.cuban['average']) & (self.mexican['low'] | self.mexican['average']) & (self.mediterranean['low'] | self.mediterranean['average']) & self.asian['high'] & self.current_hour[i], self.culinary_style['asian_'+i])
                 rules += [rule1,rule2,rule3,rule4]
             for i in times:
+                # if only one is average
                 rule1 = ctrl.Rule(self.cuban['average'] & self.mexican['low'] & self.mediterranean['low'] & self.asian['low'] & self.current_hour[i], self.culinary_style['cuban_'+i])
                 rule2 = ctrl.Rule(self.cuban['low'] & self.mexican['average'] & self.mediterranean['low'] & self.asian['low'] & self.current_hour[i], self.culinary_style['mexican_'+i])
                 rule3 = ctrl.Rule(self.cuban['low'] & self.mexican['low'] & self.mediterranean['average'] & self.asian['low'] & self.current_hour[i], self.culinary_style['mediterranean_'+i])
@@ -183,11 +199,42 @@ class CulinaryStyleRecommendation:
                 rules += [rule1,rule2,rule3,rule4]
 
             for i in times:
-                rule1 = ctrl.Rule(self.cuban['average'] & (self.mexican['low'] | self.mexican['average']) & (self.mediterranean['low'] | self.mediterranean['average']) & (self.asian['low'] | self.asian['average']) & self.current_hour[i], self.culinary_style['cuban_'+i])
-                rule2 = ctrl.Rule((self.cuban['low'] | self.cuban['average']) & self.mexican['average'] & (self.mediterranean['low'] | self.mediterranean['average']) & (self.asian['low'] | self.asian['average']) & self.current_hour[i], self.culinary_style['mexican_'+i])
-                rule3 = ctrl.Rule((self.cuban['low'] | self.cuban['average']) & (self.mexican['low'] | self.mexican['average']) & self.mediterranean['average'] & (self.asian['low'] | self.asian['average']) & self.current_hour[i], self.culinary_style['mediterranean_'+i])
-                rule4 = ctrl.Rule((self.cuban['low'] | self.cuban['average']) & (self.mexican['low'] | self.mexican['average']) & (self.mediterranean['low'] | self.mediterranean['average']) & self.asian['average'] & self.current_hour[i], self.culinary_style['asian_'+i])
-                rules += [rule1,rule2,rule3,rule4]
+                # if two are equals 
+                # mediterranean and mexican
+                rule1 = ctrl.Rule(((self.mediterranean['average'] & self.mexican['average']  & self.cuban['low'] & self.asian['low']) |
+                                    (self.mediterranean['high'] & self.mexican['high'] & (self.cuban['low'] | self.cuban['average']) & (self.asian['low'] | self.asian['average']))) & self.current_hour[i], self.culinary_style[styles[med_mex_random]+'_'+i])
+                # mediterranean and cuban
+                rule2 = ctrl.Rule(((self.mediterranean['average'] & self.mexican['low'] & self.cuban['average'] & self.asian['low']) | 
+                                  (self.mediterranean['high'] & (self.mexican['low'] | self.mexican['average']) & self.cuban['high'] & (self.asian['low'] | self.asian['average']))) & self.current_hour[i], self.culinary_style[styles[med_cub_random]+'_'+i])
+                # mediterranean and asian
+                rule3 = ctrl.Rule(((self.mediterranean['average'] & self.mexican['low'] & self.cuban['low'] & self.asian['average']) |
+                                  (self.mediterranean['high'] & (self.mexican['low'] | self.mexican['average']) & (self.cuban['low'] | self.cuban['average']) & self.asian['high'])) & self.current_hour[i], self.culinary_style[styles[med_asi_random]+'_'+i])
+                # mexican and cuban
+                rule4 = ctrl.Rule(((self.mediterranean['low'] & self.mexican['average'] & self.cuban['average'] & self.asian['low']) |
+                                  ((self.mediterranean['low'] | self.mediterranean['average']) & self.mexican['high']  & self.cuban['high'] & (self.asian['low'] | self.asian['average']))) & self.current_hour[i], self.culinary_style[styles[mex_cub_random]+'_'+i])
+                # mexican and asian
+                rule5 = ctrl.Rule(((self.mediterranean['low'] & self.mexican['average'] & self.cuban['low'] & self.asian['average']) |
+                                  ((self.mediterranean['low'] | self.mediterranean['average']) & self.mexican['high']  & (self.cuban['low'] | self.cuban['average']) & self.asian['high'])) & self.current_hour[i], self.culinary_style[styles[mex_asi_random]+'_'+i])
+                # cuban and asian
+                rule6 = ctrl.Rule(((self.mediterranean['low'] & self.mexican['low']  & self.cuban['average'] & self.asian['average']) |
+                                   ((self.mediterranean['low'] | self.mediterranean['average']) & (self.mexican['low'] | self.mexican['average']) & self.cuban['high'] & self.asian['high'])) & self.current_hour[i], self.culinary_style[styles[cub_asi_random]+'_'+i])
+                rules += [rule1, rule2, rule3, rule4, rule5, rule6]
+            for i in times:
+                # tree are equals
+                # mediterranean and mexican and cuban
+                rule1 = ctrl.Rule((self.mediterranean['high'] & self.mexican['high'] & self.cuban['high'] & (self.asian['low'] | self.asian['average'])) | 
+                                  (self.mediterranean['average'] & self.mexican['average'] & self.cuban['average'] & self.asian['low']) & self.current_hour[i], self.culinary_style[styles[med_mex_cub_random]+'_'+i])
+                # mediterranean and mexican and asian
+                rule2 = ctrl.Rule((self.mediterranean['high'] & self.mexican['high'] & (self.cuban['average'] | self.cuban['low']) & self.asian['high']) | 
+                                  (self.mediterranean['average'] & self.mexican['average'] & self.cuban['low'] & self.asian['average']) & self.current_hour[i], self.culinary_style[styles[med_mex_asi_random]+'_'+i])
+                # mediterranean and cuban and asian
+                rule3 = ctrl.Rule((self.mediterranean['high'] & (self.mexican['low'] | self.mexican['average']) & self.cuban['high'] & self.asian['high']) | 
+                                  (self.mediterranean['average'] & self.mexican['low'] & self.cuban['average'] & self.asian['average']) & self.current_hour[i], self.culinary_style[styles[med_cub_asi_random]+'_'+i])
+                # mexican and cuban and asian
+                rule4 = ctrl.Rule(((self.mediterranean['average'] | self.mediterranean['low']) & self.mexican['high'] & self.cuban['high'] & self.asian['high']) | 
+                                  (self.mediterranean['low'] & self.mexican['average'] & self.cuban['average'] & self.asian['average']) & self.current_hour[i], self.culinary_style[styles[mex_cub_asi_random]+'_'+i])
+                rules+= [rule1, rule2, rule3, rule4]
+                pass
 
             self.culinary_style_recommendation_ctrl = ctrl.ControlSystem(rules)
             self.culinary_style_recommendation = ctrl.ControlSystemSimulation(self.culinary_style_recommendation_ctrl)
@@ -196,9 +243,9 @@ class CulinaryStyleRecommendation:
     
 
     def recommend_culinary_style(self, mediterranean, mexican, cuban, asian, current_hour):
-        self.culinary_style_recommendation.input['cuban'] = cuban
         self.culinary_style_recommendation.input['mediterranean'] = mediterranean
         self.culinary_style_recommendation.input['mexican'] = mexican
+        self.culinary_style_recommendation.input['cuban'] = cuban
         self.culinary_style_recommendation.input['asian'] = asian
         
         self.culinary_style_recommendation.input['current_hour'] = current_hour
@@ -223,7 +270,7 @@ class CulinaryStyleRecommendation:
         elif value <13:
             return 'Almuerzo mexicano'
         elif value <15:
-            return 'Almuero cubano'
+            return 'Almuerzo cubano'
         elif value <17:
             return 'Almuerzo asiatico'
         elif value <19:
@@ -242,7 +289,7 @@ class CulinaryStyleRecommendation:
             return 'Merienda cubana'
         elif value <33:
             return 'Merienda asiatica'
-        
+             
     def __call__(self, *args: np.any, **kwds: np.any):
         return self.recommend_culinary_style(args)
 
@@ -262,12 +309,5 @@ def call_recommenders(diseases,culinary_styles, hour):
     culinary_constraint: str = recipe_recommender.recommend_recipe(diabetes, heart_disease)
     return culinary_style.lower() + culinary_constraint.lower()
 
-# Ejemplo de uso
-# if __name__ == "__main__":
-#     system = RecipeRecommendationSystem()
-#     # Ejemplo de gustos y condiciones médicas del usuario
-#     diabetes = 3
-#     heart_disease = 1  # Por ejemplo, tiene una condición médica moderada
-#     recommended_dish = system.recommend_recipe(diabetes, heart_disease)
-#     print("Recommended dish based on taste and health condition:", recommended_dish)
+
 
