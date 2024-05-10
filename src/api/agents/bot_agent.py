@@ -462,7 +462,7 @@ class Bot_Agent(BDI_Agent):
             if tag in simulation_data.objects_names:
                 # Use some object
                 obj: Object = self.__house.get_object(tag)
-                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 40)), object=obj.name, type="Preparar")
+                return TimeTask(self.agent_id, self.__house, self.beliefs, timedelta(seconds=random.randint(10, 40)), object=obj.name, type="Usar")
 
         elif action == simulation_data.PLAY_MUSIC:
             time = timedelta(seconds = 600)

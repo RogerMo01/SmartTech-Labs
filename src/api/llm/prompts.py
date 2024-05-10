@@ -618,7 +618,7 @@ Conversación:
 {make_list([str(sentence) for sentence in conversations])}
 
 Es tu turno, puedes responderle algo, o simplemente terminar la conversación.
-Responde solo lo necesario.
+Responde solo lo necesario, y de manera positiva, siempre tratando de ayudar.
 Sé lo más preciso y objetivo en tu respuesta.
 La conversación debe ser corta.
 
@@ -633,7 +633,6 @@ Plantilla:
 }}
 
 tu salida debe ser en formato JSON, utilizando la plantilla anterior
-Recuerda terminar la conversación cuanto antes
 """
     return prompt
 
