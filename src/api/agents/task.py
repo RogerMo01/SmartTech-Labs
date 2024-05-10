@@ -11,6 +11,7 @@ from llm.gemini import Gemini
 from agents.sentence import *
 from agents.recommenders import call_recommenders
 from agents.battery import Battery
+from logger import logger
 
 ZERO = timedelta(seconds=0)
 
@@ -78,6 +79,8 @@ class Move(Task):
     def execute(self, current_datetime: datetime, order: Order, battery: Battery = None, *args):
         if self.is_successful: return                             # plan already finished
 
+        log_task_start(self.elapsed_time, self.author, self)
+
         if self.elapsed_time == ZERO:                             # initial execution
             self.recompute(timedelta(seconds=len(self.steps)))
 
@@ -114,7 +117,10 @@ class TimeTask(Task):
         # self.is_successful
     
     def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
-        if self.is_successful: return                             
+        if self.is_successful: return
+
+        log_task_start(self.elapsed_time, self.author, self)
+
         
         self.elapsed_time += timedelta(seconds=1)
 
@@ -145,7 +151,9 @@ class Take(Task):
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
     def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
-        if self.is_successful: return     
+        if self.is_successful: return    
+
+        log_task_start(self.elapsed_time, self.author, self)
         
         # Hacer las acciones para coger el objeto
         if self.obj.carrier is None:
@@ -175,7 +183,9 @@ class Drop(Task):
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
     def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
-        if self.is_successful: return     
+        if self.is_successful: return    
+
+        log_task_start(self.elapsed_time, self.author, self)
         
         # Hacer las acciones para soltar el objeto 
         self.house.drop_object(self.author, self.obj)
@@ -192,9 +202,12 @@ class Drop(Task):
 class PlayMusic(Task):
     def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = False):
         super().__init__(author, time, room, house, None, is_priority, None)
+        self.type = "Reproducir música"
 
     def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
         if self.is_successful: return 
+
+        log_task_start(self.elapsed_time, self.author, self)
 
         if not self.house.get_is_music_playing():
             self.house.set_is_music_playing(True)
@@ -226,9 +239,12 @@ class PlayMusic(Task):
 class Charge(Task):
     def __init__(self, author, house: House = None, beliefs: Belief = None, object_name: str = None):
         super().__init__(author, ZERO, None, house, beliefs, False, object_name)
+        self.type = "Cargar la batería"
 
     def execute(self, current_datetime: datetime, order, battery: Battery, *args):
         if self.is_successful: return     
+
+        log_task_start(self.elapsed_time, self.author, self)
         
         battery.increase_battery()
 
@@ -269,7 +285,7 @@ class Sleep(TimeTask):
 
 
 class Speak(Task):
-    def __init__(self, author, listener, last_notice, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False):
+    def __init__(self, author, listener, last_notice, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False, conversation_analizer = None):
         super().__init__(author, ZERO, None, house, beliefs)
         self.listener = listener
         self.start_message = message
@@ -281,9 +297,12 @@ class Speak(Task):
         # self.my_turn = True if message is not None else False
         self.llm = Gemini()
         self.requested_recipe = False
+        self.conversation_analizer = conversation_analizer
 
     def execute(self, current_datetime: datetime, last_notice: Order, battery: Battery = None, *args):
         if self.is_successful: return    
+
+        log_task_start(self.elapsed_time, self.author, self)
 
         if self.my_turn:
             
@@ -291,6 +310,7 @@ class Speak(Task):
                 # Listener did't speak and I am not starter
                 if len(self.conversation) > 0:
                     self.is_successful = True
+                    if self.conversation_analizer is not None: self.conversation_analizer(self.conversation)
                     return
             # Listener sayed something
             else:
@@ -319,6 +339,7 @@ class Speak(Task):
 
                 if response == "END":
                     self.is_successful = True
+                    if self.conversation_analizer is not None: self.conversation_analizer(self.conversation)
                     return
                 
                 # Use customized response for recipe
@@ -355,3 +376,8 @@ class Speak(Task):
 
         if self.author == "Will-E":
             battery.decrease_battery(CONSUMPTION_PER_TASK["move_speak"])
+
+
+def log_task_start(elapsed_time: timedelta, author: str, task: Task):
+    if elapsed_time == ZERO and author == "Will-E":
+        logger.log_robot_task(task)

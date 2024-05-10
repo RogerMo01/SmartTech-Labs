@@ -302,12 +302,13 @@ def call_recommenders(diseases,culinary_styles, hour):
 
     diabetes = diseases['diabetes']
     heart_disease = diseases['heart_disease']
+    cold = diseases['cold']
 
     culinary_style_recommender = CulinaryStyleRecommendation()
     culinary_style: str = culinary_style_recommender.recommend_culinary_style(mediterranean, mexican, cuban, asian, hour)
     recipe_recommender = RecipeRecommendationSystem()
-    culinary_constraint: str = recipe_recommender.recommend_recipe(diabetes, heart_disease)
-    return culinary_style.lower() + culinary_constraint.lower()
+    culinary_constraint: str = recipe_recommender.recommend_recipe(diabetes, heart_disease, cold)
+    return culinary_style.lower() + " " + culinary_constraint.lower()
 
 
 

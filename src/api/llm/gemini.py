@@ -1,4 +1,5 @@
 import os
+import time
 from typing import Any
 from dotenv import load_dotenv
 import google.generativeai as genai
@@ -35,7 +36,9 @@ class Gemini(LLM):
 
             except Exception as e:
                 if e.message != 'Deadline Exceeded' and not e.message.startswith("An internal error has occurred"):
-                    raise e
-
+                    if e.message.startswith("Timeout"):
+                        time.sleep(60)
+                    else:
+                        raise e
         
         return response.text 
