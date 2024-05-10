@@ -60,7 +60,7 @@ class Human_Agent(BDI_Agent):
             current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice)
 
             if current_plan.is_successful:
-                print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
+                # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
                 self.intentions.pop(0)
 
         perception = self.see()

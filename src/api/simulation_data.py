@@ -217,9 +217,9 @@ objects_instances = [sofa, table, chair1, chair2, chair3, chair4, chair5, chair6
 objects_names = [o.name for o in objects_instances]
 
 #################### Human likes #####################
-musical_genres = ["rock", "pop", "electrónica", "hip hop", "jazz", "salsa", "bachata", "merengue"]
-film_genres = ["acción", "comedia", "drama", "ciencia ficción", "terror", "documental", "animación", "fantasía", "suspenso"]
-culinary_styles = ["mediterránea", "mexicana", "italiana", "francesa", "cubana", "japonesa", "china", "india", "tailandesa", "árabe", "peruana"]
+# musical_genres = ["rock", "pop", "electrónica", "hip hop", "jazz", "salsa", "bachata", "merengue"]
+# film_genres = ["acción", "comedia", "drama", "ciencia ficción", "terror", "documental", "animación", "fantasía", "suspenso"]
+# culinary_styles = ["mediterránea", "mexicana", "italiana", "francesa", "cubana", "japonesa", "china", "india", "tailandesa", "árabe", "peruana"]
 
 
 #################### Areas #####################

@@ -1,6 +1,7 @@
 from agents.sentence import *
 from datetime import *
 import simulation_data
+from agents.recommenders import styles
 
 #################### Pedro prompts #######################
 def human_instruction_request_prompt(area):
@@ -125,8 +126,14 @@ Para una necesidad Vejiga, una posible salida es:
 Para una necesidad Vejiga, otra posible salida es:
 ["Ir al baño", 45] 
 
-Para una necesidad Hambre, una posible salida es:
-["Comer un bocadillo", 35]    
+Para una necesidad Hambre, si la hora es cerca de 08:00:00, una posible salida es:
+["Comer un desayuno protéico", 35]   
+
+Para una necesidad Hambre, si la hora es cerca de 13:00:00, una posible salida es:
+["Comer un almuerzo rápido", 40]  
+
+Para una necesidad Hambre, si la hora es cerca de 20:00:00, una posible salida es:
+["Preparar una comida", 40]   
 
 Para una necesidad Energía, otra posible salida es:
 ["Acostarse a dormir", 90]
@@ -138,7 +145,7 @@ Debes responder solamente con el array
 Ahora si, analiza la siguiente necesidad de Pedro:
 Necesidad: {need}
 
-Ten en cuenta que en este momento la hora del día es: {time.time}
+Ten en cuenta que en este momento la hora del día es: {time.time}, lo que debe influir en las diferentes comidas del día.
 """
     return prompt
 
@@ -240,23 +247,23 @@ Da el tiempo en función del tiempo que una persona le dedicaría
     return prompt
 
 
-def human_likes_instruction_prompt(conversation: list, likes: dict):
-    prompt = f"""
-En la siguiente lista se encuentra una conversación sostenida entre Pedro y Will-E, un humano y un robot asistente:
-conversación = {make_list(conversation)}
+# def human_likes_instruction_prompt(conversation: list, likes: dict):
+#     prompt = f"""
+# En la siguiente lista se encuentra una conversación sostenida entre Pedro y Will-E, un humano y un robot asistente:
+# conversación = {make_list(conversation)}
 
-A continuación te muestro un diccionario que representa los gustos de Pedro en cuanto a comida, gustos musicales, entre otros.
-gustos = {likes}
+# A continuación te muestro un diccionario que representa los gustos de Pedro en cuanto a comida, gustos musicales, entre otros.
+# gustos = {likes}
 
-Tu objetivo es analizar e interpretar dicha conversación con el fin de identificar algún gusto positivo.
+# Tu objetivo es analizar e interpretar dicha conversación con el fin de identificar algún gusto positivo.
 
-Tu respuesta debe ser en formato JSON:
-gustos: {{}} 
+# Tu respuesta debe ser en formato JSON:
+# gustos: {{}} 
 
-Debes agregar la información contenida en el diccionario anterior y los gustos positivos que identifiques en la conversación.
-En caso de identificar un gusto que no encaje en ninguno de los temas correspondientes a las llaves del diccionario NO lo tengas en cuenta.
-"""
-    return prompt
+# Debes agregar la información contenida en el diccionario anterior y los gustos positivos que identifiques en la conversación.
+# En caso de identificar un gusto que no encaje en ninguno de los temas correspondientes a las llaves del diccionario NO lo tengas en cuenta.
+# """
+#     return prompt
 # En caso de no identificar una llave de las ya creadas para el gusto identificado crea la llave con el nombre más genérico y descriptivo posible y agrega su valor correspondiente.
 
 def human_culinary_styles_likes_instruction_prompt(conversation: list, culinary_styless: list):
@@ -641,7 +648,7 @@ tu salida debe ser en formato JSON, utilizando la plantilla anterior
 def recipe_constructor_prompt(conversations: list[Sentence], features: str):
 
     prompt = f"""
-Eres Will-E, un robot asistente de compañía llamado Will-E, y vives en una casa acompañando a Pedro.
+Eres un robot asistente de compañía llamado Will-E, y vives en una casa acompañando a Pedro.
 En este momento se encuentran en una conversación, a continuación se muestra la conversación.
 
 Conversación:
@@ -656,6 +663,41 @@ que explique por qué recomiendas eso, debes responderle lo que dijo anteriormen
 """
     return prompt
 
+
+def learn_food_likes_from_conversations(conversations: list[Sentence]):
+    prompt = f"""
+Eres un robot asistente de compañía llamado Will-E, y vives en una casa acompañando a Pedro.
+Acabas de tener una conversación con Pedro, y debes determinar si Pedro tiene gustos por alguno de los
+siguientes estilos culinarios:
+{make_list(styles)}
+
+Debes responder un JSON que tenga como llave todos los estilos
+y en el valor debes poner:
+el número: 1, si identificas que a Pedro le gusta ese estilo culinario
+el número: -1, si identificas que a Pedro le disgusta ese estilo culinario
+el número: 0, si no distingues gusto o disgusto de Pedro a ese estilo culinario
+
+La respuesta tiene que ser únicamente el json
+
+Por ejemplo si los estilos son:
+mediterranean
+mexican
+cuban
+asian
+
+la respuesta debe tener el formato:
+{{
+    "mediterranean": "<value>",
+    "mexican": "<value>",
+    "cuban": "<value>",
+    "asian": "<value>"
+}}
+completando <value> con 1, 0 o -1 en cada caso
+
+La conversación es:
+{make_list([str(sentence) for sentence in conversations])}
+"""
+    return prompt
 
 
 

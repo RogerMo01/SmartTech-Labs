@@ -72,7 +72,6 @@ class Bot_Agent(BDI_Agent):
 
             if current_plan.is_successful:
                 # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
-
                 self.intentions.pop(0)
                 
             self.increment_postponed_plan(current_plan)
@@ -151,7 +150,7 @@ class Bot_Agent(BDI_Agent):
 
                 # Pedro order, boosts a need and is response type
                 if not require_object:
-                    speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_notice, self.__house, self.beliefs)
+                    speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_notice, self.__house, self.beliefs, conversation_analizer=self.conversation_analizer)
 
                     # prompt = instance_query_robot_answer_prompt(self.beliefs.last_order.body)
                     # response = self.llm(prompt)
@@ -376,6 +375,32 @@ class Bot_Agent(BDI_Agent):
             if o[0].startswith(start):
                 return Order(o[0], o[1])
         return None
+    
+    def conversation_analizer(self, conversations: list[Sentence]):
+        prompt = learn_food_likes_from_conversations(conversations)
+        try:
+            result = self.llm(prompt)
+            result = json.loads(result)
+
+            mediterranean = result['mediterranean']
+            mexican = result['mexican']
+            cuban = result['cuban']
+            asian = result['asian']
+
+            # Update culinary likes
+            self._increment_culinary_like("mediterranean", mediterranean)
+            self._increment_culinary_like("mexican", mexican)
+            self._increment_culinary_like("cuban", cuban)
+            self._increment_culinary_like("asian", asian)
+        
+        except:
+            pass
+
+    def _increment_culinary_like(self, style: str, inc):
+        result = self.beliefs.likes['culinary_styles'][style] + inc
+        if result > 1 and result < 10:
+            self.beliefs.likes['culinary_styles'][style] += inc
+
 
     
     def _task_parser(self, t: str):

@@ -285,7 +285,7 @@ class Sleep(TimeTask):
 
 
 class Speak(Task):
-    def __init__(self, author, listener, last_notice, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False):
+    def __init__(self, author, listener, last_notice, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False, conversation_analizer = None):
         super().__init__(author, ZERO, None, house, beliefs)
         self.listener = listener
         self.start_message = message
@@ -297,6 +297,7 @@ class Speak(Task):
         # self.my_turn = True if message is not None else False
         self.llm = Gemini()
         self.requested_recipe = False
+        self.conversation_analizer = conversation_analizer
 
     def execute(self, current_datetime: datetime, last_notice: Order, battery: Battery = None, *args):
         if self.is_successful: return    
@@ -309,6 +310,7 @@ class Speak(Task):
                 # Listener did't speak and I am not starter
                 if len(self.conversation) > 0:
                     self.is_successful = True
+                    if self.conversation_analizer is not None: self.conversation_analizer(self.conversation)
                     return
             # Listener sayed something
             else:
@@ -337,6 +339,7 @@ class Speak(Task):
 
                 if response == "END":
                     self.is_successful = True
+                    if self.conversation_analizer is not None: self.conversation_analizer(self.conversation)
                     return
                 
                 # Use customized response for recipe
