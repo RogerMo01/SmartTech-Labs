@@ -10,7 +10,7 @@ from simulation_data import BEST_TIMES, CONSUMPTION_PER_TASK
 from llm.gemini import Gemini
 from agents.sentence import *
 from agents.recommenders import call_recommenders
-from battery import Battery
+from agents.battery import Battery
 
 ZERO = timedelta(seconds=0)
 
@@ -75,7 +75,7 @@ class Move(Task):
         return actions
     
 
-    def execute(self, current_datetime: datetime, battery: Battery = None, *args):
+    def execute(self, current_datetime: datetime, order: Order, battery: Battery = None, *args):
         if self.is_successful: return                             # plan already finished
 
         if self.elapsed_time == ZERO:                             # initial execution
@@ -113,12 +113,12 @@ class TimeTask(Task):
         self.type = type
         # self.is_successful
     
-    def execute(self, current_datetime: datetime, battery: Battery, *args):
+    def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
         if self.is_successful: return                             
         
         self.elapsed_time += timedelta(seconds=1)
 
-        battery.decrease_battery(CONSUMPTION_PER_TASK("time_task"))
+        battery.decrease_battery(CONSUMPTION_PER_TASK["time_task"])
 
         if self.elapsed_time == self.time:
             self.is_successful = True
@@ -144,7 +144,7 @@ class Take(Task):
         in_queue = "in queue"
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
-    def execute(self, current_datetime: datetime, battery: Battery, *args):
+    def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para coger el objeto
@@ -174,7 +174,7 @@ class Drop(Task):
         in_queue = "in queue"
         return f"{self.type} {self.obj.name} {finished if self.is_successful else in_queue}"
 
-    def execute(self, current_datetime: datetime, battery: Battery, *args):
+    def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
         if self.is_successful: return     
         
         # Hacer las acciones para soltar el objeto 
@@ -193,7 +193,7 @@ class PlayMusic(Task):
     def __init__(self, author, time: timedelta, room: str = None, house: House = None, is_priority: bool = False):
         super().__init__(author, time, room, house, None, is_priority, None)
 
-    def execute(self, current_datetime: datetime, battery: Battery, *args):
+    def execute(self, current_datetime: datetime, order: Order, battery: Battery, *args):
         if self.is_successful: return 
 
         if not self.house.get_is_music_playing():
@@ -227,14 +227,14 @@ class Charge(Task):
     def __init__(self, author, house: House = None, beliefs: Belief = None, object_name: str = None):
         super().__init__(author, ZERO, None, house, beliefs, False, object_name)
 
-    def execute(self, current_datetime: datetime, battery: Battery, *args):
+    def execute(self, current_datetime: datetime, order, battery: Battery, *args):
         if self.is_successful: return     
         
         battery.increase_battery()
 
         self.elapsed_time += timedelta(seconds=1)
 
-        if self.elapsed_time == 100:
+        if battery.percent_battery == 100:
             self.is_successful = True
 
 
@@ -353,4 +353,5 @@ class Speak(Task):
         self.elapsed_time += timedelta(seconds=1)
         self.time += timedelta(seconds=1)
 
-        battery.decrease_battery(CONSUMPTION_PER_TASK["move_speak"])
+        if self.author == "Will-E":
+            battery.decrease_battery(CONSUMPTION_PER_TASK["move_speak"])

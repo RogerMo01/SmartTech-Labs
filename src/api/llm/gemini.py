@@ -34,7 +34,7 @@ class Gemini(LLM):
                 deadline_exceed = False
 
             except Exception as e:
-                if e.message != 'Deadline Exceeded':
+                if e.message != 'Deadline Exceeded' and not e.message.startswith("An internal error has occurred"):
                     raise e
 
         

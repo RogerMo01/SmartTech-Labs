@@ -83,6 +83,7 @@ class Simulation:
     def register_vitals(self):
         with open(FILE_SRC, 'w', encoding='utf-8') as file:
             file.write(str(self.human.needs) + '\n')
+            file.write(str(self.bot.battery))
 
     
 

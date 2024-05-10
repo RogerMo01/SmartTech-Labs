@@ -9,7 +9,7 @@ from agents.plan import *
 from llm.gemini import Gemini
 from llm.prompts import *
 import simulation_data
-from battery import Battery
+from agents.battery import Battery
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
                      "No tengo las habilidades para hacer eso, lo siento",
@@ -63,7 +63,7 @@ class Bot_Agent(BDI_Agent):
        if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
 
-            if isinstance(current_plan, Charge):
+            if current_plan.is_charge_plan:
                 self.battery.is_charging = True
             else:
                 self.battery.is_charging = False
@@ -72,6 +72,7 @@ class Bot_Agent(BDI_Agent):
 
             if current_plan.is_successful:
                 # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
+
                 self.intentions.pop(0)
                 
             self.increment_postponed_plan(current_plan)
@@ -86,8 +87,8 @@ class Bot_Agent(BDI_Agent):
                 self.reorder_intentions(selected_intention, current_plan)
         
        else:
-           if not self.battery.is_charging:
-                self.battery.decrease_battery(0.0005)
+            self.battery.is_charging = False
+            self.battery.decrease_battery(0.0005)
            
 
         
@@ -136,7 +137,7 @@ class Bot_Agent(BDI_Agent):
     def plan_intentions(self):
         
         # Pedro order
-        if self.beliefs.last_order is not None:
+        if not self.battery.is_charging and self.beliefs.last_order is not None:
             is_valid_plan = True
             
             # Pedro order and boosts a need
@@ -255,7 +256,7 @@ class Bot_Agent(BDI_Agent):
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
             # ------------------ Verificar q le alcance la bateria para ejecutar todas las tareas del plan --------
-            if not isinstance(current_plan, Charge) and current_plan.started == False:
+            if not current_plan.is_charge_plan and current_plan.started == False:
                 plan_battery_consumption = self.battery_management(current_plan)
                 if(self.battery.percent_battery - plan_battery_consumption < 10):
                     self._create_charge_plan()
@@ -268,7 +269,7 @@ class Bot_Agent(BDI_Agent):
         move_task = Move(self.agent_id, self.__house, self.beliefs, charge_station.robot_face_tiles[0])
         charge_task = Charge(self.agent_id, self.__house, self.beliefs, charge_station.name)
 
-        plan = Plan("Ir a cargar", self.__house, self.agent_id, self.beliefs, [move_task, charge_task])
+        plan = Plan("Ir a cargar", self.__house, self.agent_id, self.beliefs, [move_task, charge_task], charge_plan=True)
 
         self.intentions.append(plan)
 
@@ -279,7 +280,7 @@ class Bot_Agent(BDI_Agent):
 
 
     def reconsider(self, current_plan: Plan, probability: float):
-        if len(self.intentions)>0 and not isinstance(self.intentions[0], Charge):
+        if len(self.intentions)>0 and not self.intentions[0].is_charge_plan:
             _reconsider = random.uniform(0,1)
             posible_plans = []
             if _reconsider <= probability:
@@ -291,7 +292,7 @@ class Bot_Agent(BDI_Agent):
                     selected_plan = random.randint(0, len(posible_plans) - 1)
                     return True, posible_plans[selected_plan]
                 else: return False, None
-
+            else: return False, None
         else: return False, None
 
     def get_room_plan(self, plan: Plan):
@@ -316,14 +317,14 @@ class Bot_Agent(BDI_Agent):
     # Unused methods #
     # -------------- #
 
-    def battery_management(plan: Plan):
+    def battery_management(self, plan: Plan):
         plan_battery_consumption = 0
         for task in plan.tasks:
             if isinstance(task, Move) or isinstance(task, Speak):
                 # Consumir 0.05% de batería por cada segundo 60s ~ 0.3%
                 plan_battery_consumption += consumption_per_task["move_speak"]
             elif isinstance(task, TimeTask):
-                plan_battery_consumption += consumption_per_task["time_task"] * task.time
+                plan_battery_consumption += consumption_per_task["time_task"] * task.time.seconds
             elif isinstance(task, Take) or isinstance(task, Drop):
                 plan_battery_consumption += consumption_per_task["take_drop"] * task.time
             elif isinstance(task, PlayMusic):

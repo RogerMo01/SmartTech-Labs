@@ -12,3 +12,7 @@ class Battery:
         if self.percent_battery >= 100:
             self.percent_battery = 100
          
+    def __str__(self) -> str:
+        return f"Battery: {self.percent_battery}%"
+    def __repr__(self) -> str:
+        return self.__str__()

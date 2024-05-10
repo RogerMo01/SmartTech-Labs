@@ -1,10 +1,10 @@
 from agents.task import *
 from event import Event
 from logger import logger
-from battery import Battery
+from agents.battery import Battery
 
 class Plan:
-    def __init__(self, intention_name, house: House, author, beliefs, tasks=[], need=None):
+    def __init__(self, intention_name, house: House, author, beliefs, tasks=[], need=None, charge_plan: bool = False):
         self.intention_name: str = intention_name      # plan name
         self.author = author
         self.house = house
@@ -13,6 +13,7 @@ class Plan:
         self.is_postponed: bool = False
         self.is_successful: bool = True if len(tasks) == 0 else False
         self.need = need
+        self.is_charge_plan = charge_plan
 
         # Log plan
         if author == "Will-E":
@@ -22,7 +23,7 @@ class Plan:
         
         self.started = False
 
-    def run(self, submmit_event, current_datetime, last_notice: Order, battery: Battery):
+    def run(self, submmit_event, current_datetime, last_notice: Order, battery: Battery = None):
         if self.is_successful: return        # plan already finished
 
         
