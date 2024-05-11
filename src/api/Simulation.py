@@ -52,6 +52,8 @@ class Simulation:
  
             d = logger.__dict__
 
+            self.register_vitals()
+
             # Add one step to current_datetime
             one_step = timedelta(seconds=1)
             self.current_datetime += one_step
