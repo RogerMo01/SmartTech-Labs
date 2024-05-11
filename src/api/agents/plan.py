@@ -23,18 +23,26 @@ class Plan:
         
         self.started = False
 
-    def run(self, submmit_event, current_datetime, last_notice: Order, battery: Battery = None):
+    def run(self, current_datetime, last_notice: Order, battery: Battery = None):
         if self.is_successful: return        # plan already finished
 
+        if len(self.tasks) == 0:
+            self.is_successful = True
+            return
         
         current_task = self.tasks[0]
+
+        if current_task is None:
+            self.tasks.pop(0)
+            pass
 
         if self.is_postponed or (current_task is not None and self.is_out(current_task)):
             success = self.recompute()
             if not success:
                 current_task.failed = True
                 current_task.is_successful = True
-                self.report_task(current_task, submmit_event)
+                self.tasks.pop(0)
+
 
             self.is_postponed = False  
             
@@ -43,19 +51,11 @@ class Plan:
         current_task.execute(current_datetime, last_notice, battery)
 
         if current_task.is_successful:
-            self.report_task(current_task, submmit_event)
+            self.tasks.pop(0)
 
             if len(self.tasks) == 0:
                 self.is_successful = True
 
-    def report_task(self, current_task: Task, submmit_event):
-        completed = 'completed'
-        failed = 'failed'
-        # print(f'{self.author} {failed if current_task.failed else completed} the task ~{current_task.type}~ standing in ~{self.beliefs.bot_position.area if self.author=="Will-E" else self.beliefs.human_position.area}~ ')
-        report = f'{self.author} {failed if current_task.failed else completed} the task >{current_task.type}< and now is in >{self.beliefs.bot_position.area if self.author=="Will-E" else self.beliefs.human_position.area}<'
-        print(report)
-        submmit_event(Event(self.author, self.intention_name, current_task))
-        self.tasks.pop(0)
 
     def is_out(self, current_task: Task):
         """Returns false if task take place in a room or using an object and agent is not there"""

@@ -37,7 +37,7 @@ class Human_Agent(BDI_Agent):
         self.last_given_order = None
         self.current_datetime = None
 
-    def run(self, submmit_event, current_datetime: datetime):
+    def run(self, current_datetime: datetime):
         self.current_datetime = current_datetime
 
         perception = self.see()
@@ -45,22 +45,12 @@ class Human_Agent(BDI_Agent):
 
         self.plan_intentions()
 
-
-        #······Temporal for debug ······
-        for i in self.intentions:
-            if i is None:
-                print(i)
-                pass
-        #·······························
-            
-
         current_plan = None
         if len(self.intentions) > 0:
             current_plan: Plan = self.intentions[0]
-            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice)
+            current_plan.run(current_datetime, self.beliefs.last_notice)
 
             if current_plan.is_successful:
-                # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
                 self.intentions.pop(0)
 
         perception = self.see()
@@ -123,7 +113,7 @@ class Human_Agent(BDI_Agent):
                 need = self._get_min_need() # skips ENERGY
                 # Decidir si hacerlo solo o con robot
                 # if assert_chance(0.5):
-                if assert_chance(0.5) or need==BLADDER: #BLADDER just as individual
+                if assert_chance(0.01) or need==BLADDER: #BLADDER just as individual
                     self._create_individual_plan(need)
                 else:
                     # robot helps
@@ -266,10 +256,6 @@ class Human_Agent(BDI_Agent):
             
             # Robot says anything else
             else:
-                # 🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
-                # raise NotImplementedError("Robot says anything else")
-                # Robot did't understand
-                print(f"{self.agent_id} reported: {self.bot_id} me dijo ({self.beliefs.last_notice.body}) y yo había ordenado ({self.last_given_order})")
                 pass
 
 

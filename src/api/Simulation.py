@@ -32,7 +32,7 @@ class Simulation:
             'diseases':{'diabetes':2,'heart_disease':1, 'cold':1}
             }
 
-        self.bot = Bot_Agent(self.house, other_beliefs)
+        self.bot = Bot_Agent(self.house, other_beliefs, self.current_datetime)
         self.human = Human_Agent(self.house, other_beliefs)
 
         # Events list
@@ -41,38 +41,20 @@ class Simulation:
 
         
     def run_server(self):
-        i = 1
         while self.end_datetime - self.current_datetime > ZERO:
-            # print(self.end_datetime - self.current_datetime)
             logger.set_datetime(self.current_datetime)
             # Take conversations in the last loop
             self.house.update_speaks()
 
             # Run one step in both agents
-            self.bot.run(self.submmit_event, self.current_datetime)
-            self.human.run(self.submmit_event, self.current_datetime)
+            self.bot.run(self.current_datetime)
+            self.human.run(self.current_datetime)
  
-            # print(f'Will-E is: {self.bot.beliefs.bot_position}')
-            # print(f'Pedro is: {self.bot.beliefs.human_position}')
-            # print('.......................................')
-
-            # aqui supongo que se haga algo mas
-
-            # if i == 1:
-            #     self.house.say("Pedro", "Oye Will-E, estoy bajo de ánimo, puedes hacerme un chiste?", True)
-            i+=1
             d = logger.__dict__
-
-            # Report zone
-            if i %(1800+1) == 0:
-                print(self.current_datetime)
-            self.register_vitals()
-
 
             # Add one step to current_datetime
             one_step = timedelta(seconds=1)
             self.current_datetime += one_step
-            # print(self.current_datetime.time())
 
         logger
         print("END")
@@ -89,6 +71,4 @@ class Simulation:
 
 s = Simulation()
 s.run_server()
-for i in s.events:
-    print(i)
 

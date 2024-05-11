@@ -109,9 +109,19 @@ conversations5 = [
     "Will-E: Es un plato aromático y sabroso que combina carne o mariscos con leche de coco, pasta de curry y una variedad de hierbas y especias."
 ]
 
-prompt = human_culinary_styles_likes_instruction_prompt(conversations5, simulation_data.culinary_styles)
-resp = llm(prompt)
-print(resp)
+# prompt = human_culinary_styles_likes_instruction_prompt(conversations5, simulation_data.culinary_styles)
+# resp = llm(prompt)
+# print(resp)
+
+uno = datetime(year=2021, month=2, day=2, hour=14, minute=12, second=0)
+dos = datetime(year=2028, month=6, day=4, hour=14, minute=12, second=0)
+print(uno.strftime('%H:%M:%S'))
+print(dos.strftime('%H:%M:%S'))
+print(uno.strftime('%H:%M:%S') == dos.strftime('%H:%M:%S'))
+
+hours = list(range(8, 24)) + list(range(0, 8))
+for hour in hours:
+    print(hour)
 # print("Acción:", values[0])
 # prompt = human_plan_generator_prompt(values[0])
 # response = llm(prompt, True)

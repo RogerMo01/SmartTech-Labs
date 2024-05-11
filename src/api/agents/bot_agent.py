@@ -10,6 +10,7 @@ from llm.gemini import Gemini
 from llm.prompts import *
 import simulation_data
 from agents.battery import Battery
+from agents.activity import Activity
 
 NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
                      "No tengo las habilidades para hacer eso, lo siento",
@@ -35,7 +36,7 @@ class Bot_Belief(Belief):
 class Bot_Agent(BDI_Agent):
     ACTIONS = ['Move to sofa', 'Move to chair1'] # for testing purposes 
 
-    def __init__(self, house: House, other_beliefs: dict):
+    def __init__(self, house: House, other_beliefs: dict, current_datetime: datetime):
         # super().__init__(beliefs, intentions)
         self.__house = house    # private attribute
         self.agent_id = 'Will-E'
@@ -49,10 +50,11 @@ class Bot_Agent(BDI_Agent):
                                         # Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
         # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
         #                              Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
-        self.current_datetime = None
+        self.current_datetime = current_datetime
         self.battery = Battery()
+        self.activity = Activity(current_datetime)
 
-    def run(self, submmit_event, current_datetime: datetime):
+    def run(self, current_datetime: datetime):
        self.current_datetime = current_datetime
         
        perception = self.see()
@@ -61,6 +63,10 @@ class Bot_Agent(BDI_Agent):
        self.plan_intentions()
        
        if len(self.intentions) > 0:
+            
+            # Set 1 in current minute
+            self.activity.push(self.current_datetime)
+            
             current_plan: Plan = self.intentions[0]
 
             if current_plan.is_charge_plan:
@@ -68,10 +74,9 @@ class Bot_Agent(BDI_Agent):
             else:
                 self.battery.is_charging = False
 
-            current_plan.run(submmit_event, current_datetime, self.beliefs.last_notice, self.battery)
+            current_plan.run(current_datetime, self.beliefs.last_notice, self.battery)
 
             if current_plan.is_successful:
-                # print(f"PLAN ~{current_plan.intention_name}~ FINISHED")
                 self.intentions.pop(0)
                 
             self.increment_postponed_plan(current_plan)
@@ -81,7 +86,6 @@ class Bot_Agent(BDI_Agent):
             _reconsider, selected_intention = self.reconsider(current_plan, 0.1)
             
             if _reconsider:
-                # print(f'Will-E reconsidered his plan {current_plan.intention_name} to {selected_intention.intention_name}')
                 logger.log_overtake(current_plan, selected_intention)
                 self.reorder_intentions(selected_intention, current_plan)
         
@@ -238,6 +242,9 @@ class Bot_Agent(BDI_Agent):
                     except:
                         is_valid_plan = False
 
+                if any(new_plan.tasks) is None:
+                    is_valid_plan = False
+
                 if not is_valid_plan:
                     # Generate negative feedback and say it to human
                     nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
@@ -260,6 +267,11 @@ class Bot_Agent(BDI_Agent):
                 if(self.battery.percent_battery - plan_battery_consumption < 10):
                     self._create_charge_plan()
                     current_plan.started = True
+
+        hour, minute = self.activity.best_time
+       # ----------------------- Verificar si es la hora optima para cargar -------------------
+        if hour == self.current_datetime.hour and minute == self.current_datetime.minute and not self.battery.is_charging:
+            self._create_charge_plan()
 
 
     def _create_charge_plan(self):
