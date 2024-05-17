@@ -190,7 +190,7 @@ class Bot_Agent(BDI_Agent):
                             plan = json.loads(plan)
                             tasks = plan["tareas"]
                             message = plan["mensaje"]
-                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [])
                             for t in tasks:
                                 task: Task|None = self._task_parser(t)
                                 if task is None: is_valid_plan = False
@@ -233,7 +233,7 @@ class Bot_Agent(BDI_Agent):
                     try:
                         plan = self.llm(prompt)
                         plan = json.loads(plan)
-                        new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs)
+                        new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [])
                         for t in plan:
                             task: Task|None = self._task_parser(t)
                             if task is None: is_valid_plan = False

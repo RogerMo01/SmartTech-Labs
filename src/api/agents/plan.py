@@ -4,7 +4,7 @@ from logger import logger
 from agents.battery import Battery
 
 class Plan:
-    def __init__(self, intention_name, house: House, author, beliefs, tasks=[], need=None, charge_plan: bool = False):
+    def __init__(self, intention_name, house: House, author, beliefs, tasks, need=None, charge_plan: bool = False):
         self.intention_name: str = intention_name      # plan name
         self.author = author
         self.house = house
@@ -32,9 +32,9 @@ class Plan:
         
         current_task = self.tasks[0]
 
-        if current_task is None:
-            self.tasks.pop(0)
-            pass
+        # if current_task is None:
+        #     self.tasks.pop(0)
+            # pass
 
         if self.is_postponed or (current_task is not None and self.is_out(current_task)):
             success = self.recompute()
