@@ -53,6 +53,7 @@ class Bot_Agent(BDI_Agent):
         self.current_datetime = current_datetime
         self.battery = Battery()
         self.activity = Activity(current_datetime)
+        logger.activity = self.activity
 
     def run(self, current_datetime: datetime):
        self.current_datetime = current_datetime
@@ -138,6 +139,10 @@ class Bot_Agent(BDI_Agent):
     
 
     def plan_intentions(self):
+
+        # Log ignored requests
+        if self.battery.is_charging and self.beliefs.last_order is not None:
+            logger.log_ignored_request(self.beliefs.last_order)
         
         # Pedro order
         if not self.battery.is_charging and self.beliefs.last_order is not None:
@@ -266,6 +271,8 @@ class Bot_Agent(BDI_Agent):
                 plan_battery_consumption = self.battery_management(current_plan)
                 if(self.battery.percent_battery - plan_battery_consumption < 10):
                     self._create_charge_plan()
+                    # Log preventive recharge
+                    logger.log_preventive_recharge(plan=current_plan)
                     current_plan.started = True
 
         hour, minute = self.activity.best_time

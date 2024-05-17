@@ -11,6 +11,9 @@ class Order:
         self.body = body
         self.by_human_for_need = by_human_for_need
 
+    def __repr__(self) -> str:
+        return self.body
+
 
 class Belief:
     def __init__(self, house: House, other_beliefs = {}):

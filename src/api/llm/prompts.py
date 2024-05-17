@@ -305,7 +305,6 @@ Si decides terminar la conversación, sustituye <out> con el string "END"
 }}
 
 tu salida debe ser este json
-Recuerda terminar la conversación cuanto antes
 """
     return prompt
 

@@ -1,5 +1,4 @@
 from agents.task import *
-from event import Event
 from logger import logger
 from agents.battery import Battery
 

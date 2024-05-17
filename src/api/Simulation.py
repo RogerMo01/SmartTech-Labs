@@ -2,7 +2,6 @@ from datetime import datetime, timedelta
 from House import *
 from agents.bot_agent import Bot_Agent
 from agents.human_agent import Human_Agent
-from event import Event
 from logger import logger
 
 ZERO = timedelta(seconds=0)
@@ -11,9 +10,6 @@ FILE_SRC = "src/api/logs/vitals.txt"
 class Simulation:
     
     def __init__(self):
-        # Load initial configuration
-        # with open('config.json', 'r') as f:
-        #     config: dict = json.load(f)
         
         start = "2024-01-24T08:00:00.000000"
         end = "2024-01-25T12:00:00.000000"
@@ -35,8 +31,6 @@ class Simulation:
         self.bot = Bot_Agent(self.house, other_beliefs, self.current_datetime)
         self.human = Human_Agent(self.house, other_beliefs)
 
-        # Events list
-        self.events = []
 
 
         
@@ -61,8 +55,6 @@ class Simulation:
         logger
         print("END")
 
-    def submmit_event(self, event: Event):
-        self.events.append(event)
 
     def register_vitals(self):
         with open(FILE_SRC, 'w', encoding='utf-8') as file:

@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import google.generativeai as genai
 from google.generativeai.types import *
 from llm.llm import LLM
+import http
 
 class Gemini(LLM):
     def __init__(self) -> None:        
@@ -36,8 +37,8 @@ class Gemini(LLM):
 
             except Exception as e:
                 if e.message != 'Deadline Exceeded' and not e.message.startswith("An internal error has occurred"):
-                    if e.message.startswith("Timeout"):
-                        time.sleep(60)
+                    if e.code == http.HTTPStatus.REQUEST_TIMEOUT or e.code == http.HTTPStatus.TOO_MANY_REQUESTS:
+                        time.sleep(30)
                     else:
                         raise e
         

@@ -1,5 +1,6 @@
 from datetime import *
 from agents.bdi_agent import Order
+from agents.activity import Activity
 
 
 class PlanLog:
@@ -21,6 +22,11 @@ class OvertakeLog:
         self.old = old
         self.new = new
 
+class OrderLog:
+    def __init__(self, datetime: datetime, order: Order) -> None:
+        self.datetime = datetime
+        self.order = order
+
 
 
 class Logger:
@@ -29,9 +35,12 @@ class Logger:
         self.robot_plans: list[PlanLog] = []
         self.human_plans: list[PlanLog] = []
         self.robot_tasks: list[TaskLog] = []
-        self.human_tasks: list[TaskLog] = []
+        # self.human_tasks: list[TaskLog] = []
         self.overtakes: list[OvertakeLog] = []
         self.understand_errors: list[Order] = []
+        self.activity: Activity = None
+        self.preventive_recharges: list[PlanLog] = []
+        self.ignored_requests = list[OrderLog] = []
 
     def set_datetime(self, datetime: datetime):
         self.datetime = datetime
@@ -49,18 +58,26 @@ class Logger:
     def log_robot_task(self, t):
         self.robot_tasks.append(TaskLog(self.datetime, t))
 
-    def log_human_task(self, t):
-        self.human_tasks.append(TaskLog(self.datetime, t))
-
+    # def log_human_task(self, t):
+    #     self.human_tasks.append(TaskLog(self.datetime, t))
+    
 
 
     def log_overtake(self, old, new):
         self.overtakes.append(OvertakeLog(old, new))
 
     def log_understand_error(self, order: Order):
-        self.understand_errors.append(order)
+        self.understand_errors.append(OrderLog(self.datetime, order))
 
 
+
+    def log_preventive_recharge(self, plan):
+        self.preventive_recharges.append(PlanLog(self.datetime, plan))
+
+
+
+    def log_ignored_request(self, order: Order):
+        self.ignored_requests.append(OrderLog(self.datetime, order))
 
     def register_log(self, text: str, file_src: str):
         with open(file_src, 'a', encoding='utf-8') as file:
