@@ -56,7 +56,7 @@ class Human_Agent(BDI_Agent):
         perception = self.see()
         self.brf(perception)
         self.decrease_needs(current_plan)
-        self._set_cold()   # esta feo aqui, cambiar de ubicacion.
+        self._set_cold()
 
         if self.reconsider():
             # reevaluate intentions

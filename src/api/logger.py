@@ -40,7 +40,7 @@ class Logger:
         self.understand_errors: list[Order] = []
         self.activity: Activity = None
         self.preventive_recharges: list[PlanLog] = []
-        self.ignored_requests = list[OrderLog] = []
+        self.ignored_requests: list[OrderLog] = []
 
     def set_datetime(self, datetime: datetime):
         self.datetime = datetime

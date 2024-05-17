@@ -4,7 +4,7 @@ from agents.battery import Battery
 import simulation_data
 
 class Plan:
-    def __init__(self, intention_name, house: House, author, beliefs, tasks, need=None, charge_plan: bool = False):
+    def __init__(self, intention_name, house: House, author, beliefs, tasks, need=None, charge_plan: bool = False, robot_boost_need: bool = False):
         self.intention_name: str = intention_name      # plan name
         self.author = author
         self.house = house
@@ -14,6 +14,7 @@ class Plan:
         self.is_successful: bool = True if len(tasks) == 0 else False
         self.need = need
         self.is_charge_plan = charge_plan
+        self.robot_boost_need = robot_boost_need
 
         # Log plan
         if author == "Will-E":
@@ -31,10 +32,6 @@ class Plan:
             return
         
         current_task = self.tasks[0]
-
-        # if current_task is None:
-        #     self.tasks.pop(0)
-            # pass
 
         if self.is_postponed or (current_task is not None and self.is_out(current_task)):
             success = self.recompute()
@@ -61,20 +58,19 @@ class Plan:
         """Returns false if task take place in a room or using an object and agent is not there"""
 
         object = current_task.object_name
+        room = current_task.room
         if object is not None:
             object: Object = self.house.get_object(object)
             if object.carrier is not None: return True
 
             current_position = self.beliefs.bot_position if self.author == 'Will-E' else self.beliefs.human_position
             return (not current_position in object.robot_face_tiles if self.author == 'Will-E' else not current_position in object.human_face_tiles) and current_task.type != 'Caminar'      
-        
-        room = current_task.room
-        if room is not None:
+       
+        elif room is not None:
             current_area = self.beliefs.bot_position.area if self.author == 'Will-E' else self.beliefs.human_position.area
-            if current_task.room is None: return False
-            return (current_task.room != current_area and current_task.type != 'Caminar')
+            return (room != current_area and current_task.type != 'Caminar')
         
-        return False
+        else: return False
     
 
     def recompute(self):
@@ -113,7 +109,7 @@ def generate_clean_plan(author: str, house: House, beliefs):
     tasks = []
     for area in simulation_data.areas:
         tasks.append(Move(author, house, beliefs, house.get_room_tile(author, area)))
-        tasks.append(Clean(author, house, beliefs, random.randint(480, 1200), area))
+        tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 1200)), area))
     return Plan("Limpiar la casa", house, author, beliefs, tasks)
 
 def generate_water_plants_plan(author: str, house: House, beliefs):
@@ -122,4 +118,5 @@ def generate_water_plants_plan(author: str, house: House, beliefs):
         plant_obj: Object = house.get_object(plant)
         tasks.append(Move(author, house, beliefs, plant_obj.robot_face_tiles[0]))
         tasks.append(UseWater(author, house, beliefs, timedelta(seconds=15), object=plant_obj.name))
+    return Plan("Regar las plantas", house, author, beliefs, tasks)
 

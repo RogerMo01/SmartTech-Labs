@@ -22,10 +22,10 @@ class Simulation:
         other_beliefs = {
             'likes':
             {
-                'culinary_styles':{'mediterranean':6, 'cuban':8, 'mexican':2, 'asian':1},
+                'culinary_styles':{'mediterranean':6, 'cuban':6, 'mexican':6, 'asian':6},
                 'cinema':['Star Wars', 'Lord of the Rings']
             },
-            'diseases':{'diabetes':2,'heart_disease':1, 'cold':1}
+            'diseases':{'diabetes':2,'heart_disease':8, 'cold':1}
             }
 
         self.bot = Bot_Agent(self.house, other_beliefs, self.current_datetime)

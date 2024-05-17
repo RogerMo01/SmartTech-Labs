@@ -40,7 +40,7 @@ class Bot_Agent(BDI_Agent):
         # super().__init__(beliefs, intentions)
         self.__house = house    # private attribute
         self.agent_id = 'Will-E'
-        self.human_id = 'Pedro'
+        self.human_id = 'Pedro' 
         self.llm = Gemini()
         self.pocket = []
         self.beliefs = Bot_Belief(house, other_beliefs) # initial beliefs
@@ -56,10 +56,7 @@ class Bot_Agent(BDI_Agent):
             5: [],
             6: [(generate_water_plants_plan, 14)]
         }
-        # self.intentions: list[Plan] = [Plan("Mojar una mata", house, self.agent_id, self.beliefs, [UseWater(self.agent_id, house, self.beliefs, timedelta(seconds=10), object=plant1.name)])]
-                                        # Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
-        # self.intentions: list[Plan] = [Plan("Dar una vuelta por la casa", house, self.agent_id, self.beliefs, [Move(self.agent_id, house, self.beliefs, E8), Move(self.agent_id, house, self.beliefs, A0)]),
-        #                              Plan("Limpiar el cuarto", house, self.agent_id, self.beliefs,[Clean(self.agent_id, house, self.beliefs, timedelta(seconds=10), 'bedroom')])]
+
         self.current_datetime = current_datetime
         self.battery = Battery()
         self.activity = Activity(current_datetime)
@@ -97,7 +94,6 @@ class Bot_Agent(BDI_Agent):
             _reconsider, selected_intention = self.reconsider(current_plan, 0.1)
             
             if _reconsider:
-                logger.log_overtake(current_plan, selected_intention)
                 self.reorder_intentions(selected_intention, current_plan)
         
        else:
@@ -115,6 +111,7 @@ class Bot_Agent(BDI_Agent):
     def reorder_intentions(self, selected_intention, prev_intention: Plan):
         for task in prev_intention.tasks:
             task.is_postponed = True
+        prev_intention.is_postponed = True
         
         self.intentions.remove(selected_intention)
         self.intentions.insert(0, selected_intention)
@@ -175,9 +172,14 @@ class Bot_Agent(BDI_Agent):
                     # response = self.llm(prompt)
                     
                     # speak_task = Speak(self.agent_id, self.human_id, self.beliefs.last_order.body, self.__house, self.beliefs, response, )
-                    new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task])
+                    new_plan = Plan(f"Responder a {self.human_id}", self.__house, self.agent_id, self.beliefs, [speak_task], robot_boost_need=True)
                     
-                    self.intentions.insert(0, new_plan)
+                    if len(self.intentions) > 0:
+                        self.intentions.append(new_plan)
+                        self.reorder_intentions(new_plan, self.intentions[0])
+                    else:
+                        self.intentions.append(new_plan)
+                    
                     return
                 
                 # Pedro order, boosts a need and is action type
@@ -205,7 +207,7 @@ class Bot_Agent(BDI_Agent):
                             plan = json.loads(plan)
                             tasks = plan["tareas"]
                             message = plan["mensaje"]
-                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [])
+                            new_plan = Plan(intention, self.__house, self.agent_id, self.beliefs, [], robot_boost_need=True)
                             for t in tasks:
                                 task: Task|None = self._task_parser(t)
                                 if task is None: is_valid_plan = False
@@ -270,7 +272,12 @@ class Bot_Agent(BDI_Agent):
                     self.intentions.append(new_plan)
             
         # Plan weekly tasks
-        🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨🚨
+        week_day = self.current_datetime.weekday()
+        day_plans = self.weekly_plans[week_day]
+        for plan_func, hour in day_plans:
+            if hour == self.current_datetime.hour and self.current_datetime.minute == 0 and self.current_datetime.second == 0:
+                plan = plan_func(self.agent_id, self.__house, self.beliefs)
+                self.intentions.append(plan)
 
         # ---------------- Verficiar que Will-E tenga mas de 20% de bateria -------------------
         if self.battery.percent_battery < 20 and not self.battery.is_charging:
@@ -301,16 +308,17 @@ class Bot_Agent(BDI_Agent):
 
         plan = Plan("Ir a cargar", self.__house, self.agent_id, self.beliefs, [move_task, charge_task], charge_plan=True)
 
-        self.intentions.append(plan)
 
         if len(self.intentions) > 0:
+            self.intentions.append(plan)    
             self.reorder_intentions(plan, self.intentions[0])
-
+        else:
+            self.intentions.append(plan)
 
 
 
     def reconsider(self, current_plan: Plan, probability: float):
-        if len(self.intentions)>0 and not self.intentions[0].is_charge_plan:
+        if len(self.intentions)>0 and not current_plan.is_charge_plan:
             _reconsider = random.uniform(0,1)
             posible_plans = []
             if _reconsider <= probability:
@@ -320,10 +328,18 @@ class Bot_Agent(BDI_Agent):
                 
                 if len(posible_plans) != 0:
                     selected_plan = random.randint(0, len(posible_plans) - 1)
+
+                    # log overtaked plan
+                    logger.log_overtake(current_plan, posible_plans[selected_plan])
                     return True, posible_plans[selected_plan]
-                else: return False, None
-            else: return False, None
-        else: return False, None
+                
+            
+            # reconsider order plans
+            for plan in self.intentions:
+                if plan.robot_boost_need and not current_plan.robot_boost_need:
+                    return True, plan
+
+        return False, None
 
     def get_room_plan(self, plan: Plan):
         room = ""
