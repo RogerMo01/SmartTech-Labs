@@ -225,6 +225,7 @@ objects_names = [o.name for o in objects_instances]
 #################### Areas #####################
 areas = ['dormitorio', 'sala_de_estar', 'baño', 'cocina']
 
+plants = ['planta_1, planta_2, planta_3']
 
 #################### Robot Actions ########################
 CLEAN = "LIMPIAR"

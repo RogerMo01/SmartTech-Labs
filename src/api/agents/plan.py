@@ -1,6 +1,7 @@
 from agents.task import *
 from logger import logger
 from agents.battery import Battery
+import simulation_data
 
 class Plan:
     def __init__(self, intention_name, house: House, author, beliefs, tasks, need=None, charge_plan: bool = False):
@@ -106,3 +107,19 @@ class Plan:
 
 
     
+
+
+def generate_clean_plan(author: str, house: House, beliefs):
+    tasks = []
+    for area in simulation_data.areas:
+        tasks.append(Move(author, house, beliefs, house.get_room_tile(author, area)))
+        tasks.append(Clean(author, house, beliefs, random.randint(480, 1200), area))
+    return Plan("Limpiar la casa", house, author, beliefs, tasks)
+
+def generate_water_plants_plan(author: str, house: House, beliefs):
+    tasks = []
+    for plant in plants:
+        plant_obj: Object = house.get_object(plant)
+        tasks.append(Move(author, house, beliefs, plant_obj.robot_face_tiles[0]))
+        tasks.append(UseWater(author, house, beliefs, timedelta(seconds=15), object=plant_obj.name))
+
