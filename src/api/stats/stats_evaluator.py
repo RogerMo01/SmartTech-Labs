@@ -125,25 +125,6 @@ for key, stats in tasks_statistics.items():
 
 
 
-# # Configurar la apariencia de la tabla
-# styled_df = dict_tasks_df.style.background_gradient(cmap='viridis').set_properties(**{'text-align': 'center'}).set_table_styles([{
-#     'selector': 'th',
-#     'props': [('font-size', '12pt'), ('text-align', 'center')]
-# }])
-
-# # Convertir el DataFrame en imagen
-# img = df2img.export(
-#     styled_df,
-#     fontsize=12,
-#     table_conversion='matplotlib',
-#     save_path="tabla.png"
-# )
-
-
-
-
-
-
 
 # plt.figure()
 # plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
