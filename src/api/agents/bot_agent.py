@@ -368,9 +368,9 @@ class Bot_Agent(BDI_Agent):
             elif isinstance(task, TimeTask):
                 plan_battery_consumption += consumption_per_task["time_task"] * task.time.seconds
             elif isinstance(task, Take) or isinstance(task, Drop):
-                plan_battery_consumption += consumption_per_task["take_drop"] * task.time
+                plan_battery_consumption += consumption_per_task["take_drop"] * task.time.seconds
             elif isinstance(task, PlayMusic):
-                plan_battery_consumption += consumption_per_task["play_music"] * task.time
+                plan_battery_consumption += consumption_per_task["play_music"] * task.time.seconds
 
         return plan_battery_consumption
 
