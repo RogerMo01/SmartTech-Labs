@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import math
+import numpy as np
 
 df = pd.read_csv('src/api/stats/robot_tasks.csv')
 
@@ -79,11 +80,40 @@ dict_tasks = {
     r'% de eficiencia': y_consistency_percent,
 }
 
+def calculate_mean(data):
+    return np.mean(data)
+
+def calculate_variance(data):
+    return np.var(data, ddof=1)
+
+def calculate_standard_deviation(data):
+    return np.std(data, ddof=1)
+
+tasks_statistics = {}
+for key, values in dict_tasks.items():
+    mean = calculate_mean(values)
+    var = calculate_variance(values)
+    std = calculate_standard_deviation(values)
+    
+    tasks_statistics[key] = {
+        'Media': mean, 
+        'Varianza': var,
+        'Desviación Estándar': std
+    }
+
 dict_tasks_df = pd.DataFrame(dict_tasks)
 mean_eficiency = sum(y_consistency_percent)/len(y_consistency_percent) 
 print(dict_tasks_df)
+print()
 print(f"Eficiencia promedio: {mean_eficiency}%")
+print()
 
+for key, stats in tasks_statistics.items():
+    print(f"{key}:")
+    print(f"  Media: {stats['Media']:.2f}")
+    print(f"  Varianza: {stats['Varianza']:.2f}")
+    print(f"  Desviación Estándar: {stats['Desviación Estándar']:.2f}")
+    print()
 
 
 
