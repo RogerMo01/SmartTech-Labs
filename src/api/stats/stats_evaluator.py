@@ -85,6 +85,8 @@ print(dict_tasks_df)
 print(f"Eficiencia promedio: {mean_eficiency}%")
 
 
+
+
 # plt.figure()
 # plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
 # plt.plot(x_dates, y_task_times, label='Tiempo estimado', marker='o', color='red', linestyle=':')
@@ -98,19 +100,35 @@ print(f"Eficiencia promedio: {mean_eficiency}%")
 # plt.show()
 
 
-
+################### Charge stats ###########################
 
 # Crear un DataFrame de ejemplo
-data = {'values': [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]}
-df = pd.DataFrame(data)
 
+
+# data = {'values': [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]}
+# df = pd.DataFrame(data)
+
+charge_tasks = df[df['type'] == 'Cargar la batería']
+print(charge_tasks)
+
+daily_charge_frecuency = dict()
+for day in daily_tasks:
+    daily_charge_frecuency[day] = 0
+
+    for index, row in charge_tasks.iterrows():
+        if row['datetime'] in daily_tasks[day]:
+            daily_charge_frecuency[day] +=1
+
+y_frequency = [daily_charge_frecuency[d] for d in x_dates]
 # Crear el histograma de la columna 'values'
-plt.hist(df['values'], bins=5, edgecolor='black')
+plt.bar(x_dates, y_frequency)
 
 # Añadir etiquetas y título
-plt.xlabel('Valores')
-plt.ylabel('Frecuencia')
+plt.xlabel('Día')
+plt.ylabel('Frecuencia de carga')
 plt.title('Histograma de frecuencias')
+plt.xticks(rotation=90)
+
 
 # Mostrar la gráfica
 plt.show()
