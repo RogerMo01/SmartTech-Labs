@@ -27,6 +27,10 @@ class OrderLog:
         self.datetime = datetime
         self.order = order
 
+class ConversationLog:
+    def __init__(self, conversation: list[str]) -> None:
+        self.conversation = conversation
+
 
 
 class Logger:
@@ -41,6 +45,7 @@ class Logger:
         self.activity: Activity = None
         self.preventive_recharges: list[PlanLog] = []
         self.ignored_requests: list[OrderLog] = []
+        self.conversations: list[ConversationLog] = []
 
     def set_datetime(self, datetime: datetime):
         self.datetime = datetime
@@ -73,6 +78,10 @@ class Logger:
 
     def log_preventive_recharge(self, plan):
         self.preventive_recharges.append(PlanLog(self.datetime, plan))
+
+
+    def log_conversation(self, conversation: list[str]):
+        self.conversations.append(ConversationLog(conversation))
 
 
 

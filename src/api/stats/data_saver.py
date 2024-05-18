@@ -13,7 +13,7 @@ def save_logger(logger: Logger):
     save_understand_errors(logger.understand_errors)
     save_ignored_requests(logger.ignored_requests)
     save_activity(logger.activity)
-
+    save_conversations(logger.conversations)
     # Show graphics
 
 
@@ -149,4 +149,13 @@ def save_activity(activity: Activity):
 
     df.to_csv('src/api/stats/active_minutes.csv', index=False)
 
+
+def save_conversations(conversations: list[ConversationLog]):
+    with open("src/api/stats/conversations.txt", "a", encoding="utf-8") as file:
+        for c in conversations:
+            file.write("#############################################################################\n")
+            for s in c.conversation:
+                file.write("➡ " + s + "\n")
+            file.write("\n\n\n")
+            
 

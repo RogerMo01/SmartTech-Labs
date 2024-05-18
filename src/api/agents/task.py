@@ -292,7 +292,7 @@ class Speak(Task):
         self.start_message = message
         self.human_need = human_need
         self.last_notice = last_notice
-        self.conversation = []
+        self.conversation: list[Sentence] = []
         self.my_turn = True
         self.type = f"Hablar a {self.listener}"
         # self.my_turn = True if message is not None else False
@@ -312,6 +312,7 @@ class Speak(Task):
                 if len(self.conversation) > 0:
                     self.is_successful = True
                     if self.conversation_analizer is not None: self.conversation_analizer(self.conversation)
+                    if self.author == "Will-E": logger.log_conversation([x.message for x in self.conversation])
                     return
             # Listener sayed something
             else:
@@ -346,6 +347,7 @@ class Speak(Task):
                 if response == "END":
                     self.is_successful = True
                     if self.conversation_analizer is not None: self.conversation_analizer(self.conversation)
+                    if self.author == "Will-E": logger.log_conversation([x.message for x in self.conversation])
                     return
                 
                 # Use customized response for recipe
