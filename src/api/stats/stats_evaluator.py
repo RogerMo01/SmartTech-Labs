@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import math
 import numpy as np
+from matplotlib.ticker import MaxNLocator
 
 df = pd.read_csv('src/api/stats/robot_tasks.csv')
 
@@ -13,7 +14,7 @@ print(f"Total-elapsed-time: {total_elapsed_time}")
 
 
 
-########################## Daily tasks ########################
+######################################### Daily tasks ############################################
 daily_tasks = dict()
 
 all_datetimes = df['datetime']
@@ -32,6 +33,7 @@ for day in daily_tasks:
     daily_elapsed_time[day] = df[df['datetime'].str.startswith(day)]['elapsed_time'].sum()
 
 
+# 📒📒📒📒📒📒📒📒📒📒 Task times 📒📒📒📒📒📒📒📒📒📒
 x_dates = sorted(list(daily_elapsed_time.keys()))
 y_times = [daily_elapsed_time[d] for d in x_dates]
 y_times = [t for t in y_times]
@@ -42,16 +44,19 @@ plt.xlabel('Día')
 plt.ylabel('Tiempo')
 plt.title('Tiempo diario dedicado a tareas')
 plt.grid(True)
-plt.xticks(rotation=45)
+plt.xticks(rotation=90)
 plt.tight_layout()
 plt.show()
 
 
 
-######################## Daily task times comparison ##########################
-time_tasks = df[df['task_time'] > 0]
-# print(time_tasks)
 
+
+
+
+
+################################### Daily task times comparison ####################################
+time_tasks = df[df['task_time'] > 0]
 
 daily_task_total_time = dict()
 daily_task_time = dict()
@@ -66,7 +71,7 @@ for day in daily_tasks:
     daily_postponed_task_time[day] = sum(postponed_time)
     daily_task_total_time[day] = sum(elapsed_time) + sum(postponed_time)
 
-    
+# ⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳ Task times statistics ⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳⏳
 x_dates
 y_total_task_times = [daily_task_total_time[d] for d in x_dates]
 y_task_times = [daily_task_time[d] for d in x_dates]
@@ -117,6 +122,29 @@ for key, stats in tasks_statistics.items():
 
 
 
+
+
+
+# # Configurar la apariencia de la tabla
+# styled_df = dict_tasks_df.style.background_gradient(cmap='viridis').set_properties(**{'text-align': 'center'}).set_table_styles([{
+#     'selector': 'th',
+#     'props': [('font-size', '12pt'), ('text-align', 'center')]
+# }])
+
+# # Convertir el DataFrame en imagen
+# img = df2img.export(
+#     styled_df,
+#     fontsize=12,
+#     table_conversion='matplotlib',
+#     save_path="tabla.png"
+# )
+
+
+
+
+
+
+
 # plt.figure()
 # plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
 # plt.plot(x_dates, y_task_times, label='Tiempo estimado', marker='o', color='red', linestyle=':')
@@ -130,14 +158,12 @@ for key, stats in tasks_statistics.items():
 # plt.show()
 
 
-################### Charge stats ###########################
-
-# Crear un DataFrame de ejemplo
 
 
-# data = {'values': [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]}
-# df = pd.DataFrame(data)
 
+
+
+################################## Charge stats #####################################
 charge_tasks = df[df['type'] == 'Cargar la batería']
 print(charge_tasks)
 
@@ -149,16 +175,22 @@ for day in daily_tasks:
         if row['datetime'] in daily_tasks[day]:
             daily_charge_frecuency[day] +=1
 
-y_frequency = [daily_charge_frecuency[d] for d in x_dates]
-# Crear el histograma de la columna 'values'
-plt.bar(x_dates, y_frequency)
 
-# Añadir etiquetas y título
+# 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋 Charges frequency 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋
+x_dates
+y_frequency = [daily_charge_frecuency[d] for d in x_dates]
+
+plt.bar(x_dates, y_frequency)
+plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
 plt.xlabel('Día')
 plt.ylabel('Frecuencia de carga')
 plt.title('Histograma de frecuencias')
 plt.xticks(rotation=90)
-
-
-# Mostrar la gráfica
+plt.tight_layout()
 plt.show()
+
+
+
+
+
+
