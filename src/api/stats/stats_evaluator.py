@@ -1,6 +1,7 @@
 import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
+import math
 
 df = pd.read_csv('src/api/stats/robot_tasks.csv')
 
@@ -48,38 +49,53 @@ plt.show()
 
 ######################## Daily task times comparison ##########################
 time_tasks = df[df['task_time'] > 0]
-print(time_tasks)
+# print(time_tasks)
 
 
 daily_task_total_time = dict()
 daily_task_time = dict()
+daily_postponed_task_time = dict()
 for day in daily_tasks:
     daily_df = df[df['datetime'].str.startswith(day) & df['task_time'] > 0]
     task_times = daily_df['task_time'].tolist()
     elapsed_time = daily_df['elapsed_time'].tolist()
     postponed_time = daily_df['postponed_time'].tolist()
 
-    print(daily_df)
     daily_task_time[day] = sum(task_times)
+    daily_postponed_task_time[day] = sum(postponed_time)
     daily_task_total_time[day] = sum(elapsed_time) + sum(postponed_time)
 
     
 x_dates
 y_total_task_times = [daily_task_total_time[d] for d in x_dates]
 y_task_times = [daily_task_time[d] for d in x_dates]
+y_postponed_task_times = [daily_postponed_task_time[d] for d in x_dates]
+y_consistency_percent = [(y_task_times[i]/y_total_task_times[i])*100 for i in range(len(y_task_times)) ]
+
+dict_tasks = {
+    "Tiempo estimado": y_task_times,
+    "Tiempo total": y_total_task_times,
+    "Tiempo pospuesto": y_postponed_task_times,
+    r'% de eficiencia': y_consistency_percent,
+}
+
+dict_tasks_df = pd.DataFrame(dict_tasks)
+mean_eficiency = sum(y_consistency_percent)/len(y_consistency_percent) 
+print(dict_tasks_df)
+print(f"Eficiencia promedio: {mean_eficiency}%")
 
 
-plt.figure()
-plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
-plt.plot(x_dates, y_task_times, label='Tiempo estimado', marker='o', color='red', linestyle=':')
-plt.xlabel('Día')
-plt.ylabel('Timepo(seg)')
-plt.title('Comparación de tiempos')
-plt.grid(True)
-plt.xticks(rotation=45)
-plt.tight_layout()
-plt.legend()
-plt.show()
+# plt.figure()
+# plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
+# plt.plot(x_dates, y_task_times, label='Tiempo estimado', marker='o', color='red', linestyle=':')
+# plt.xlabel('Día')
+# plt.ylabel('Timepo(seg)')
+# plt.title('Comparación de tiempos')
+# plt.grid(True)
+# plt.xticks(rotation=45)
+# plt.tight_layout()
+# plt.legend()
+# plt.show()
 
 
 
