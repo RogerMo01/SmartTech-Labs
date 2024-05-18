@@ -28,10 +28,10 @@ def save_robot_tasks(robot_tasks: list[TaskLog]):
     for task_log in robot_tasks:
         data['datetime'].append(task_log.datetime)
         task: Task = task_log.task
-        data['type'] = task.type
-        data['task_time'] = task.time
-        data['elapsed_time'] = task.elapsed_time
-        data['postponed_time'] = task.postponed_time
+        data['type'].append(task.type)
+        data['task_time'].append(task.time.total_seconds())
+        data['elapsed_time'].append(task.elapsed_time.total_seconds())
+        data['postponed_time'].append(task.postponed_time.total_seconds())
 
     df = pd.DataFrame(data)
 

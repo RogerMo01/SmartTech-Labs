@@ -82,7 +82,7 @@ class Bot_Agent(BDI_Agent):
             else:
                 self.battery.is_charging = False
 
-            current_plan.run(current_datetime, self.beliefs.last_notice, self.battery)
+            current_plan.run(current_datetime, self.beliefs.last_notice, self.battery, self.provide_negative_feedback)
 
             if current_plan.is_successful:
                 self.intentions.pop(0)
@@ -223,17 +223,13 @@ class Bot_Agent(BDI_Agent):
                         try:
                             action = json.loads(action)
                             if action[0] == simulation_data.PLAY_MUSIC:
-                                play_music_task = PlayMusic(self.agent_id, action[1], None, self.__house)
+                                play_music_task = PlayMusic(self.agent_id, timedelta(seconds=action[1]), None, self.__house)
                                 new_plan = Plan("Reproducir música", self.__house, self.agent_id, self.beliefs, [play_music_task])
                         except:
                             is_valid_plan = False
 
                 if not is_valid_plan:
-                    # Generate negative feedback and say it to human
-                    nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
-                    plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
-                    self.intentions.insert(0, plan)
-                    logger.log_understand_error(self.beliefs.last_order)
+                    self.provide_negative_feedback()
                 else:
                     self.intentions.append(new_plan)
 
@@ -263,11 +259,7 @@ class Bot_Agent(BDI_Agent):
                     is_valid_plan = False
 
                 if not is_valid_plan:
-                    # Generate negative feedback and say it to human
-                    nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
-                    plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
-                    self.intentions.insert(0, plan)
-                    logger.log_understand_error(self.beliefs.last_order)
+                    self.provide_negative_feedback()
                 else:
                     self.intentions.append(new_plan)
             
@@ -359,9 +351,13 @@ class Bot_Agent(BDI_Agent):
                         task.postponed_time += one_step
 
 
-    # -------------- #
-    # Unused methods #
-    # -------------- #
+    def provide_negative_feedback(self):
+        # Generate negative feedback and say it to human
+        nf_speak = Speak(self.agent_id, self.human_id, None, self.__house, self.beliefs, random.choice(NEGATIVE_FEEDBACK))
+        plan = Plan("Responder no entender", self.__house, self.agent_id, self.beliefs, [nf_speak])
+        self.intentions.insert(0, plan)
+        logger.log_understand_error(self.beliefs.last_order)
+
 
     def battery_management(self, plan: Plan):
         plan_battery_consumption = 0
@@ -378,26 +374,6 @@ class Bot_Agent(BDI_Agent):
 
         return plan_battery_consumption
 
-
-
-    def filter(self, beliefs, desire, intentions):  # i'll use this method later
-            """return the filtered intentions based on the beliefs and selected desire
-
-            Args:
-                beliefs (list): all beliefs of the agent
-                desire (str): chosen desire
-                intentions (list): all intentions of the agent
-            """
-            for i in intentions:
-                if i == desire:
-                    return i
-            pass
-
-    def options(self):
-        """Return the chosen desire based on the beliefs and intentions"""
-        #r = random.randint(0, len(intentions)-1)  # agregar criterios para elegir deseo aquí
-        r = 0
-        return self.intentions[r]
 
     def _are_new_conversations(self, perception: Perception):
         new_conversations = False

@@ -13,6 +13,7 @@ from agents.recommenders import call_recommenders
 from agents.battery import Battery
 from logger import logger
 
+
 ZERO = timedelta(seconds=0)
 
 class Task:
@@ -299,7 +300,7 @@ class Speak(Task):
         self.requested_recipe = False
         self.conversation_analizer = conversation_analizer
 
-    def execute(self, current_datetime: datetime, last_notice: Order, battery: Battery = None, *args):
+    def execute(self, current_datetime: datetime, last_notice: Order, battery: Battery = None, understand_func = None, *args):
         if self.is_successful: return    
 
         log_task_start(self.elapsed_time, self.author, self)
@@ -335,6 +336,11 @@ class Speak(Task):
                         tries = 3
                     except:
                         tries+=1
+                        if tries == 3:
+                            response = "END"
+                            if self.author == "Will-E":
+                                understand_func()
+
                     
 
                 if response == "END":

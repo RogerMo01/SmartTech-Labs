@@ -24,7 +24,7 @@ class Plan:
         
         self.started = False
 
-    def run(self, current_datetime, last_notice: Order, battery: Battery = None):
+    def run(self, current_datetime, last_notice: Order, battery: Battery = None, understand_func = None):
         if self.is_successful: return        # plan already finished
 
         if len(self.tasks) == 0:
@@ -33,19 +33,18 @@ class Plan:
         
         current_task = self.tasks[0]
 
-        if self.get_is_postponed(current_task) or (current_task is not None and self.is_out(current_task)):
+        if self._get_is_postponed(current_task) and (current_task is not None and self.is_out(current_task)):
             success = self.recompute()
-            if not success:
+            if not success:  # if carrier is not None only
                 current_task.failed = True
                 current_task.is_successful = True
                 self.tasks.pop(0)
+        elif self._get_is_postponed_without_object(current_task):
+            self.is_postponed = False
 
-
-            self.is_postponed = False  
-            
         current_task = self.tasks[0]
 
-        current_task.execute(current_datetime, last_notice, battery)
+        current_task.execute(current_datetime, last_notice, battery, understand_func)
 
         if current_task.is_successful:
             self.tasks.pop(0)
@@ -53,8 +52,11 @@ class Plan:
             if len(self.tasks) == 0:
                 self.is_successful = True
 
-    def get_is_postponed(self, current_task: Task):
+    def _get_is_postponed(self, current_task: Task):
         return self.is_postponed and (current_task.object_name is not None or current_task.room is not None)
+    
+    def _get_is_postponed_without_object(self, current_task: Task):
+        return self.is_postponed and (current_task.object_name is None and current_task.room is None)
     
     def is_out(self, current_task: Task):
         """Returns false if task take place in a room or using an object and agent is not there"""
@@ -81,14 +83,15 @@ class Plan:
         
         obj: Object = self.house.get_object(current_task.object_name)
         if obj is not None:
-            dest_tile = obj.robot_face_tiles[0] if self.author == "Will-E" else obj.human_face_tiles[0]
-
+            if obj.carrier is None:
+                dest_tile = obj.robot_face_tiles[0] if self.author == "Will-E" else obj.human_face_tiles[0]
+            else: return False
         else: # then room is not None
             room = current_task.room
             dest_tile = self.house.get_room_tile(self.author, room)
             
         self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
-        
+        return True
     
     def __repr__(self) -> str:
         finished = "finished"
