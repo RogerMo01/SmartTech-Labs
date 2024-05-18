@@ -32,7 +32,7 @@ for day in daily_tasks:
 
 x_dates = sorted(list(daily_elapsed_time.keys()))
 y_times = [daily_elapsed_time[d] for d in x_dates]
-y_times = [str(timedelta(seconds=t)) for t in y_times]
+y_times = [t for t in y_times]
 
 # plt.figure(figsize=(10, 5))
 plt.plot(x_dates, y_times, marker='o', linestyle='-', color='g')
@@ -79,4 +79,22 @@ plt.grid(True)
 plt.xticks(rotation=45)
 plt.tight_layout()
 plt.legend()
+plt.show()
+
+
+
+
+# Crear un DataFrame de ejemplo
+data = {'values': [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 5, 5, 5, 5, 5]}
+df = pd.DataFrame(data)
+
+# Crear el histograma de la columna 'values'
+plt.hist(df['values'], bins=5, edgecolor='black')
+
+# Añadir etiquetas y título
+plt.xlabel('Valores')
+plt.ylabel('Frecuencia')
+plt.title('Histograma de frecuencias')
+
+# Mostrar la gráfica
 plt.show()
