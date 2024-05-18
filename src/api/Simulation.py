@@ -3,6 +3,7 @@ from House import *
 from agents.bot_agent import Bot_Agent
 from agents.human_agent import Human_Agent
 from logger import logger
+from stats.data_saver import save_logger
 
 ZERO = timedelta(seconds=0)
 FILE_SRC = "src/api/logs/vitals.txt"
@@ -12,7 +13,7 @@ class Simulation:
     def __init__(self):
         
         start = "2024-01-24T08:00:00.000000"
-        end = "2024-01-25T12:00:00.000000"
+        end = "2024-01-26T08:00:00.000000"
         format = "%Y-%m-%dT%H:%M:%S.%f"
         self.start_datetime = datetime.strptime(start, format)
         self.current_datetime = self.start_datetime        
@@ -52,7 +53,7 @@ class Simulation:
             one_step = timedelta(seconds=1)
             self.current_datetime += one_step
 
-        logger
+        save_logger(logger)
         print("END")
 
 

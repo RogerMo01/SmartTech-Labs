@@ -33,7 +33,7 @@ class Plan:
         
         current_task = self.tasks[0]
 
-        if self.is_postponed or (current_task is not None and self.is_out(current_task)):
+        if self.get_is_postponed(current_task) or (current_task is not None and self.is_out(current_task)):
             success = self.recompute()
             if not success:
                 current_task.failed = True
@@ -53,7 +53,9 @@ class Plan:
             if len(self.tasks) == 0:
                 self.is_successful = True
 
-
+    def get_is_postponed(self, current_task: Task):
+        return self.is_postponed and (current_task.object_name is not None or current_task.room is not None)
+    
     def is_out(self, current_task: Task):
         """Returns false if task take place in a room or using an object and agent is not there"""
 
@@ -76,18 +78,17 @@ class Plan:
     def recompute(self):
         current_task = self.tasks[0]
         # returns tile where the object is or representative tile of area
+        
         obj: Object = self.house.get_object(current_task.object_name)
-        if obj.carrier is None:
-            if self.author == "Will-E":
-                dest_tile = self.house.get_tile_by_room(current_task.room) if current_task.room is not None else obj.robot_face_tiles[0]
-            else:
-                dest_tile = self.house.get_tile_by_room(current_task.room) if current_task.room is not None else obj.human_face_tiles[0]
+        if obj is not None:
+            dest_tile = obj.robot_face_tiles[0] if self.author == "Will-E" else obj.human_face_tiles[0]
 
-            self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
-            return True
-        else:
-            return False
-
+        else: # then room is not None
+            room = current_task.room
+            dest_tile = self.house.get_room_tile(self.author, room)
+            
+        self.tasks.insert(0, Move(self.author, self.house, self.beliefs, dest_tile))
+        
     
     def __repr__(self) -> str:
         finished = "finished"
