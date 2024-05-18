@@ -12,6 +12,7 @@ def save_logger(logger: Logger):
     save_overtakes(logger.overtakes)
     save_understand_errors(logger.understand_errors)
     save_ignored_requests(logger.ignored_requests)
+    save_activity(logger.activity)
 
     # Show graphics
 
@@ -122,3 +123,30 @@ def save_ignored_requests(ignored_requests: list[OrderLog]):
     df = pd.DataFrame(data)
 
     df.to_csv('src/api/stats/ignored_requests.csv', index=False)
+
+def save_activity(activity: Activity):
+
+    # (14, 2, 24)
+    row_keys = list(activity.active_minutes.keys())
+    # row_headers = [datetime(day=d[0], month=d[1], year=d[2]).date() for d in row_keys]
+    
+    # (23, 59)
+    col_keys = []
+    for hour in activity.all_hours:
+        for minute in activity.all_minutes:
+            col_keys.append((hour, minute))
+    col_headers = [datetime(year=24, month=1, day=24, hour=t[0], minute=t[1], second=0).time() for t in col_keys]
+
+    data = dict()
+    for i in range(len(col_keys)):
+        for row in row_keys:
+            try:
+                data[col_headers[i]].append(activity.active_minutes[row][col_keys[i]])
+            except:
+                data[col_headers[i]] = [activity.active_minutes[row][col_keys[i]]]
+
+    df = pd.DataFrame(data)
+
+    df.to_csv('src/api/stats/active_minutes.csv', index=False)
+
+
