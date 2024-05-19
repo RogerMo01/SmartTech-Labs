@@ -124,3 +124,13 @@ def generate_water_plants_plan(author: str, house: House, beliefs):
         tasks.append(UseWater(author, house, beliefs, timedelta(seconds=15), object=plant_obj.name))
     return Plan("Regar las plantas", house, author, beliefs, tasks)
 
+def generate_full_clean_bathroom_plan(author: str, house: House, beliefs):
+    tasks = []
+    tasks.append(Move(author, house, beliefs, house.get_room_tile(author, 'baño')))
+    tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 900)), 'baño'))
+    for obj in bathroom_object:
+        bath_obj: Object = house.get_object(obj)
+        tasks.append(Move(author, house, beliefs, bath_obj.robot_face_tiles[0]))
+        tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(300, 600)), object=bath_obj.name))
+    return Plan("Realizar limpieza completa al baño", house, author, beliefs, tasks)
+

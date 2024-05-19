@@ -49,12 +49,12 @@ class Bot_Agent(BDI_Agent):
 
         self.weekly_plans = {
             0: [(generate_clean_plan, 9)],
-            1: [],
-            2: [], #limpiar objetos baño
-            3: [(generate_clean_plan, 9), (generate_water_plants_plan, 14)],
+            1: [(generate_full_clean_bathroom_plan, 9)],
+            2: [(generate_clean_plan, 9)],
+            3: [(generate_water_plants_plan, 14)],
             4: [],
-            5: [],
-            6: [(generate_water_plants_plan, 14)]
+            5: [(generate_clean_plan, 9), (generate_full_clean_bathroom_plan, 11), (generate_water_plants_plan, 14)],
+            6: []
         }
 
         self.current_datetime = current_datetime

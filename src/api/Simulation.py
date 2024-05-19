@@ -13,7 +13,7 @@ class Simulation:
     def __init__(self):
         
         start = "2024-01-10T08:00:00.000000"
-        end = "2024-01-20T08:00:00.000000"
+        end = "2024-01-16T23:59:59.000000"
         format = "%Y-%m-%dT%H:%M:%S.%f"
         self.start_datetime = datetime.strptime(start, format)
         self.current_datetime = self.start_datetime        
