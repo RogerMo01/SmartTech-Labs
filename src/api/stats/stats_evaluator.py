@@ -222,3 +222,30 @@ plt.xticks(x_hours)
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 
 plt.show()
+
+
+#🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣 Ignored per hour 🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣
+ignored_df = pd.read_csv('src/api/tests/sim1/ignored_requests.csv')
+
+ignored_per_hour = [0]*24  # sum per each hour
+print(ignored_df['datetime'])
+all_datetimes = ignored_df['datetime']
+all_times = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S").time() for d in all_datetimes]
+for time in all_times:
+    ignored_per_hour[time.hour]+=1
+    # ignored_per_hour = count of ignored orders per hour
+y_ignored_per_hour = ignored_per_hour
+max = max(y_ignored_per_hour)
+
+plt.figure(figsize=(10, 6))
+print(y_ignored_per_hour)
+plt.bar(x_hours, y_ignored_per_hour, color='skyblue', edgecolor='black')
+plt.title('Ordenes ignoradas por hora')
+plt.xlabel('Hora del Día')
+plt.ylabel('Cantidad de ordenes')
+
+plt.xticks(x_hours)
+plt.yticks(range(0, max+1, 1))
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.show()
