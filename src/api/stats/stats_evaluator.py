@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import math
 import numpy as np
-from matplotlib.ticker import MaxNLocator
+from matplotlib.ticker import MaxNLocator, PercentFormatter
 import matplotlib.dates as mdates
 
-df = pd.read_csv('src/api/stats/robot_tasks.csv')
+df = pd.read_csv('src/api/tests/sim1/robot_tasks.csv')
 
 # tiempo haciendo tareas
 total_elapsed_time = df['elapsed_time'].sum()
@@ -44,7 +44,7 @@ plt.plot(x_dates, y_times, marker='o', linestyle='-', color='g')
 plt.xlabel('Día')
 plt.ylabel('Tiempo')
 plt.title('Tiempo diario dedicado a tareas')
-plt.grid(True)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.xticks(rotation=90)
 plt.tight_layout()
 plt.show()
@@ -165,16 +165,17 @@ y_frequency = [daily_charge_frecuency[d] for d in x_dates]
 plt.bar(x_dates, y_frequency)
 plt.gca().yaxis.set_major_locator(MaxNLocator(integer=True))
 plt.xlabel('Día')
-plt.ylabel('Frecuencia de carga')
-plt.title('Histograma de frecuencias')
+plt.ylabel('Cargas diarias')
+plt.title('Histograma de frecuencia de cargas')
 plt.xticks(rotation=90)
 plt.tight_layout()
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.show()
 
 
 
 # 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋 Best charge times evolution 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋
-y_times = [(20,0), (4,6), (3,58), (4,23), (4,1), (4,2), (4,0), (4,1), (4,1), (4,1), (4,1)]
+y_times = [(20,0), (4,6), (3,58), (4,23), (4,1), (4,2), (4,0), (4,1), (4,1), (4,1), (4,1)] #🚨🚨🚨🚨🚨🚨🚨FIX🚨🚨🚨🚨🚨🚨
 y_times = [datetime(1, 1, 1, t[0], t[1], 0) for t in y_times]
 x_dates
 
@@ -183,10 +184,37 @@ plt.xlabel('Día')
 plt.ylabel('Mejor tiempo de carga')
 plt.gca().yaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
 plt.title('Ajuste del mejor tiempo de carga')
-plt.grid(True)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.xticks(rotation=90)
 plt.tight_layout()
 plt.show()
 
 
 
+
+
+################################## Activity stats #####################################
+activity_df = pd.read_csv('src/api/tests/sim1/active_minutes.csv')
+print(activity_df)
+
+activity_df.columns = pd.to_datetime(activity_df.columns)
+
+grouped_hours = activity_df.groupby(activity_df.columns.hour, axis=1).max()
+grouped = grouped_hours.mean()
+
+
+#😩😩😩😩😩😩😩😩😩😩😩 Activity per hour 😩😩😩😩😩😩😩😩😩😩😩
+y_mean_active = [m for m in grouped]
+x_hours = range(24)
+
+plt.figure(figsize=(10, 6))
+plt.bar(x_hours, y_mean_active, color='skyblue', edgecolor='black')
+plt.title('Horarios pico')
+plt.xlabel('Hora del Día')
+plt.ylabel('Porcentaje')
+plt.ylim(0, 1)
+plt.gca().yaxis.set_major_formatter(PercentFormatter(1))
+plt.xticks(x_hours)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+
+plt.show()
