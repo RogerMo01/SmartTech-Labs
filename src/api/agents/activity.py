@@ -79,7 +79,7 @@ class Activity:
             else:
                 current_sum-=avg[keys[first]]
                 first +=1
-                if current_sum <= best_sum:
+                if current_sum < best_sum:
                     best_sum = current_sum
                     best_index = first
         

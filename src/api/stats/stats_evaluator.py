@@ -10,7 +10,7 @@ import matplotlib.dates as mdates
 
 
 # 🎲 Select simulation data
-SELECTOR = 1
+SELECTOR = 3
 
 head_path = f'src/api/tests/sim{SELECTOR}/'
 
@@ -189,7 +189,7 @@ y_times = []
 with open(head_path + 'better_charging_times.txt', 'r') as file:
     for line in file:
         y_times.append(ast.literal_eval(line.strip()))
-y_times = [datetime(1, 1, 1, t[0], t[1], 0) for t in y_times]
+y_times = [datetime(2024, 1, 1, t[0], t[1], 0) for t in y_times]
 x_dates
 
 plt.plot(x_dates, y_times, linestyle='-', color='b')
@@ -247,7 +247,6 @@ y_ignored_per_hour = ignored_per_hour
 max = max(y_ignored_per_hour)
 
 plt.figure(figsize=(10, 6))
-print(y_ignored_per_hour)
 plt.bar(x_hours, y_ignored_per_hour, color='skyblue', edgecolor='black')
 plt.title('Ordenes ignoradas por hora')
 plt.xlabel('Hora del Día')
