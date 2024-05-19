@@ -1,0 +1,716 @@
+#############################################################################
+➡ Pedro dice: Oye Will-E, dame alguna sugerencia para una comida sana
+➡ Claro, Pedro. ¿Qué tipo de comida te gustaría comer?
+➡ Pedro dice: Me gustaría comer algo ligero y saludable.
+➡ **Will-E:** Pedro, como mencionaste que te gustaría algo ligero y saludable, recomendaría una cena mexicana baja en sal. Aquí tienes una receta:
+
+**Tacos de Pescado a la Parrilla con Ensalada de Col**
+
+**Ingredientes:**
+
+* 1 libra de filetes de pescado blanco (como tilapia o bacalao)
+* 1 cucharada de jugo de lima
+* 1 cucharadita de comino molido
+* 1/2 cucharadita de sal
+* 1/4 cucharadita de pimienta negra
+* 4 tortillas de maíz
+* 1 taza de repollo rallado
+* 1/2 taza de cebolla roja picada
+* 1/4 taza de cilantro picado
+* 1 lima, cortada en gajos
+* Salsa de tu elección (opcional)
+
+**Instrucciones:**
+
+1. Marina los filetes de pescado con el jugo de lima, el comino, la sal y la pimienta durante al menos 15 minutos.
+2. Calienta una parrilla o sartén a fuego medio-alto. Cocina el pescado durante 3-4 minutos por lado, o hasta que esté cocido.
+3. En un tazón, combina el repollo, la cebolla roja, el cilantro y los gajos de lima.
+4. Calienta las tortillas en la parrilla o en el microondas.
+5. Arma los tacos llenando las tortillas con el pescado a la parrilla y la ensalada de col. Sirve inmediatamente con salsa opcional.
+
+¡Espero que disfrutes esta cena mexicana saludable!
+➡ Pedro dice: Eso suena delicioso, Will-E. ¡Gracias por la sugerencia!
+➡ De nada, Pedro. Me alegra haber podido ayudarte. ¡Disfruta tu cena saludable!
+➡ Pedro dice: 
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión.
+➡ ¡Claro, Pedro! Enciendo la televisión para ti.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara el sofá de la sala_de_estar para tomar una siesta
+➡ Entendido, prepararé el sofá de la sala_de_estar para tu siesta.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recomiendas un buen sitio para almorzar en la zona?
+➡ Claro, Pedro. Para un almuerzo mexicano bajo en sal, te recomiendo la siguiente receta:
+
+**Enchiladas de pollo bajas en sodio**
+
+**Ingredientes:**
+- 2 tazas de pollo cocido desmenuzado
+- 1 cebolla picada
+- 2 dientes de ajo picados
+- 1 lata (28 onzas) de salsa para enchiladas baja en sodio
+- 1 cucharadita de chile en polvo
+- 1/2 cucharadita de comino molido
+- 12 tortillas de maíz
+- 1 taza de queso cheddar rallado bajo en grasa
+
+**Instrucciones:**
+1. En una sartén grande, saltea la cebolla y el ajo hasta que estén suaves.
+2. Añade el pollo, la salsa para enchiladas, el chile en polvo y el comino. Deja que hierva a fuego lento durante unos 15 minutos.
+3. Precalienta el horno a 175 °C (350 °F).
+4. Llena las tortillas con la mezcla de pollo y colócalas en una cacerola de 9x13 pulgadas.
+5. Espolvorea el queso sobre las enchiladas y hornéalas durante unos 20 minutos, o hasta que el queso se derrita y se dore.
+
+¡Disfruta de tus enchiladas de pollo bajas en sal, Pedro!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué película puedo ver esta tarde?
+➡ Hola Pedro, te recomiendo la película "The Martian". Es una película de ciencia ficción muy interesante.
+➡ Pedro dice: Gracias Will-E, le echaré un vistazo.
+➡ De nada, Pedro. Que la disfrutes.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la tele en un canal de música.
+➡ Claro, Pedro. ¿Qué canal de música te gustaría escuchar?
+➡ Pedro dice: Me da igual, pon el que sea
+➡ Vale, Pedro. He puesto un canal de música aleatorio.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la tele en un canal de música.
+➡ Claro Pedro, ¿qué tipo de música te gustaría escuchar?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión en mi canal favorito.
+➡ Enseguida lo hago, Pedro
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara el baño.
+➡ De acuerdo Pedro, prepararé el baño ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué me recomiendas para comer algo rápido?
+➡ "Te recomiendo un sándwich o una ensalada, son fáciles y rápidos de preparar"
+➡ Pedro dice: Gracias Will-E, elegiré un sándwich.
+➡ De nada Pedro, ¡que disfrutes tu sándwich!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y pon un programa de entretenimiento.
+➡ Encendí la TV y te puse un programa de entretenimiento, disfruta Pedro.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera.
+➡ De acuerdo, Pedro, la bañera estará lista en breve
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer.
+➡ Claro Pedro, pensando en tu solicitud de un desayuno mexicano bajo en sal, te recomiendo unos huevos rancheros. Son muy fáciles y rápidos de preparar:
+
+**Huevos Rancheros**
+
+**Ingredientes**
+* 2 tortillas de maíz
+* 2 huevos
+* 1/2 taza de salsa de tomate casera o enlatada, baja en sodio
+* 1/4 taza de queso rallado (opcional)
+* Cilantro fresco picado, para decorar
+
+**Instrucciones:**
+1. Calienta las tortillas en el microondas o en una sartén hasta que estén calientes y suaves.
+2. Mientras tanto, fríe o cocina los huevos como desees.
+3. Unta la salsa de tomate sobre las tortillas.
+4. Coloca los huevos encima de la salsa.
+5. Espolvorea con queso rallado y cilantro, si lo deseas.
+
+¡Disfruta!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y pon algo entretenido.
+➡ Por supuesto, Pedro, ¿quieres que busque algo específico?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame un sándwich
+➡ Por supuesto, ¿de qué tipo de sándwich te gustaría?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer.
+➡ Hola Pedro, como acabo de escuchar que me pediste que te preparara algo para comer, te recomiendo un almuerzo mexicano bajo en sal:
+
+**Tacos de pescado a la parrilla con guacamole y salsa de piña**
+
+**Ingredientes:**
+
+* 1 libra de filetes de pescado blanco
+* 1 cucharada de aceite de oliva
+* 1 cucharadita de sal de bajo sodio
+* 1/2 cucharadita de pimienta negra
+* 16 tortillas de maíz pequeñas
+* 1 aguacate, cortado en rebanadas
+* 1/2 taza de salsa de piña
+
+**Instrucciones:**
+
+1. Precalienta la parrilla a fuego medio-alto.
+2. Unta los filetes de pescado con aceite de oliva, sal y pimienta.
+3. Asa el pescado en la parrilla durante 2-3 minutos por lado, o hasta que esté opaco y se desmenuce fácilmente.
+4. Calienta las tortillas en una sartén o en el microondas.
+5. Coloca una porción de pescado en cada tortilla.
+6. Cubre con rebanadas de aguacate y salsa de piña.
+7. Sirve inmediatamente.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon una película en la sala de estar.
+➡ Claro Pedro, ¿qué película te gustaría ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿crees que necesito utilizar un antifaz para dormir mejor?
+➡ Quizá sería buena idea, Pedro. Se ha demostrado que usar un antifaz puede bloquear la luz y crear un entorno más propicio para dormir. Si tienes problemas para conciliar el sueño, puede valer la pena intentarlo.
+➡ Pedro dice: Vale, lo intentaré. Gracias por la sugerencia, Will-E.
+➡ Me alegro de poder ayudarte, Pedro. Espero que usar el antifaz te ayude a dormir mejor. ¡Que tengas una buena noche!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la televisión por favor.
+➡ Claro Pedro, enciendo la televisión ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras voy al baño?
+➡ Por supuesto, Pedro. Te recordaré la hora en cuanto vuelvas.
+➡ Pedro dice: Vale, gracias
+➡ De nada, Pedro.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué desayunos ricos en proteínas recomiendas?
+➡ Pedro, te recomiendo unos Huevos rancheros para desayunar, son un plato mexicano que aporta mucha proteína y se puede preparar con bajo contenido de sal. Aquí tienes la receta:
+
+**Ingredientes:**
+- 4 huevos
+- 1/2 cebolla picada
+- 2 dientes de ajo picados
+- 2 tomates picados
+- 1/2 pimiento verde picado
+- 1/4 taza de cilantro picado
+- 1 cucharadita de comino molido
+- 1/2 cucharadita de sal
+- 1/4 cucharadita de pimienta negra
+- 4 tortillas de maíz
+- 1/2 taza de queso fresco desmenuzado
+- Salsa al gusto (opcional)
+
+**Instrucciones:**
+1. Cocina las cebollas, ajos, tomates y pimientos verdes en una sartén mediana engrasada a fuego medio durante aproximadamente 5 minutos, o hasta que estén tiernos.
+2. Agrega el cilantro, comino, sal y pimienta. Cocina por 1 minuto más.
+3. Añade los huevos a la sartén y cocina hasta que estén cuajados a tu gusto.
+4. Calienta las tortillas en una sartén o comal caliente.
+5. Sirve las tortillas con los huevos encima, el queso fresco y la salsa (opcional).
+➡ Pedro dice: Muchas gracias, Will-E. Definitivamente voy a probar los Huevos Rancheros para el desayuno. Suenan deliciosos y llenos de proteínas.
+➡ De nada, Pedro. ¡Me alegro de poder ayudarte! Los Huevos Rancheros son una excelente manera de comenzar el día con un desayuno nutritivo y sabroso.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia la bañera.
+➡ Por supuesto, Pedro. Me encargaré de limpiar la bañera de inmediato.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara un baño con espuma
+➡ Enseguida te preparo el baño con espuma, Pedro.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la televisión y pon algo que me entretenga.
+➡ En seguida, Pedro. ¿Quieres que busque algo en particular?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Claro Pedro, ¿Qué te apetece?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame un café.
+➡ Por supuesto, Pedro. En un momento lo tendré listo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Enseguida lo hago, ¿qué te apetece comer?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la TV.
+➡ Claro Pedro, enciendiendo la TV
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la televisión.
+➡ Enseguida te la enciendo, ¿en qué canal quieres que la ponga?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia la bañera para que me bañe.
+➡ ¡Por supuesto, Pedro! Limpiaré la bañera de inmediato para que puedas disfrutar de un baño relajante.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer.
+➡ Hola, Pedro. Recomendaría esta receta de tacos de pollo "bajo en sal" para tu merienda mexicana. Son rápidos y fáciles de preparar, y están llenos de proteínas y sabor sin el exceso de sal.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon música relajante en la sala de estar.
+➡ Voy a poner música relajante en la sala de estar ahora.
+➡ Pedro dice: Gracias, Will-E.
+➡ De nada, Pedro. Disfruta la música.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV.
+➡ Claro, encendiendo la televisión
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuáles son algunas recetas rápidas y saludables para el almuerzo?
+➡ Pedro, para tu almuerzo rápido y saludable con bajo contenido de sal, te recomiendo unos tacos de camarón a la parrilla.
+
+**Tacos de Camarón a la Parrilla**
+
+**Ingredientes:**
+
+* 12 camarones crudos, pelados y desvenados
+* 1 cucharadita de aceite de oliva
+* 1/4 cucharadita de pimentón
+* 1/4 cucharadita de comino
+* 1/4 cucharadita de sal
+* 1/4 cucharadita de pimienta negra
+* 6 tortillas de maíz
+* Tus aderezos favoritos (como repollo rallado, cebolla picada, cilantro, salsa)
+
+**Instrucciones:**
+
+1. Precalienta una parrilla o sartén a fuego medio-alto.
+2. En un recipiente, mezcla los camarones con el aceite de oliva, el pimentón, el comino, la sal y la pimienta.
+3. Asa los camarones por 2-3 minutos por lado, o hasta que estén rosados y bien cocidos.
+4. Calienta las tortillas de maíz en la parrilla o en una sartén.
+5. Rellena las tortillas con los camarones y tus aderezos favoritos.
+
+Estos tacos son rápidos de preparar, saludables y bajos en sal, lo que los convierte en una excelente opción para el almuerzo.
+➡ Pedro dice: Gracias Will-E, suena delicioso. Intentaré hacer los tacos esta tarde.
+➡ Me alegra haber podido ayudarte, Pedro. ¡Avísame si tienes alguna otra pregunta o necesitas ayuda con algo más!
+➡ Pedro dice: Gracias Will-E, ¡te avisaré si necesito algo más!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión.
+➡ Claro, Pedro, acabo de encender la televisión.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras voy al baño?
+➡ Claro Pedro, te avisaré la hora dentro de unos momentos.
+➡ Pedro dice: Gracias, Will-E.
+➡ Te avisaré cuando salgas del baño Pedro
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia el baño para que pueda ducharme.
+➡ Por supuesto, Pedro. Estoy limpiando el baño ahora mismo. Te avisaré cuando termine.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer en la cocina.
+➡ Claro, Pedro, teniendo en cuenta tus preferencias por una cena mexicana baja en sal, te recomiendo preparar unos sabrosos Tacos de Pollo Asado. Aquí tienes la receta:
+
+**Ingredientes:**
+- Pechugas de pollo sin hueso ni piel
+- Especias para tacos bajos en sal
+- Tortillas de maíz
+- Cebolla picada
+- Cilantro picado
+- Salsas y aderezos al gusto
+
+**Instrucciones:**
+1. Sazona las pechugas de pollo con las especias para tacos.
+2. Asa el pollo a la parrilla o en una sartén hasta que esté bien cocido.
+3. Corta el pollo en trozos pequeños.
+4. Calienta las tortillas de maíz.
+5. Agrega el pollo, la cebolla y el cilantro a las tortillas.
+6. Añade tus salsas y aderezos favoritos al gusto.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer.
+➡ Entiendo que estás ocupado y buscas algo rápido de preparar para cenar. Por eso, te recomiendo una receta mexicana baja en sal que es deliciosa y fácil de preparar.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV.
+➡ Enseguida enciendo la televisión, Pedro.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Claro, Pedro. Teniendo en cuenta tus restricciones de sal y tu gusto por la comida mexicana, te recomendaría preparar unos deliciosos taquitos bajos en sal. Aquí tienes la receta:
+
+**Ingredientes:**
+
+* 1 libra de carne molida de res o pavo
+* 1 cebolla, picada
+* 1 pimiento verde, picado
+* 1 cucharadita de comino molido
+* 1 cucharadita de chile en polvo
+* 1/2 cucharadita de sal
+* 1/4 cucharadita de pimienta negra
+* 12 tortillas de maíz pequeñas
+* Guarniciones de tu elección (por ejemplo, lechuga picada, tomate, queso rallado)
+
+**Instrucciones:**
+
+1. En una sartén grande, dora la carne molida a fuego medio-alto. Escurre el exceso de grasa.
+2. Añade la cebolla y el pimiento verde a la sartén y cocina hasta que estén tiernos, unos 5 minutos.
+3. Agrega comino, chile en polvo, sal y pimienta. Sigue cocinando durante otro minuto.
+4. Calienta las tortillas en el microondas o en una sartén.
+5. Rellena las tortillas con la mezcla de carne y añade tus guarniciones favoritas.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer.
+➡ Hola Pedro, dado que solicitaste algo bajo en sal y te gusta el desayuno mexicano, te sugiero chilaquiles de huevo con bajo contenido de sodio. Es un platillo sabroso y picante que satisface tu antojo sin comprometer tu salud. ¡Inténtalo y dime qué te parece!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la tele en mi canal favorito.
+➡ Claro, Pedro. Cambiando al canal favorito.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia el baño para mí.
+➡ Claro, Pedro. Estoy en ello.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende el televisor y pon un programa entretenido.
+➡ Claro Pedro, enciendo el televisor y busco un programa entretenido ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras voy al baño?
+➡ Claro Pedro, te lo recordaré en cuanto vuelvas.
+➡ Pedro dice: Gracias, Will-E.
+➡ Claro Pedro, aquí estaré esperándote
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, echa agua a la bañera para un baño
+➡ Claro, Pedro. Voy a llenar la bañera con agua ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV.
+➡ Claro Pedro, enciendo la TV ahora mismo
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué opciones saludables de desayuno proteico me puedes sugerir?
+➡ Claro, aquí tienes algunas opciones de desayuno proteico saludable:
+
+1. Yogur griego con frutos del bosque y nueces
+2. Tortilla de huevo con verduras y queso
+3. Batido de proteínas con leche, yogur y fruta
+4. Tostadas integrales con mantequilla de cacahuete y plátano
+5. Avena con leche y frutos secos
+➡ Pedro dice: Gracias, Will-E, tomaré nota de estas opciones.
+➡ De nada, Pedro. Déjame saber si tienes alguna otra pregunta.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿sabes cómo dormir profundamente a pesar de cualquier ruido?
+➡ Para dormir profundamente a pesar del ruido, existen técnicas como los tapones para los oídos, la máquina de ruido blanco o la técnica de relajación muscular progresiva.
+➡ Pedro dice: Gracias Will-E, voy a probar la técnica de relajación muscular progresiva.
+➡ Genial, espero que te funcione para dormir profundamente a pesar del ruido.
+➡ Pedro dice: Ya veo, suena interesante. ¿Puedes explicarme más sobre cómo funciona?
+➡ Claro, la técnica de relajación muscular progresiva implica tensar y relajar grupos musculares específicos en sucesión, comenzando con los dedos de los pies y avanzando hasta la cabeza. Esto ayuda a liberar la tensión y promover la relajación, lo que puede mejorar la calidad del sueño.
+➡ Pedro dice: Gracias Will-E, lo intentaré y te haré saber cómo me va.
+➡ Genial, espero que te funcione bien y mejores tu calidad de sueño.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me podrías dar alguna opción saludable de snacks para comer en este momento?
+➡ Claro Pedro, aquí tienes algunas opciones saludables de snacks:
+
+- Fruta fresca
+- Verduras crudas
+- Yogur griego
+- Frutos secos
+- Semillas mixtas
+➡ Pedro dice: Gracias Will-E, esas parecen todas opciones muy saludables. Creo que iré por un poco de yogur griego con algunas bayas
+➡ Me alegra ser de ayuda, Pedro. Disfruta tu yogur griego y bayas.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon un programa de televisión que me entretenga
+➡ De acuerdo Pedro, buscaré un programa de televisión entretenido para ti.
+➡ Pedro dice: Gracias, Will-E.
+➡ Estoy buscando un programa de televisión entretenido para ti, Pedro. Estará listo en unos instantes.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y selecciona una película para mí.
+➡ Por supuesto, Pedro. ¿Algún género o título específico que te apetezca?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cómo puedo hacer que una barra de granola sea más nutritiva?
+➡ Agregarle frutos secos, semillas o fruta fresca aumentaría su valor nutricional.
+➡ Pedro dice: ¡Gracias por el consejo, Will-E!
+➡ No hay de qué, Pedro. Si tienes más preguntas, no dudes en preguntarme.
+
+
+
+#############################################################################
+➡ Tu café ya está listo
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera para que me pueda bañar
+➡ Claro, empezaré a llenarla ahora para que esté lista cuando la necesites.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la televisión.
+➡ Enseguida, Pedro. ¿En qué canal quieres que la ponga?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame un sándwich
+➡ Claro, Pedro. Dado que te gusta la comida mexicana y necesitas una opción baja en sal, te recomiendo un sándwich de tinga de pollo:
+
+**Ingredientes:**
+* 2 pechugas de pollo cocidas y desmenuzadas
+* 1 cebolla picada
+* 2 dientes de ajo picados
+* 1 pimiento chipotle en adobo, picado
+* 1/2 taza de caldo de pollo bajo en sodio
+* 1/4 taza de cilantro picado
+* Pan para sándwich integral bajo en sodio
+
+**Instrucciones:**
+1. En una sartén, saltea la cebolla y el ajo hasta que estén transparentes.
+2. Agrega el pollo desmenuzado y el pimiento chipotle. Cocina hasta que se caliente.
+3. Vierte el caldo de pollo y cocina a fuego lento hasta que se espese.
+4. Retira del fuego, agrega el cilantro y vierte la mezcla sobre el pan.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la tele y pon un programa divertido.
+➡ Claro Pedro, enseguida enciendo la tele y te pongo un programa divertido.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, lléname la bañera de agua caliente.
+➡ Claro, Pedro. ¿Quieres que le ponga espuma?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Pedro, te recomiendo una cena mexicana baja en sal que he aprendido recientemente. Es una opción apetitosa pero saludable que se ajusta a tus preferencias:
+
+**Tacos de pescado a la parrilla**
+
+**Ingredientes:**
+
+* 1 libra de filete de pescado (como tilapia o pargo)
+* 1 cucharadita de chile en polvo
+* 1/2 cucharadita de comino molido
+* 1/4 cucharadita de sal
+* 1/4 cucharadita de pimienta negra
+* 1 cucharada de aceite de oliva
+* 6 tortillas de maíz
+* 1/2 taza de col picada
+* 1/4 taza de cebolla roja picada
+* 1/4 taza de cilantro picado
+* Salsa picante (opcional)
+
+**Instrucciones:**
+
+1. Precalienta la parrilla a fuego medio.
+2. Corta el pescado en tacos.
+3. En un tazón pequeño, mezcla el chile en polvo, el comino, la sal y la pimienta.
+4. Frota la mezcla de especias sobre el pescado.
+5. Unta el pescado con aceite de oliva.
+6. Coloca el pescado a la parrilla y cocina por 2-3 minutos por lado, o hasta que esté cocido.
+7. Calienta las tortillas en la parrilla o en el microondas.
+8. Rellena las tortillas con el pescado a la parrilla, la col, la cebolla y el cilantro.
+9. Sirve con salsa picante al gusto.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y pon algo divertido para ver
+➡ Claro, Pedro. Estoy encendiendo la televisión ahora mismo. ¿Quieres que busque algo específico para ti?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Claro, Pedro. Ya que mencionaste que quieres algo bajo en sal, te recomiendo un delicioso desayuno mexicano que es fácil de preparar y cumple con tus restricciones dietéticas. Aquí tienes la receta:
+
+**Huevos revueltos con nopales y salsa de tomate**
+
+**Ingredientes:**
+
+* 2 huevos
+* 1/2 taza de nopales picados
+* 1/4 taza de cebolla picada
+* 1/4 taza de tomate picado
+* 1/4 cucharadita de sal
+* 1/4 cucharadita de pimienta
+
+**Instrucciones:**
+
+1. Calienta una sartén a fuego medio.
+2. Añade los nopales y la cebolla a la sartén y cocina hasta que estén tiernos.
+3. Agrega los tomates y cocina por un minuto más.
+4. En un tazón separado, bate los huevos con la sal y la pimienta.
+5. Vierte la mezcla de huevo en la sartén y cocina hasta que esté cocida a tu preferencia.
+6. Sirve con tortillas calientes.
+
+Esta receta es baja en sal y está llena de verduras saludables. Es una excelente forma de comenzar el día con una comida nutritiva y sabrosa.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame un café en el dispensador de café.
+➡ Enseguida preparo tu café, Pedro. Dime si quieres que añada leche o azúcar.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué alimentos proteicos puedo comer para desayunar?
+➡ Hola Pedro, estos son algunos alimentos proteicos que puedes comer en el desayuno: huevos, yogur, leche, queso cottage, tofu, frijoles o lentejas.
+➡ Pedro dice: Gracias Will-E. Me apunto todas las opciones para el desayuno de mañana.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y pon mi serie favorita.
+➡ Claro Pedro, encendiendo la TV y poniendo tu serie favorita ahora mismo
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia la bañera para que pueda tomar un baño.
+➡ Claro, Pedro. Voy a limpiar la bañera ahora mismo. Por favor, hazme saber si hay algo más en lo que pueda ayudarte.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon algo de música para amenizar el ambiente.
+➡ Por supuesto, Pedro, ¿qué tipo de música te gustaría escuchar?
+➡ Pedro dice: Sorpréndeme, elige algo relajante.
+➡ Ahora mismo pongo algo de música relajante, espera un momento.
+➡ Pedro dice: Ok, gracias Will-E.
+➡ Ahora mismo te pongo algo relajante, Pedro. Espera un momentito y lo tendrás.
+➡ Pedro dice: Bien, Will-E. Gracias
+➡ De nada, siempre estoy dispuesto a ayudar. Ahora mismo pongo algo relajante para ti.
+➡ Pedro dice: Excelente, gracias Will-E.
+➡ Enseguida tendrás tu música relajante, Pedro
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon algo de música para entretenerme.
+➡ Por supuesto, Pedro. ¿Qué tipo de música te gustaría escuchar?
+➡ Pedro dice: Algo de rock clásico, como Led Zeppelin o The Beatles serviría.
+➡ Enseguida, Pedro. Te pondré algo de rock clásico de Led Zeppelin y The Beatles.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál es la hora actual?
+➡ Son las 2 de la tarde, Pedro
+➡ Pedro dice: Gracias, Will-E.
+➡ De nada, Pedro, encantado de ayudarte
+
+
+
