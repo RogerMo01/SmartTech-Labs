@@ -26,7 +26,7 @@ class Activity:
         self.initial_datetime = initial_datetime
         self.current_date = initial_datetime
         self.best_time = self.get_charge_minute()
-        logger.better_charging_times.append(self.best_time)
+        logger.log_best_charging_time(self.best_time)
         
     def push(self, current_datetime: datetime):
         day = current_datetime.day
@@ -39,6 +39,7 @@ class Activity:
         # augment one day case
         if current_datetime.day > self.current_date.day:
             self.best_time = self.get_charge_minute()
+            logger.log_best_charging_time(self.best_time)
             self.extend(day, month, year)
             self.current_date += timedelta(days=1)
 

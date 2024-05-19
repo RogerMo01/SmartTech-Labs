@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from datetime import datetime, timedelta
 import math
+import ast
 import numpy as np
 from matplotlib.ticker import MaxNLocator, PercentFormatter
 import matplotlib.dates as mdates
@@ -175,7 +176,10 @@ plt.show()
 
 
 # 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋 Best charge times evolution 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋
-y_times = [(20,0), (4,6), (3,58), (4,23), (4,1), (4,2), (4,0), (4,1), (4,1), (4,1), (4,1)] #🚨🚨🚨🚨🚨🚨🚨FIX🚨🚨🚨🚨🚨🚨
+y_times = []
+with open('src/api/tests/sim1/better_charging_times.txt', 'r') as file:
+    for line in file:
+        y_times.append(ast.literal_eval(line.strip()))
 y_times = [datetime(1, 1, 1, t[0], t[1], 0) for t in y_times]
 x_dates
 

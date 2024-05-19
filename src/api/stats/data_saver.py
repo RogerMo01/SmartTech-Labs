@@ -15,9 +15,12 @@ def save_logger(logger: Logger):
     save_ignored_requests(logger.ignored_requests)
     save_activity(logger.activity)
     save_conversations(logger.conversations)
-    np.savetxt('src/api/stats/better_charging_times.txt', logger.better_charging_times)
+    
+    # Save best charging time evolution
+    with open('src/api/stats/better_charging_times.txt', 'w') as file:
+        for t in logger.better_charging_times:
+            file.write(f"{t}\n")
 
-    # Show graphics
 
 
 def save_robot_tasks(robot_tasks: list[TaskLog]):

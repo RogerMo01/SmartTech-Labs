@@ -83,7 +83,8 @@ class Logger:
     def log_conversation(self, conversation: list[str]):
         self.conversations.append(ConversationLog(conversation))
 
-
+    def log_best_charging_time(self, time: tuple):
+        self.better_charging_times.append(time)
 
     def log_ignored_request(self, order: Order):
         self.ignored_requests.append(OrderLog(self.datetime, order))
