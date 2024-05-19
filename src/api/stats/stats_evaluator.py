@@ -4,6 +4,7 @@ from datetime import datetime, timedelta
 import math
 import numpy as np
 from matplotlib.ticker import MaxNLocator
+import matplotlib.dates as mdates
 
 df = pd.read_csv('src/api/stats/robot_tasks.csv')
 
@@ -172,6 +173,20 @@ plt.show()
 
 
 
+# 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋 Best charge times evolution 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋
+y_times = [(20,0), (4,6), (3,58), (4,23), (4,1), (4,2), (4,0), (4,1), (4,1), (4,1), (4,1)]
+y_times = [datetime(1, 1, 1, t[0], t[1], 0) for t in y_times]
+x_dates
+
+plt.plot(x_dates, y_times, linestyle='-', color='b')
+plt.xlabel('Día')
+plt.ylabel('Mejor tiempo de carga')
+plt.gca().yaxis.set_major_formatter(mdates.DateFormatter('%H:%M'))
+plt.title('Ajuste del mejor tiempo de carga')
+plt.grid(True)
+plt.xticks(rotation=90)
+plt.tight_layout()
+plt.show()
 
 
 

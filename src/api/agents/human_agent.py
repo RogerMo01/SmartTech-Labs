@@ -125,7 +125,21 @@ class Human_Agent(BDI_Agent):
                     plan = Plan(f"Ordenar a {self.bot_id} para q ayude en +{need}+", self.__house, self.agent_id, self.beliefs, [speak_task], need=need)
 
                     self.intentions.append(plan)
-            
+
+        # sleep at 4 if not sleeping yet
+        are_intentions = len(self.intentions) > 0
+        if not self.is_covered(ENERGY) and self.current_datetime.hour == 4 and self.needs.energy < 70:
+            cama: Object = self.__house.get_object("cama")
+            sleep_task = Need(self.agent_id, timedelta(seconds=4*60*60), "Dormir", self.__house, self.beliefs, cama.name, ENERGY, self.needs)
+            sleep_plan = Plan("Dormir 4 horas", self.__house, self.agent_id, self.beliefs, [sleep_task], need=ENERGY)
+            self.intentions.append(sleep_plan)
+            self.overtake_plan(sleep_plan)
+
+    def is_covered(self, need: str):
+        for i in self.intentions:
+            if i.need == need:
+                return True
+        return False
 
     def _create_intention_by_human(self):
         for need in NEEDS_ORDER:

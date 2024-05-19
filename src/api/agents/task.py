@@ -279,12 +279,6 @@ class Need(Task):
 
 
 
-class Sleep(TimeTask):
-    def __init__(self, author, house: House, beliefs: list[Belief], room: str = None, object: str = None):
-        super().__init__(author, house, beliefs, timedelta(seconds=15), room, object, "Dormir")
-
-
-
 class Speak(Task):
     def __init__(self, author, listener, last_notice, house: House = None, beliefs: Belief = None, message: str = None, human_need: bool = False, conversation_analizer = None):
         super().__init__(author, ZERO, None, house, beliefs)
