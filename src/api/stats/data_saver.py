@@ -4,6 +4,7 @@ from agents.task import Task
 from agents.plan import Plan
 from agents.bdi_agent import Order
 import matplotlib.pyplot as plt
+import numpy as np
 
 def save_logger(logger: Logger):
     save_robot_tasks(logger.robot_tasks)
@@ -14,6 +15,8 @@ def save_logger(logger: Logger):
     save_ignored_requests(logger.ignored_requests)
     save_activity(logger.activity)
     save_conversations(logger.conversations)
+    np.savetxt('src/api/stats/better_charging_times.txt', logger.better_charging_times)
+
     # Show graphics
 
 
@@ -97,13 +100,13 @@ def save_overtakes(overtakes: list[OvertakeLog]):
     df.to_csv('src/api/stats/overtakes.csv', index=False)
 
 
-def save_understand_errors(understand_errors: list[Order]):
+def save_understand_errors(understand_errors: list[OrderLog]):
     data = {
         'order': []
     }
 
     for item in understand_errors:
-        data['order'] = item.body
+        data['order'] = item.order.body
     
     df = pd.DataFrame(data)
 
@@ -124,7 +127,7 @@ def save_ignored_requests(ignored_requests: list[OrderLog]):
 
     df.to_csv('src/api/stats/ignored_requests.csv', index=False)
 
-def save_activity(activity: Activity):
+def save_activity(activity):
 
     # (14, 2, 24)
     row_keys = list(activity.active_minutes.keys())

@@ -1,6 +1,5 @@
 from datetime import *
 from agents.bdi_agent import Order
-from agents.activity import Activity
 
 
 class PlanLog:
@@ -41,11 +40,12 @@ class Logger:
         self.robot_tasks: list[TaskLog] = []
         # self.human_tasks: list[TaskLog] = []
         self.overtakes: list[OvertakeLog] = []
-        self.understand_errors: list[Order] = []
-        self.activity: Activity = None
+        self.understand_errors: list[OrderLog] = []
+        self.activity = None
         self.preventive_recharges: list[PlanLog] = []
         self.ignored_requests: list[OrderLog] = []
         self.conversations: list[ConversationLog] = []
+        self.better_charging_times = []
 
     def set_datetime(self, datetime: datetime):
         self.datetime = datetime

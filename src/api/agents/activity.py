@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-
+from logger import logger 
 
 class Activity:
     def __init__(self, initial_datetime: datetime) -> None:
@@ -26,7 +26,8 @@ class Activity:
         self.initial_datetime = initial_datetime
         self.current_date = initial_datetime
         self.best_time = self.get_charge_minute()
-
+        logger.better_charging_times.append(self.best_time)
+        
     def push(self, current_datetime: datetime):
         day = current_datetime.day
         month = current_datetime.month
