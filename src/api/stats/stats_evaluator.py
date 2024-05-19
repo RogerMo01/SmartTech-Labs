@@ -7,7 +7,16 @@ import numpy as np
 from matplotlib.ticker import MaxNLocator, PercentFormatter
 import matplotlib.dates as mdates
 
-df = pd.read_csv('src/api/tests/sim1/robot_tasks.csv')
+
+
+# 🎲 Select simulation data
+SELECTOR = 1
+
+head_path = f'src/api/tests/sim{SELECTOR}/'
+
+
+
+df = pd.read_csv(head_path + 'robot_tasks.csv')
 
 # tiempo haciendo tareas
 total_elapsed_time = df['elapsed_time'].sum()
@@ -177,7 +186,7 @@ plt.show()
 
 # 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋 Best charge times evolution 🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋🔋
 y_times = []
-with open('src/api/tests/sim1/better_charging_times.txt', 'r') as file:
+with open(head_path + 'better_charging_times.txt', 'r') as file:
     for line in file:
         y_times.append(ast.literal_eval(line.strip()))
 y_times = [datetime(1, 1, 1, t[0], t[1], 0) for t in y_times]
@@ -198,7 +207,7 @@ plt.show()
 
 
 ################################## Activity stats #####################################
-activity_df = pd.read_csv('src/api/tests/sim1/active_minutes.csv')
+activity_df = pd.read_csv(head_path + 'active_minutes.csv')
 print(activity_df)
 
 activity_df.columns = pd.to_datetime(activity_df.columns)

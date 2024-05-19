@@ -109,7 +109,7 @@ def save_understand_errors(understand_errors: list[OrderLog]):
     }
 
     for item in understand_errors:
-        data['order'] = item.order.body
+        data['order'].append(item.order.body)
     
     df = pd.DataFrame(data)
 
