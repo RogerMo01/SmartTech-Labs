@@ -161,6 +161,7 @@ def save_conversations(conversations: list[ConversationLog]):
         for c in conversations:
             file.write("#############################################################################\n")
             for s in c.conversation:
+                if s in None: continue
                 file.write("➡ " + s + "\n")
             file.write("\n\n\n")
             

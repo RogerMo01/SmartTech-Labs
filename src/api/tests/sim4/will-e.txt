@@ -1,0 +1,89 @@
+[2024-01-10 08:06:55] Will-E planifica >Responder a Pedro
+[2024-01-10 09:00:00] Will-E planifica >Limpiar la casa
+[2024-01-10 10:19:24] Will-E planifica >Encender la TV
+[2024-01-10 12:10:11] Will-E planifica >Preparar comida para Pedro
+[2024-01-10 13:48:32] Will-E planifica >Limpiar el baño
+[2024-01-10 15:24:13] Will-E planifica >Poner la televisión en un canal de entretenimiento
+[2024-01-10 16:47:54] Will-E planifica >Preparar comida en la cocina
+[2024-01-10 17:49:38] Will-E planifica >Reproducir música
+[2024-01-10 19:50:21] Will-E planifica >Encender la televisión
+[2024-01-10 21:15:04] Will-E planifica >Responder a Pedro
+[2024-01-10 21:59:52] Will-E planifica >Preparar café para Pedro
+[2024-01-10 22:21:13] Will-E planifica >Preparar tentempié con los ingredientes disponibles en la nevera
+[2024-01-11 00:00:00] Will-E planifica >Ir a cargar
+[2024-01-11 10:44:02] Will-E planifica >Preparar el baño para Pedro
+[2024-01-11 12:23:04] Will-E planifica >Responder a Pedro
+[2024-01-11 14:00:00] Will-E planifica >Regar las plantas
+[2024-01-11 14:17:51] Will-E planifica >Poner la televisión
+[2024-01-11 14:26:35] Will-E planifica >Encender la televisión y poner un documental
+[2024-01-11 17:23:20] Will-E planifica >Preparar baño con espuma y agua tibia para Pedro
+[2024-01-11 18:11:07] Will-E planifica >Preparar comida
+[2024-01-11 19:38:09] Will-E planifica >Preparar comida para Pedro
+[2024-01-11 22:34:54] Will-E planifica >Reproducir música
+[2024-01-12 00:00:00] Will-E planifica >Ir a cargar
+[2024-01-12 02:21:00] Will-E planifica >Ir a cargar
+[2024-01-12 07:08:11] Will-E planifica >Encender la televisión
+[2024-01-12 08:53:25] Will-E planifica >Preparar comida
+[2024-01-12 11:30:27] Will-E planifica >Encender la televisión
+[2024-01-12 13:54:13] Will-E planifica >Preparar la bañera para que Pedro se pueda dar un baño
+[2024-01-12 17:56:05] Will-E planifica >Responder a Pedro
+[2024-01-12 23:00:01] Will-E planifica >Responder a Pedro
+[2024-01-13 02:21:00] Will-E planifica >Ir a cargar
+[2024-01-13 09:00:00] Will-E planifica >Limpiar la casa
+[2024-01-13 09:16:43] Will-E planifica >Llenar la bañera con agua caliente
+[2024-01-13 09:37:24] Will-E planifica >Responder a Pedro
+[2024-01-13 11:00:00] Will-E planifica >Realizar limpieza completa al baño
+[2024-01-13 11:25:43] Will-E planifica >Preparar comida para Pedro
+[2024-01-13 14:00:00] Will-E planifica >Regar las plantas
+[2024-01-13 16:36:24] Will-E planifica >Ir a cargar
+[2024-01-13 20:22:16] Will-E planifica >Encender la TV
+[2024-01-13 23:00:01] Will-E planifica >Responder a Pedro
+[2024-01-14 02:24:00] Will-E planifica >Ir a cargar
+[2024-01-14 04:08:00] Will-E planifica >Ir a cargar
+[2024-01-14 06:00:06] Will-E planifica >Responder a Pedro
+[2024-01-14 06:44:42] Will-E planifica >Reproducir música
+[2024-01-14 07:56:36] Will-E planifica >Responder a Pedro
+[2024-01-14 08:27:51] Will-E planifica >Reproducir música
+[2024-01-14 09:00:02] Will-E planifica >Responder a Pedro
+[2024-01-14 09:02:19] Will-E planifica >Poner la televisión
+[2024-01-14 10:47:31] Will-E planifica >Limpiar el baño
+[2024-01-14 11:17:46] Will-E planifica >Preparar baño caliente con espuma
+[2024-01-14 11:59:39] Will-E planifica >Preparar comida
+[2024-01-14 12:05:48] Will-E planifica >Preparar algo de comer en la cocina
+[2024-01-14 14:17:25] Will-E planifica >Reproducir música
+[2024-01-14 15:21:20] Will-E planifica >Poner la televisión en el salón
+[2024-01-14 15:21:20] Will-E planifica >Responder no entender
+[2024-01-14 17:41:16] Will-E planifica >Responder a Pedro
+[2024-01-14 18:32:49] Will-E planifica >Reproducir música
+[2024-01-14 18:59:32] Will-E planifica >Responder a Pedro
+[2024-01-14 19:37:13] Will-E planifica >Poner la televisión
+[2024-01-14 21:13:29] Will-E planifica >Responder a Pedro
+[2024-01-14 23:00:01] Will-E planifica >Responder a Pedro
+[2024-01-15 04:08:00] Will-E planifica >Ir a cargar
+[2024-01-15 06:14:20] Will-E planifica >Responder a Pedro
+[2024-01-15 07:04:52] Will-E planifica >Responder a Pedro
+[2024-01-15 08:00:01] Will-E planifica >Responder a Pedro
+[2024-01-15 09:00:00] Will-E planifica >Limpiar la casa
+[2024-01-15 09:07:21] Will-E planifica >Reproducir música
+[2024-01-15 10:10:10] Will-E planifica >Encender la TV
+[2024-01-15 12:24:00] Will-E planifica >Ir a cargar
+[2024-01-15 14:23:43] Will-E planifica >Responder a Pedro
+[2024-01-15 18:00:05] Will-E planifica >Llenar la bañera
+[2024-01-15 18:03:02] Will-E planifica >Preparar baño con espuma y toallas calientes
+[2024-01-15 18:03:02] Will-E planifica >Responder no entender
+[2024-01-15 18:39:33] Will-E planifica >Llenar la bañera de agua caliente
+[2024-01-15 19:29:50] Will-E planifica >Responder a Pedro
+[2024-01-15 20:31:33] Will-E planifica >Encender la televisión en la sala de estar
+[2024-01-15 20:32:57] Will-E planifica >Responder a Pedro
+[2024-01-16 04:37:14] Will-E planifica >Responder a Pedro
+[2024-01-16 06:22:00] Will-E planifica >Responder a Pedro
+[2024-01-16 06:41:06] Will-E planifica >Responder a Pedro
+[2024-01-16 07:00:11] Will-E planifica >Encender la TV y poner algo entretenido en Netflix
+[2024-01-16 09:00:00] Will-E planifica >Realizar limpieza completa al baño
+[2024-01-16 09:15:31] Will-E planifica >Preparar comida para Pedro
+[2024-01-16 11:52:58] Will-E planifica >Reproducir música
+[2024-01-16 13:34:07] Will-E planifica >Responder a Pedro
+[2024-01-16 16:35:55] Will-E planifica >Encender la TV
+[2024-01-16 16:50:09] Will-E planifica >Poner la televisión
+[2024-01-16 17:56:26] Will-E planifica >Preparar el baño
+[2024-01-16 19:51:00] Will-E planifica >Ir a cargar
