@@ -118,6 +118,10 @@ for key, values in dict_tasks.items():
     }
 
 dict_tasks_df = pd.DataFrame(dict_tasks)
+x = dict_tasks_df.to_csv()
+with open('tabla_tareas.csv', 'w') as file:
+    file.write(x)
+print(x)
 mean_eficiency = sum(y_consistency_percent)/len(y_consistency_percent) 
 print(dict_tasks_df)
 print()
