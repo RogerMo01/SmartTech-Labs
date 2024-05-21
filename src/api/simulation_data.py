@@ -228,7 +228,9 @@ areas = ['dormitorio', 'sala_de_estar', 'baño', 'cocina']
 plants = ['planta_1', 'planta_2', 'planta_3']
 
 bathroom_object = ['inodoro', 'bañera', 'lavamanos']
-
+bedroom_objects = ['cama', 'mesa_de_noche', 'armario']
+kitchen_objects = ['encimera_1', 'encimera_2', 'encimera_3', 'fregadero', 'fogón', 'cesto_de_basura', 'refrigerador']
+livingroom_objects = ['sofá', 'mesa_comedor', 'silla_1', 'silla_2', 'silla_3', 'silla_4', 'silla_5', 'silla_6', 'mesa_de_tv', 'tv', 'dispensador_café', 'estación_de_carga']
 #################### Robot Actions ########################
 CLEAN = "LIMPIAR"
 WALK = "CAMINAR_HASTA"

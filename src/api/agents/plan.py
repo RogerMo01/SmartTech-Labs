@@ -105,9 +105,36 @@ class Plan:
         self.tasks.append(task)
         self.is_successful = False
 
+def generate_full_clean_living_room_plan(author: str, house: House, beliefs):
+    tasks = []
+    tasks.append(Move(author, house, beliefs, house.get_room_tile(author, 'sala')))
+    tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 1200)), 'sala'))
+    for obj in livingroom_objects:
+        living_obj: Object = house.get_object(obj)
+        tasks.append(Move(author, house, beliefs, living_obj.robot_face_tiles[0]))
+        tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(300, 600)), object=living_obj.name))
+    return Plan("Realizar limpieza completa a la sala de estar", house, author, beliefs, tasks)
 
-    
 
+def generate_full_clean_bedroom_plan(author: str, house: House, beliefs):
+    tasks = []
+    tasks.append(Move(author, house, beliefs, house.get_room_tile(author, 'dormitorio')))
+    tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 1200)), 'dormitorio'))
+    for obj in bedroom_objects:
+        bed_obj: Object = house.get_object(obj)
+        tasks.append(Move(author, house, beliefs, bed_obj.robot_face_tiles[0]))
+        tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(300, 600)), object=bed_obj.name))
+    return Plan("Realizar limpieza completa al dormitorio", house, author, beliefs, tasks)
+
+def generate_full_clean_kitchen_plan(author: str, house: House, beliefs):
+    tasks = []
+    tasks.append(Move(author, house, beliefs, house.get_room_tile(author, 'cocina')))
+    tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 1200)), 'cocina'))
+    for obj in kitchen_objects:
+        kitchen_obj: Object = house.get_object(obj)
+        tasks.append(Move(author, house, beliefs, kitchen_obj.robot_face_tiles[0]))
+        tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(300, 600)), object=kitchen_obj.name))
+    return Plan("Realizar limpieza completa a la cocina", house, author, beliefs, tasks)
 
 def generate_clean_plan(author: str, house: House, beliefs):
     tasks = []

@@ -48,12 +48,13 @@ class Bot_Agent(BDI_Agent):
         self.intentions: list[Plan] = []
 
         self.weekly_plans = {
-            0: [(generate_clean_plan, 9)],
-            1: [(generate_full_clean_bathroom_plan, 9)],
+            0: [(generate_full_clean_bathroom_plan, 9), (generate_full_clean_living_room_plan, 9),
+                (generate_full_clean_kitchen_plan,9), (generate_full_clean_bedroom_plan, 9)],
+            1: [(generate_full_clean_kitchen_plan, 9)],
             2: [(generate_clean_plan, 9)],
             3: [(generate_water_plants_plan, 14)],
-            4: [],
-            5: [(generate_clean_plan, 9), (generate_full_clean_bathroom_plan, 11), (generate_water_plants_plan, 14)],
+            4: [(generate_full_clean_bathroom_plan, 9), (generate_full_clean_kitchen_plan, 9)],
+            5: [(generate_clean_plan, 9), (generate_water_plants_plan, 14)],
             6: []
         }
 
@@ -91,7 +92,7 @@ class Bot_Agent(BDI_Agent):
             perception = self.see()
             self.brf(perception)
        
-            _reconsider, selected_intention = self.reconsider(current_plan, 0.1)
+            _reconsider, selected_intention = self.reconsider(current_plan, 0.5)
             
             if _reconsider:
                 self.reorder_intentions(selected_intention, current_plan)

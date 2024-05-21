@@ -1,0 +1,95 @@
+datetime,intention_name,is_postponed,robot_boost_need
+2024-01-10 08:12:03,Responder a Pedro,False,True
+2024-01-10 08:51:08,Poner la televisión en un canal de entretenimiento,False,True
+2024-01-10 09:00:00,Limpiar la casa,False,False
+2024-01-10 10:03:56,Preparar café para Pedro,False,True
+2024-01-10 10:49:50,Preparar algo de comer para Pedro,False,True
+2024-01-10 12:08:26,Preparar un baño para Pedro,False,True
+2024-01-10 15:12:08,Recordar a Pedro la hora cuando salga del baño,False,True
+2024-01-10 15:12:08,Responder no entender,False,False
+2024-01-10 15:33:16,Encender la TV y poner un programa de entretenimiento,False,True
+2024-01-11 00:00:00,Ir a cargar,False,False
+2024-01-11 08:15:04,Responder a Pedro,False,True
+2024-01-11 08:41:32,Encender la TV y poner una película,False,True
+2024-01-11 11:44:29,Llenar la bañera,False,True
+2024-01-11 14:00:00,Regar las plantas,False,False
+2024-01-11 15:43:59,Reproducir música,False,False
+2024-01-11 16:59:22,Reproducir música,False,False
+2024-01-11 17:03:46,Responder a Pedro,False,True
+2024-01-11 22:24:43,Responder a Pedro,False,True
+2024-01-11 23:13:17,Responder a Pedro,False,True
+2024-01-11 23:32:34,Responder a Pedro,False,True
+2024-01-11 23:52:13,Responder a Pedro,False,True
+2024-01-12 00:00:00,Ir a cargar,False,False
+2024-01-12 02:35:00,Ir a cargar,False,False
+2024-01-12 06:38:45,Responder a Pedro,False,True
+2024-01-12 07:25:49,Responder a Pedro,False,True
+2024-01-12 07:33:56,Reproducir música,False,False
+2024-01-12 08:40:21,Reproducir música,False,False
+2024-01-12 09:06:34,Responder a Pedro,False,True
+2024-01-12 09:31:49,Responder a Pedro,False,True
+2024-01-12 10:49:26,Preparar la bañera para un baño caliente,False,True
+2024-01-12 10:53:59,Responder a Pedro,False,True
+2024-01-12 11:30:14,Reproducir música,False,False
+2024-01-12 11:43:45,Encender la TV en la sala de estar,False,True
+2024-01-12 14:15:43,Preparar café para Pedro,False,True
+2024-01-12 16:39:54,Preparar comida,False,True
+2024-01-12 18:49:44,Avisar a Pedro la hora,False,True
+2024-01-12 19:15:18,Limpiar la bañera,False,True
+2024-01-12 20:13:37,Poner el programa de televisión favorito de Pedro en la TV,False,True
+2024-01-12 21:35:01,Responder a Pedro,False,True
+2024-01-13 02:35:00,Ir a cargar,False,False
+2024-01-13 08:14:45,Poner la televisión,False,True
+2024-01-13 08:47:58,Responder a Pedro,False,True
+2024-01-13 09:00:00,Limpiar la casa,False,False
+2024-01-13 09:30:59,Preparar un baño bien calentito con espuma para Pedro,False,True
+2024-01-13 09:30:59,Responder no entender,False,False
+2024-01-13 11:00:00,Realizar limpieza completa al baño,False,False
+2024-01-13 11:46:33,Preparar el baño y echar agua en la bañera,False,True
+2024-01-13 12:20:39,Preparar algo rápido para comer para Pedro,False,True
+2024-01-13 12:26:39,Preparar algo de comer a Pedro,False,True
+2024-01-13 13:57:57,Poner el canal favorito de Pedro,False,True
+2024-01-13 14:00:00,Regar las plantas,False,False
+2024-01-13 14:58:15,Responder a Pedro,False,True
+2024-01-13 15:51:10,Preparar desayuno a Pedro con huevos revueltos y café,False,True
+2024-01-13 16:51:48,Preparar comida para Pedro,False,True
+2024-01-13 18:23:48,Reproducir música,False,False
+2024-01-13 18:57:41,Encender la televisión y poner una película para Pedro,False,True
+2024-01-13 19:07:05,Ir a cargar,False,False
+2024-01-14 02:40:00,Ir a cargar,False,False
+2024-01-14 05:56:27,Responder a Pedro,False,True
+2024-01-14 06:31:52,Preparar el baño,False,True
+2024-01-14 06:45:00,Encender la televisión,False,True
+2024-01-14 10:04:41,Preparar sándwich para Pedro,False,True
+2024-01-14 12:28:00,Ir a cargar,False,False
+2024-01-14 13:30:51,Preparar un sándwich,False,True
+2024-01-14 15:37:16,Responder a Pedro,False,True
+2024-01-14 18:03:07,Encender la televisión,False,True
+2024-01-14 19:06:28,Preparar comida para Pedro,False,True
+2024-01-14 19:59:51,Responder a Pedro,False,True
+2024-01-14 20:15:28,Preparar baño caliente,False,True
+2024-01-14 21:27:09,Llenar la bañera con agua caliente,False,True
+2024-01-14 23:00:01,Responder a Pedro,False,True
+2024-01-15 06:04:25,Encender la televisión.,False,True
+2024-01-15 08:10:34,Preparar una comida rápida rica en carbohidratos,False,True
+2024-01-15 08:36:32,Preparar comida,False,True
+2024-01-15 09:00:00,Limpiar la casa,False,False
+2024-01-15 09:28:10,Encender la TV,False,True
+2024-01-15 11:09:00,Preparar un baño con espuma caliente,False,True
+2024-01-15 11:09:00,Responder no entender,False,False
+2024-01-15 12:07:52,Ir a cargar,False,False
+2024-01-15 15:33:51,Limpiar el baño,False,True
+2024-01-15 15:38:05,Preparar el baño para que Pedro se duche,False,True
+2024-01-15 18:54:38,Reproducir música,False,False
+2024-01-15 19:22:00,Encender el televisor,False,True
+2024-01-15 21:24:36,Preparar comida para Pedro,False,True
+2024-01-16 05:55:02,Cocinar algo para Pedro,False,True
+2024-01-16 05:55:29,Responder a Pedro,False,True
+2024-01-16 06:30:56,Preparar baño con agua caliente,False,True
+2024-01-16 08:59:07,Poner la tele en un canal de entretenimiento,False,True
+2024-01-16 09:00:00,Realizar limpieza completa al baño,False,False
+2024-01-16 11:46:43,Responder a Pedro,False,True
+2024-01-16 12:16:01,Poner la televisión para entretenimiento,False,True
+2024-01-16 16:56:49,Prepararle un desayuno completo a Pedro,False,True
+2024-01-16 17:42:06,Preparar un baño caliente para Pedro,False,True
+2024-01-16 22:19:05,Ir a cargar,False,False
