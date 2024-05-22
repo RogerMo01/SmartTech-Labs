@@ -16,8 +16,6 @@ NEGATIVE_FEEDBACK = ["Lo siento, pero no puedo hacer lo que me pides",
                      "No tengo las habilidades para hacer eso, lo siento",
                      "No sé como hacer lo que me pides, lo siento"]
 
-FILE_SRC = "src/api/logs/will-e.txt"
-
 consumption_per_task = simulation_data.CONSUMPTION_PER_TASK
 
 

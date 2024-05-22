@@ -107,8 +107,8 @@ class Plan:
 
 def generate_full_clean_living_room_plan(author: str, house: House, beliefs):
     tasks = []
-    tasks.append(Move(author, house, beliefs, house.get_room_tile(author, 'sala')))
-    tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 1200)), 'sala'))
+    tasks.append(Move(author, house, beliefs, house.get_room_tile(author, 'sala_de_estar')))
+    tasks.append(Clean(author, house, beliefs, timedelta(seconds=random.randint(480, 1200)), 'sala_de_estar'))
     for obj in livingroom_objects:
         living_obj: Object = house.get_object(obj)
         tasks.append(Move(author, house, beliefs, living_obj.robot_face_tiles[0]))
