@@ -10,7 +10,7 @@ import matplotlib.dates as mdates
 
 
 # 🎲 Select simulation data
-SELECTOR = 4
+SELECTOR = 5
 
 head_path = f'src/api/tests/sim{SELECTOR}/'
 

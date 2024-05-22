@@ -36,10 +36,13 @@ class Gemini(LLM):
                 deadline_exceed = False
 
             except Exception as e:
-                if e.message != 'Deadline Exceeded' and not e.message.startswith("An internal error has occurred"):
-                    if e.code == http.HTTPStatus.REQUEST_TIMEOUT or e.code == http.HTTPStatus.TOO_MANY_REQUESTS:
-                        time.sleep(30)
-                    else:
-                        raise e
+                try:
+                    if e.message != 'Deadline Exceeded' and not e.message.startswith("An internal error has occurred"):
+                        if e.code == http.HTTPStatus.REQUEST_TIMEOUT or e.code == http.HTTPStatus.TOO_MANY_REQUESTS:
+                            time.sleep(30)
+                        else:
+                            raise e
+                except AttributeError:
+                    pass
         
         return response.text 
