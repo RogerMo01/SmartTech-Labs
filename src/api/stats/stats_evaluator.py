@@ -48,7 +48,9 @@ for day in daily_tasks:
 x_dates = sorted(list(daily_elapsed_time.keys()))
 y_times = [daily_elapsed_time[d] for d in x_dates]
 y_times = [t for t in y_times]
-
+total_seconds = sum(y_times)
+mean_time = total_seconds/len(y_times)
+print(total_seconds)
 # plt.figure(figsize=(10, 5))
 plt.plot(x_dates, y_times, marker='o', linestyle='-', color='g')
 plt.xlabel('Día')
@@ -238,17 +240,16 @@ plt.show()
 
 
 #🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣 Ignored per hour 🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣
-ignored_df = pd.read_csv('src/api/tests/sim1/ignored_requests.csv')
-
+ignored_df = pd.read_csv(f'{head_path}ignored_requests.csv')
 ignored_per_hour = [0]*24  # sum per each hour
-print(ignored_df['datetime'])
+print(ignored_df['datetime'])           # DE AQUI SACAR ALGO A OJO!!!!!!!!!!!!!
 all_datetimes = ignored_df['datetime']
 all_times = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S").time() for d in all_datetimes]
 for time in all_times:
     ignored_per_hour[time.hour]+=1
     # ignored_per_hour = count of ignored orders per hour
 y_ignored_per_hour = ignored_per_hour
-max = max(y_ignored_per_hour)
+max_count = max(y_ignored_per_hour)
 
 plt.figure(figsize=(10, 6))
 plt.bar(x_hours, y_ignored_per_hour, color='skyblue', edgecolor='black')
@@ -257,7 +258,43 @@ plt.xlabel('Hora del Día')
 plt.ylabel('Cantidad de ordenes')
 
 plt.xticks(x_hours)
-plt.yticks(range(0, max+1, 1))
+plt.yticks(range(0, max_count+1, 1))
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 
 plt.show()
+
+
+#🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣 Ignored per days 🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣🫣
+ignored_per_day = [0]*len(all_days)
+all_datetimes = ignored_df['datetime']
+print(all_datetimes)
+all_times = [datetime.strptime(d, "%Y-%m-%d %H:%M:%S") for d in all_datetimes]
+print(len(all_days))
+print(all_times)
+for time in all_times:
+    ignored_per_day[time.day - len(all_days)]+=1 
+
+y_ignored_per_day = ignored_per_day
+print(y_ignored_per_day)
+max_count = max(y_ignored_per_day)
+
+plt.figure(figsize=(10, 6))
+plt.bar(x_dates, y_ignored_per_day, color='skyblue', edgecolor='black')
+plt.title('Ordenes ignoradas por día')
+plt.xlabel('Días')
+plt.ylabel('Cantidad de ordenes')
+
+plt.xticks(x_dates)
+plt.yticks(range(0, max_count+1, 1))
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.xticks(rotation=90)
+plt.show()
+
+
+
+#COSAS A ANALIZAR:
+
+# POR QUE EL DIA 14 ES EL QUE MAS ORDENES SE IGNORA?
+#----- aqui lo que paso fue que ese dia Pedri se levanto a las 5 y pico e hizo 3 cosas que 
+# POR QUE UN DIA NO SE CARGO?
+# POR QUE NO FUE EL DIA 15 EL QUE MAS ORDENES IGNORO?
