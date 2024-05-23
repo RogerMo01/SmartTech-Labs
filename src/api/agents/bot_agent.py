@@ -71,15 +71,14 @@ class Bot_Agent(BDI_Agent):
        
        if len(self.intentions) > 0:
             
-            # Set 1 in current minute
-            self.activity.push(self.current_datetime)
-            
             current_plan: Plan = self.intentions[0]
 
             if current_plan.is_charge_plan:
                 self.battery.is_charging = True
             else:
                 self.battery.is_charging = False
+                # Set 1 in current minute
+                self.activity.push(self.current_datetime)
 
             current_plan.run(current_datetime, self.beliefs.last_notice, self.battery, self.provide_negative_feedback)
 
@@ -90,7 +89,7 @@ class Bot_Agent(BDI_Agent):
             perception = self.see()
             self.brf(perception)
        
-            _reconsider, selected_intention = self.reconsider(current_plan, 0.5)
+            _reconsider, selected_intention = self.reconsider(current_plan, 0.9)
             
             if _reconsider:
                 self.reorder_intentions(selected_intention, current_plan)
