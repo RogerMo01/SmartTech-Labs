@@ -90,7 +90,8 @@ y_total_task_times = [daily_task_total_time[d] for d in x_dates]
 y_task_times = [daily_task_time[d] for d in x_dates]
 y_postponed_task_times = [daily_postponed_task_time[d] for d in x_dates]
 y_consistency_percent = [(y_task_times[i]/y_total_task_times[i])*100 for i in range(len(y_task_times)) ]
-
+mean_consistency_percent = sum(y_consistency_percent)/len(y_consistency_percent)
+print(f'EFICIENCIA PROMEDIO {mean_consistency_percent}')
 dict_tasks = {
     "Tiempo estimado": y_task_times,
     "Tiempo total": y_total_task_times,
@@ -142,18 +143,18 @@ for key, stats in tasks_statistics.items():
 
 
 
-
-# plt.figure()
-# plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
-# plt.plot(x_dates, y_task_times, label='Tiempo estimado', marker='o', color='red', linestyle=':')
-# plt.xlabel('Día')
-# plt.ylabel('Timepo(seg)')
-# plt.title('Comparación de tiempos')
-# plt.grid(True)
-# plt.xticks(rotation=45)
-# plt.tight_layout()
-# plt.legend()
-# plt.show()
+################################## Times Comparison ##################################
+plt.figure()
+plt.plot(x_dates, y_total_task_times, label='Tiempo dedicado', marker='o', color='blue')
+plt.plot(x_dates, y_task_times, label='Tiempo estimado', marker='o', color='red', linestyle=':')
+plt.xlabel('Día')
+plt.ylabel('Timepo(seg)')
+plt.title('Comparación de tiempos')
+plt.grid(True)
+plt.xticks(rotation=90)
+plt.tight_layout()
+plt.legend()
+plt.show()
 
 
 
@@ -288,8 +289,8 @@ plt.xticks(x_dates)
 plt.yticks(range(0, max_count+1, 1))
 plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.xticks(rotation=90)
+plt.tight_layout()
 plt.show()
-
 
 
 #COSAS A ANALIZAR:
