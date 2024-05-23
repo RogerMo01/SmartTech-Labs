@@ -25,7 +25,7 @@ class Activity:
         
         self.initial_datetime = initial_datetime
         self.current_date = initial_datetime
-        self.best_time = self.get_charge_minute()
+        self.best_time = (4, 0)
         logger.log_best_charging_time(self.best_time)
         
     def push(self, current_datetime: datetime):

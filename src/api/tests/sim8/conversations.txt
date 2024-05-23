@@ -1,0 +1,985 @@
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión en un canal de entretenimiento.
+➡ Enseguida, Pedro. ¿Quieres que lo ponga en un canal específico?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Por supuesto, Pedro. Sé que te gustan los platos asiáticos bajos en sal, por lo que te recomiendo un salteado con lo siguiente:
+
+**Ingredientes:**
+* Pollo magro, cortado en tiras finas
+* Brotes de soja
+* Pimientos rojos y verdes, cortados en rodajas finas
+* Cebolla, cortada en rodajas finas
+* Ajo, picado
+* Jengibre, picado
+* Salsa de soja baja en sal
+* Aceite de sésamo
+
+**Instrucciones:**
+1. Calienta el aceite de sésamo en un wok o sartén grande.
+2. Añade el pollo y cocina hasta que esté dorado.
+3. Agrega el ajo, el jengibre y las verduras. Cocina hasta que estén tiernos.
+4. Vierte la salsa de soja y revuelve para combinar.
+5. Sirve sobre arroz integral o fideos soba.
+
+¡Espero que lo disfrutes!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión en algún canal entretenido.
+➡ Ahora mismo busco un canal entretenido para ti, Pedro
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál es la mejor manera de comer una barra de cereal?
+➡ Hola, Pedro. Hay muchas maneras de disfrutar una barra de cereal. Puedes comerla entera, trocearla y añadirla a un yogur, o usarla como cobertura para un batido.
+➡ Pedro dice: Gracias, Will-E. Creo que la comeré entera.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia el baño, por favor.
+➡ Claro Pedro, lo limpiaré ahora mismo
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, dame una ducha caliente.
+➡ Enseguida Pedro, preparando una ducha caliente para ti.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera para tomar un baño.
+➡ Muy bien Pedro, voy a preparar la bañera para ti.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras voy al inodoro?
+➡ Claro Pedro, te lo recordaré dentro de unos segundos.
+➡ Pedro dice: Gracias, Will-E.
+➡ No te preocupes, lo haré.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿puedes darme una receta de un desayuno protéico fácil?
+➡ Claro, Pedro. Sé que buscas una receta de desayuno protéico fácil y baja en sal, así que te recomiendo unos panqueques ricos en proteínas siguiendo esta receta:
+
+**Ingredientes:**
+
+* 1 taza de harina de avena
+* 1/2 taza de polvo de proteína sin sabor
+* 1 cucharadita de polvo para hornear
+* 1/4 cucharadita de sal
+* 1 huevo
+* 1 taza de leche o agua
+* 1 cucharada de aceite vegetal
+
+**Instrucciones:**
+
+1. Mezcla los ingredientes secos en un tazón grande.
+2. En otro tazón, bate el huevo, la leche o el agua y el aceite vegetal.
+3. Agrega los ingredientes húmedos a los secos y mezcla hasta que estén combinados. No mezcles demasiado.
+4. Calienta una sartén antiadherente a fuego medio-alto. Agrega un poco de masa a la sartén y cocina hasta que se doren por ambos lados.
+5. Sirve con tus toppings favoritos, como frutas, nueces o yogur griego.
+➡ Pedro dice: [OK], lo haré
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿puedes recomendarme una película para ver ahora?
+➡ Claro Pedro, ¿qué género te gustaría ver?
+➡ Pedro dice: Me gustan las películas de acción y ciencia ficción.
+➡ Déjame buscar algunas películas de acción y ciencia ficción. Dame un minuto.
+➡ Pedro dice: Claro, tómate tu tiempo. Avísame cuando encuentres algo interesante.
+➡ He encontrado algunas películas de acción y ciencia ficción que podrían gustarte. Déjame un momento para prepararte una lista.
+➡ Pedro dice: Gracias Will-E. ¡Estoy ansioso por ver qué has encontrado para mí!
+➡ He encontrado algunas películas emocionantes que coinciden con tus preferencias. Ya vuelvo con una lista para ti.
+➡ Pedro dice: Gracias, Will-E. ¡Estoy seguro de que encontraré algo emocionante en tu lista!
+➡ Dame un segundo más, Pedro. ¡Ya casi termino de preparar la lista para ti!
+➡ Pedro dice: No hay problema, Will-E. ¡Estoy seguro de que encontraré algo emocionante en tu lista!
+➡ Hola Pedro, Aquí tienes una lista de películas de acción y ciencia ficción que podrías disfrutar: 
+1. Terminator 
+2. The Matrix 
+3. Star Wars 
+4. Inception 
+5. Blade Runner
+➡ Pedro dice: Gracias, Will-E. ¡Me voy a ver Terminator ahora!
+➡ Me alegra haber podido ayudarte a encontrar algo para ver, Pedro. ¡Disfruta de la película!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y pon un programa entretenido.
+➡ Claro Pedro, enseguida enciendo la televisión y busco un programa entretenido que pueda gustarte.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Por supuesto, ¿qué te gustaría comer?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras uso el mingitorio?
+➡ Por supuesto, Pedro. Te recordaré la hora cuando estés en el mingitorio.
+➡ Pedro dice: Gracias, Will-E. ¡Es muy útil!
+➡ De nada, Pedro. Me alegro de poder ayudarte.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿Qué podemos comer como almuerzo que pueda prepararse rápido?
+➡ ¡Claro, Pedro! Te recomiendo un almuerzo asiático bajo en sal que se puede preparar rápidamente. Es perfecto para cuando tienes poco tiempo y quieres algo saludable y sabroso.
+
+**Receta de salteado de pollo con verduras**
+
+**Ingredientes:**
+* 1 pechuga de pollo deshuesada y sin piel, cortada en tiras
+* 1 taza de brócoli cortado en floretes pequeños
+* 1 taza de zanahorias cortadas en julianas
+* 1 taza de pimientos cortados en tiras
+* 1 cucharada de salsa de soja baja en sodio
+* 1 cucharada de aceite de sésamo
+* 1 cucharadita de jengibre rallado
+* 1/4 cucharadita de ajo en polvo
+* Pimienta negra al gusto
+
+**Instrucciones:**
+1. Calienta el aceite en una sartén grande o wok a fuego medio-alto.
+2. Agrega el pollo y cocina hasta que se dore por todos lados.
+3. Agrega las verduras y cocina hasta que estén tiernas y crujientes.
+4. Agrega la salsa de soja, el aceite de sésamo, el jengibre, el ajo en polvo y la pimienta.
+5. Cocina durante 1-2 minutos adicionales, o hasta que la salsa se haya calentado.
+
+**¡Sirve inmediatamente y disfruta de un delicioso y rápido almuerzo asiático bajo en sal!**
+➡ Pedro dice: Suena delicioso, Will-E. Vamos a intentarlo.
+➡ ¡Estoy encantado de que te guste la idea, Pedro! Podemos empezar a prepararlo cuando tú quieras. Avísame si tienes alguna pregunta durante el proceso.
+➡ Pedro dice: Genial, Will-E. Comencemos a prepararlo ahora mismo.
+➡ Excelente, Pedro. Reuniré los ingredientes y comenzaremos a cocinar de inmediato. ¡Vamos a disfrutar de un almuerzo delicioso y saludable!
+➡ Pedro dice: Comencemos, Will-E. Estoy ansioso por probar este salteado de pollo con verduras.
+➡ ¡Perfecto, Pedro! Reuniré los ingredientes necesarios y comenzaremos a cocinar de inmediato. ¡Disfrutemos juntos de un almuerzo saludable y delicioso!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la TV para que pueda ver una película.
+➡ Claro Pedro, ¿qué película quieres ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, echa agua a la bañera y prepara un baño relajante.
+➡ De inmediato, Pedro. Prepararé un baño relajante para ti.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Claro, Pedro. Teniendo en cuenta tu deseo de cenar algo asiático y bajo en sal, te recomendaría un delicioso pad thai.
+
+**Ingredientes:**
+
+* 1 paquete (8 onzas) de fideos de arroz
+* 1/4 taza de salsa de pescado baja en sodio
+* 1/4 taza de salsa de tamarindo
+* 1/4 taza de jugo de lima
+* 1/4 taza de azúcar de palma
+* 1 cucharada de salsa de chile
+* 2 dientes de ajo, picados
+* 1/2 cebolla, picada
+* 1 zanahoria, cortada en tiras finas
+* 1/2 pimiento rojo, cortado en tiras finas
+* 1/2 taza de brotes de soja
+* 1/4 taza de cacahuetes triturados
+
+**Instrucciones:**
+
+1. Remoja los fideos de arroz en agua tibia durante 10 minutos o hasta que estén blandos. Escurre y reserva.
+2. En un tazón pequeño, bate juntos la salsa de pescado, la salsa de tamarindo, el jugo de lima, el azúcar de palma y la salsa de chile.
+3. Calienta 1 cucharada de aceite vegetal en una sartén o wok a fuego medio-alto. Agrega el ajo y la cebolla y cocina hasta que estén fragantes, aproximadamente 2 minutos.
+4. Agrega la zanahoria y el pimiento rojo y cocina hasta que estén ligeramente blandos, aproximadamente 3 minutos.
+5. Agrega los fideos de arroz, la salsa y los brotes de soja a la sartén. Revuelve para combinar y cocina hasta que la salsa se haya espesado y los fideos estén calientes, aproximadamente 2 minutos.
+6. Retira del fuego y espolvorea con cacahuetes triturados.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿puedes decirme si hace frío para dormir?
+➡ Actualmente la temperatura en el dormitorio es de 18 grados Celsius. ¿Quieres que aumente la temperatura?
+➡ Pedro dice: No, gracias. Estoy bien con la temperatura actual.
+➡ De acuerdo, Pedro. Avísame si necesitas algo más.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión en el canal de noticias.
+➡ Claro, cambiando al canal de noticias ahora.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me podrías sugerir qué frutas son buenas para un desayuno saludable?
+➡ Claro, Pedro. Para un desayuno asiático saludable y bajo en sal, te recomiendo una ensalada de frutas de papaya, mango y piña. Estas frutas son ricas en vitaminas, minerales y antioxidantes, y su bajo contenido en sodio las hace ideales para quienes siguen una dieta baja en sal.
+
+**Receta para la ensalada de frutas asiática:**
+
+* 1 taza de papaya en cubos
+* 1 taza de mango en cubos
+* 1 taza de piña en cubos
+* 1/4 taza de jugo de lima
+* 1 cucharada de semillas de sésamo tostadas
+
+**Instrucciones:**
+
+1. En un tazón mediano, combina la papaya, el mango, la piña y el jugo de lima.
+2. Espolvorea las semillas de sésamo.
+3. Revuelve suavemente y sirve inmediatamente o refrigera hasta que esté listo para servir.
+➡ Pedro dice: Suena delicioso, Will-E. Haré esa ensalada de frutas para el desayuno mañana.
+➡ Me alegra que te guste la sugerencia, Pedro. ¡Que tengas un desayuno saludable y delicioso!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la tele
+➡ Enseguida Pedro, ¿qué canal quieres que ponga?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Claro, Pedro, como mencionaste que te gusta el desayuno asiático y que tienes restricciones de sal, te recomiendo el congee, un plato de arroz cocinado en caldo. Es fácil de digerir y bajo en sal.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon una película en el televisor.
+➡ Claro Pedro, ¿qué película quieres ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, echa agua a la bañera.
+➡ Claro Pedro, enseguida lo hago.
+
+
+
+#############################################################################
+➡ Ya he echado agua a la bañera
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué recomendaciones de alimentos saludables tienes para preparar un almuerzo rápido y nutritivo?
+➡ Entiendo que buscas recomendaciones de alimentos saludables para un almuerzo rápido y nutritivo con tu dieta baja en sal y gusto por el desayuno asiático. Aquí tienes una receta que creo que te gustará:
+
+**Recetas de Onigiris de Salmón y Aguacate**
+
+**Ingredientes:**
+
+* 1 taza de arroz integral cocido
+* ½ aguacate maduro, cortado en trozos
+* 100 g de salmón ahumado desmenuzado
+* 1/4 taza de edamame cocido
+* 2 cucharadas de mayonesa baja en sal (opcional)
+* Algas Nori, cortada en tiras
+
+**Instrucciones:**
+
+1. En un bol, mezcla el arroz integral con el aguacate, el salmón, el edamame y la mayonesa (si la utilizas).
+2. Forma bolas con la mezcla de arroz y colócalas sobre tiras de algas Nori.
+3. Envuelve las bolas con las algas y corta cada onigiri por la mitad.
+
+¡Disfruta de tus onigiris saludables y sabrosos!
+➡ Pedro dice: Gracias Will-E, ¡Suena delicioso! Me prepararé unos cuantos para el almuerzo de hoy mismo.
+➡ De nada, Pedro. Me alegro de poder ayudarte. ¡Que te aproveche!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál es el mejor sitio para ver una película?
+➡ Puedes probar en el cine, ofrecen una experiencia cinematográfica envolvente con una gran pantalla y sistema de sonido.
+➡ Pedro dice: Gracias Will-E, comprobaré los horarios de las películas en el cine.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál sería una opción saludable para un desayuno rápido?
+➡ Como opción saludable para un desayuno rápido que además se alinea con tus gustos por la comida asiática y tus restricciones de bajo contenido en sal, te recomiendo la siguiente receta sencilla:
+
+**Tostadas de Salmón Ahumado con Aguacate y Pepino**
+
+**Ingredientes:**
+
+* 2 rebanadas de pan integral tostado
+* 30 gramos de salmón ahumado
+* 1/2 aguacate, cortado en rodajas
+* 1/4 pepino, cortado en rodajas finas
+* 1 cucharada de queso crema bajo en grasa (opcional)
+
+**Instrucciones:**
+
+1. Unta el queso crema en una tostada (opcional).
+2. Coloca el salmón ahumado sobre el queso crema o directamente sobre la tostada.
+3. Agrega las rodajas de aguacate y pepino.
+4. Sazona con una pizca de pimienta negra (opcional).
+
+Esta receta proporciona proteínas, grasas saludables y fibra, lo que la convierte en una excelente opción para comenzar el día de manera saludable y satisfactoria. ¡Disfruta!
+➡ Pedro dice: Gracias, Will-E. Sonará perfecto para esta mañana.
+➡ ¡Me alegra haber podido ayudarte, Pedro!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la tele y enciéndela.
+➡ Entendido, enciendiendo la televisión.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera para que me dé un baño
+➡ Claro, Pedro. Estoy preparando la bañera para ti ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿puedes darme una receta alta en proteinas para el desayuno?
+➡ Claro, Pedro. Te recomiendo un desayuno asiático bajo en sal con muchas proteínas para empezar el día con energía. ¡Vamos a intentarlo!
+
+**Receta:**
+
+**Ingredientes:**
+
+* 1 taza de tofu firme, escurrido y cortado en cubos
+* 1/2 taza de edamame congelado, descongelado
+* 2 huevos
+* 1/4 taza de pimientos rojos cortados en tiras
+* 1/4 taza de cebolla morada picada
+* 1 cucharada de salsa de soja baja en sodio
+* 1 cucharadita de aceite de sésamo
+* Pimienta negra al gusto
+
+**Instrucciones:**
+
+1. Calienta el aceite de sésamo en una sartén antiadherente a fuego medio.
+2. Añade el tofu y saltea hasta que se dore por todos lados.
+3. Retira el tofu de la sartén y añade los huevos. Cocina los huevos al gusto.
+4. Añade los pimientos rojos y la cebolla morada a la sartén. Saltea hasta que los pimientos estén suaves.
+5. Agrega el tofu, el edamame y la salsa de soja. Revuelve para combinar.
+6. Cocina durante unos minutos más, o hasta que la salsa se haya calentado.
+7. Sazona con pimienta negra.
+
+¡Disfruta de tu desayuno asiático bajo en sal y rico en proteínas, Pedro!
+➡ Pedro dice: Gracias, Will-E. Parece delicioso. Lo intentaré mañana
+➡ ¡Genial! Me alegro de poder ayudarte, Pedro. Avísame si tienes alguna otra pregunta. ¡Que tengas un gran día!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿conoces una buena película para ver?
+➡ ""Una buena película de acción que puedes ver es Misión Imposible: Repercusión""
+➡ Pedro dice: Gracias Will-E, la tendré en cuenta.
+➡ De nada, Pedro. Si deseas ver una película de otro género, no dudes en preguntar.
+➡ Pedro dice: Gracias, Will-E. Echa un vistazo y te diré si la veo.
+➡ Puedes contarme sobre la película que vas a ver cuando la hayas elegido. Sería un placer escuchar tu opinión.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ponme algo de música para relajarme.
+➡ Claro Pedro, ¿qué tipo de música te gustaría escuchar?
+➡ Pedro dice: Algo relajado como música clásica o jazz.
+➡ Enseguida pongo algo de música clásica, para que puedas relajarte.
+➡ Pedro dice: Gracias Will-E, esto es perfecto
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV.
+➡ En un momento la enciendo, Pedro.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer
+➡ Claro, Pedro, como mencionaste que te gusta el desayuno asiático y quieres algo bajo en sal, te recomiendo este delicioso Congee:
+
+**Ingredientes:**
+
+* 1 taza de arroz blanco de grano largo
+* 8 tazas de caldo de pollo bajo en sodio
+* 1/4 cucharadita de jengibre fresco rallado
+* 2 cebolletas verdes, cortadas en rodajas
+* 1/4 cucharadita de salsa de soja (opcional)
+
+**Instrucciones:**
+
+1. Enjuaga el arroz en un colador fino hasta que el agua salga clara.
+2. En una olla grande, combina el arroz, el caldo de pollo, el jengibre y las cebolletas verdes.
+3. Lleva la mezcla a ebullición. Reduce el fuego a bajo, tapa y cocina a fuego lento durante 1 hora o hasta que el arroz esté tierno y haya absorbido el líquido.
+4. Si lo deseas, agrega salsa de soja al gusto.
+5. Sirve caliente.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión en el salón.
+➡ ¡Claro Pedro, enciendo la televisión en el salón!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la televisión y pon algo entretenido.
+➡ Claro Pedro, encendiendo la televisión. ¿Quieres que busque algo en particular para ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué almuerzo rápido y nutritivo me recomiendas que pueda preparar en 15 minutos?
+➡ ¡Por supuesto, Pedro! Te recomiendo preparar un almuerzo estilo asiático delicioso y saludable que se puede preparar en solo 15 minutos. Aquí tienes la receta:
+
+**Ensalada de fideos de arroz con vegetales crujientes**
+
+**Ingredientes:**
+- 1 paquete (200 g) de fideos de arroz
+- 1 zanahoria grande, cortada en juliana
+- 1 pimiento rojo, cortado en juliana
+- 1/2 pepino, cortado en rodajas finas
+- 1/4 taza de cebolla morada, cortada en plumas
+- 1/4 taza de cilantro picado
+
+**Para el aderezo:**
+- 2 cucharadas de salsa de soya baja en sodio
+- 1 cucharada de vinagre de arroz
+- 1 cucharada de aceite de sésamo
+- 1 cucharadita de Sriracha (opcional, para darle un toque picante)
+
+**Instrucciones:**
+1. Sigue las instrucciones del paquete para cocinar los fideos de arroz.
+2. Mientras se cocinan los fideos, prepara los vegetales cortándolos como se indica.
+3. En un tazón grande, combina los fideos cocidos con los vegetales.
+4. En un tazón pequeño aparte, bate todos los ingredientes para el aderezo.
+5. Vierte el aderezo sobre la ensalada y revuelve bien para combinar.
+6. Refrigera durante al menos 15 minutos antes de servir para permitir que los sabores se mezclen.
+➡ Pedro dice: ¡Gracias, Will-E! Definitivamente probaré esta receta de ensalada de fideos de arroz. Parece deliciosa y saludable.
+➡ De nada, Pedro. ¡Disfruta de tu ensalada de fideos de arroz! ¡Es una opción de almuerzo perfecta y nutritiva!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera para un baño.
+➡ De acuerdo, comenzaré a preparar la bañera para tu baño.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer.
+➡ Claro, Pedro. Como mencionaste que disfrutas de la comida asiática y tienes restricciones en tu dieta con respecto al bajo contenido de sal, te recomiendo esta receta de fideos de arroz salteados. Es un plato saludable y sabroso que cumple con tus necesidades dietéticas. Aquí tienes la receta:
+
+**Ingredientes:**
+
+* 1 paquete de fideos de arroz
+* 1/2 taza de brotes de soja
+* 1/2 taza de zanahorias ralladas
+* 1/4 taza de pimientos verdes cortados en tiras
+* 1/4 taza de cebolla picada
+* 1 diente de ajo picado
+* 2 cucharadas de salsa de soja baja en sodio
+* 1 cucharada de aceite de sésamo
+* Sal y pimienta al gusto
+
+**Instrucciones:**
+
+1. Cocina los fideos de arroz según las instrucciones del paquete.
+2. Calienta el aceite de sésamo en un wok o sartén grande.
+3. Saltea la cebolla y el ajo durante unos minutos hasta que estén blandos.
+4. Añade las zanahorias, los pimientos y los brotes de soja y saltea hasta que estén casi tiernos.
+5. Agrega los fideos de arroz cocidos y la salsa de soja.
+6. Saltea durante unos minutos hasta que todo esté bien caliente.
+7. Sazona con sal y pimienta al gusto.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿Qué videojuegos me recomiendas acorde a mis gustos?
+➡ Claro Pedro, ¿Cuáles son tus preferencias en cuanto a géneros, temáticas o plataformas de videojuegos?
+➡ Pedro dice: Me gustan los juegos de aventuras y acción, con historias envolventes y mucha exploración. También disfruto de los juegos de rol y estrategia.
+➡ Entiendo Pedro, basándome en tus preferencias, te recomendaría juegos como The Witcher 3: Wild Hunt, Skyrim, Assassin's Creed Valhalla o Red Dead Redemption 2. Estos juegos ofrecen historias inmersivas, exploración profunda y elementos de acción y aventura
+➡ Pedro dice: Gracias Will-E, revisaré esos juegos y te haré saber cuáles me gustaron más
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer.
+➡ Hola Pedro, te recomiendo empezar el día con un delicioso tazón de desayuno asiático bajo en sal. Aquí tienes la receta:
+
+**Ingredientes:**
+
+* 1/2 taza de arroz integral cocido
+* 1/4 taza de edamame congelado
+* 1 huevo
+* 1/4 taza de aguacate cortado en rodajas
+* 1 cucharada de cebolla roja picada
+* 1/4 cucharadita de semillas de sésamo
+* Salsa de soya baja en sodio (opcional)
+
+**Instrucciones:**
+
+1. Calienta el arroz integral en el microondas o en la estufa.
+2. Descongela los edamames y cocina el huevo.
+3. Coloca el arroz en un tazón y agrega los edamames, el huevo, el aguacate, la cebolla y las semillas de sésamo.
+4. Agrega un chorrito de salsa de soya baja en sodio, si lo deseas.
+
+¡Disfruta de este saludable y sabroso desayuno asiático!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, llena la bañera y prepárame un baño.
+➡ Claro Pedro, estoy llenando la bañera ahora mismo. ¿Quieres que te prepare un baño caliente o frío?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer en el microondas.
+➡ Claro, Pedro, he estado pensando en una receta de almuerzo asiático baja en sal que creo que disfrutarás. ¿Por qué no pruebas este delicioso y nutritivo Bol de arroz integral con verduras salteadas y pollo teriyaki? 
+
+Ingredientes:
+- 1 taza de arroz integral cocido
+- 1/2 taza de brócoli cortado en ramilletes pequeños
+- 1/2 taza de zanahorias cortadas en juliana
+- 1/2 taza de pimientos rojos cortados en juliana
+- 1/4 taza de cebolla picada
+- 4 oz de pollo cocido cortado en tiras
+- 1/4 taza de salsa teriyaki baja en sodio
+
+Instrucciones:
+1. Calienta una sartén o wok a fuego medio.
+2. Agrega las verduras y saltea hasta que estén tiernas y crujientes, aproximadamente 5 minutos.
+3. Agrega el pollo y la salsa teriyaki y cocina hasta que el pollo esté caliente y la salsa se haya espesado, aproximadamente 2 minutos.
+4. Sirve sobre el arroz integral y disfruta.
+
+Esta receta es baja en sal, repleta de verduras y proteínas y tiene un delicioso sabor asiático. ¡Espero que lo pruebes!
+➡ Pedro dice: Gracias, Will-E, eso suena delicioso. ¡Preparándolo ahora!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión.
+➡ Claro, ¿qué canal quieres ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué receta sencilla y rápida puedes recomendarme para un almuerzo?
+➡ Pedro, puesto que buscas una receta sencilla y rápida para el almuerzo, y prefieres la cocina asiática con bajo contenido de sal, te sugiero lo siguiente:
+
+**Salteado de vegetales con arroz integral**
+
+**Ingredientes:**
+
+* 1 taza de arroz integral cocido
+* 1 taza de brócoli, cortado en floretes
+* 1 taza de zanahorias, cortadas en rodajas
+* 1 taza de pimientos, cortados en cubos
+* 2 cucharadas de salsa de soja baja en sodio
+* 1 cucharada de aceite de oliva
+* Pimienta negra al gusto
+
+**Instrucciones:**
+
+1. Calienta el aceite de oliva en una sartén grande o wok a fuego medio-alto.
+2. Agrega el brócoli, las zanahorias y los pimientos, y cocina durante 5-7 minutos o hasta que estén tiernos y ligeramente dorados.
+3. Agrega la salsa de soja y sazona con pimienta negra. Cocina por 1 minuto adicional.
+4. Añade el arroz integral cocido a la sartén y revuelve para combinar.
+5. Cocina por 2-3 minutos adicionales, o hasta que todo esté bien caliente.
+➡ Pedro dice: Gracias Will-E, suena delicioso. Lo intentaré.
+➡ De nada, Pedro. Me alegro de poder ayudarte. ¡Que disfrutes tu comida!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer.
+➡ Claro, Pedro. Dado que me comentaste que te gusta la comida asiática y que estás cuidando tu consumo de sodio, te recomiendo esta sencilla receta de Salteado de Pollo y Verduras Bajo en Sal:
+
+**Ingredientes:**
+
+* 1 pechuga de pollo, cortada en tiras
+* 1/2 taza de brócoli, cortado en floretes
+* 1/2 taza de zanahorias, cortadas en tiras
+* 1/4 taza de cebolla, picada
+* 1/4 taza de salsa de soja baja en sodio
+* 1 cucharada de aceite de sésamo
+* 1/4 cucharadita de jengibre molido
+* 1/4 cucharadita de ajo molido
+* Sal y pimienta al gusto
+
+**Instrucciones:**
+
+1. Calienta el aceite de sésamo en una sartén grande a fuego medio.
+2. Agrega el pollo y cocina hasta que se dore por todos lados.
+3. Añade las verduras, la salsa de soja, el jengibre y el ajo.
+4. Cocina durante 3-5 minutos, o hasta que las verduras estén tiernas pero aún crujientes.
+5. Sazona con sal y pimienta al gusto.
+
+¡Este salteado te proporcionará una comida deliciosa, saludable y baja en sal!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué película me recomiendas?
+➡ Te recomiendo la película "El Padrino", es un clásico del cine y te mantendrá enganchado durante horas.
+➡ Pedro dice: Suena interesante, le daré un vistazo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué hora es?
+➡ Son las 3:45 PM
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara un baño con agua templada y jabón.
+➡ Claro, te prepararé un baño con agua templada y jabón ahora mismo
+➡ Pedro dice: Gracias, Will-E
+➡ Lo haré enseguida.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, llena la bañera y prepara un baño con espuma.
+➡ De acuerdo, llenaré la bañera y prepararé un baño con espuma ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV en la sala de estar.
+➡ De acuerdo, encendiendo el televisor en la sala de estar.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comer en la cocina.
+➡ Por supuesto, Pedro. Dado que estás buscando un almuerzo asiático bajo en sal, te recomendaría probar esta sencilla pero sabrosa receta:
+
+**Ingredientes:**
+
+* Fideos de arroz cocidos (1 paquete)
+* Repollo picado (1/2 taza)
+* Zanahorias ralladas (1/2 taza)
+* Cebollas verdes picadas (1/4 taza)
+* Brotes de soja (1/4 taza)
+* Salsa de soya baja en sodio (2 cucharadas)
+* Vinagre de arroz (1 cucharada)
+* Azúcar (1 cucharadita)
+* Aceite de sésamo (1 cucharadita)
+
+**Instrucciones:**
+
+1. En un tazón grande, combina los fideos de arroz, el repollo, las zanahorias, las cebollas verdes y los brotes de soja.
+2. En un tazón pequeño, mezcla la salsa de soya, el vinagre de arroz, el azúcar y el aceite de sésamo.
+3. Vierte la salsa sobre los fideos y revuelve bien.
+4. Sirve inmediatamente o guarda en el refrigerador para más tarde.
+
+¡Esta receta es baja en sal, fácil de hacer y realmente satisfactoria!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión.
+➡ Claro Pedro, ¿qué canal quieres que ponga?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras voy al baño?
+➡ Claro Pedro, te avisaré cuando vuelvas del baño.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera con agua caliente.
+➡ Claro Pedro, la prepararé ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué me recomiendas para un almuerzo rápido?
+➡ Pedro, basándome en tus preferencias por un desayuno asiático bajo en sal, te recomiendo preparar unos sencillos y saludables fideos de arroz con verduras al vapor.
+➡ Pedro dice: Gracias, Will-E. Prepararé los fideos de arroz.
+➡ Genial que optes por una comida nutritiva y equilibrada. ¡Disfruta de tu almuerzo!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué estrenos de películas crees que podrían gustarme?
+➡ Claro, Pedro. ¿Qué géneros de películas te gustan? ¿Has visto alguna película reciente que te haya gustado?
+➡ Pedro dice: ¿Qué géneros de películas te gustan, Will-E?
+➡ Me gustan las películas de ciencia ficción, comedia y acción. ¿Qué géneros te gustan?
+➡ Pedro dice: Me gustan las películas de acción y ciencia ficción, como las de Marvel o Star Wars.
+➡ Vale, entiendo que te gustan las películas de acción y ciencia ficción. Déjame ver qué estrenos de películas podrían gustarte...
+➡ Pedro dice: Suena genial, Will-E. Avísame cuando encuentres algo que pueda gustarme.
+➡ Estoy buscando estrenos de películas que podrían gustarte, Pedro. Te avisaré cuando encuentre algo que creo que te gustará.
+➡ Pedro dice: Gracias, Will-E. Estoy deseando ver tus sugerencias.
+➡ Entendido. Estoy revisando los estrenos de películas de acción y ciencia ficción. Te avisaré cuando tenga algunas sugerencias.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la TV.
+➡ Por supuesto Pedro, pondré la TV ahora.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál es tu receta de una comida sabrosa y fácil de preparar?
+➡ No tengo ninguna receta, Pedro. Sin embargo, puedo ayudarte a encontrar una en línea.
+➡ Pedro dice: Oh, está bien. Gracias de todos modos.
+➡ De nada, Pedro. Estoy encantado de ayudarte si necesitas algo más.
+➡ Pedro dice: Está bien. Gracias de todos modos.
+➡ Si necesitas algo más, estaré encantado de ayudarte.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera para que tome un baño.
+➡ Claro Pedro, comenzaré a llenar la bañera ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon la televisión.
+➡ Por supuesto, ¿qué canal te gustaría ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara algo de comida.
+➡ Te sugiero preparar un delicioso salteado de verduras asiático bajo en sal. Va acorde con tus preferencias culinarias y tus restricciones dietéticas. Aquí tienes la receta:
+
+**Ingredientes:**
+- 1 taza de brócoli
+- 1 taza de zanahorias
+- 1 taza de pimientos verdes
+- 1 taza de cebollas
+- 1/4 taza de salsa de soja baja en sodio
+- 1/4 taza de aceite de sésamo
+- 1 cucharada de jengibre fresco rallado
+- 1 diente de ajo picado
+- 1/4 cucharadita de pimienta negra
+
+**Instrucciones:**
+1. Calienta el aceite de sésamo en un wok o una sartén grande a fuego medio.
+2. Agrega la cebolla y el ajo y cocina hasta que estén tiernos.
+3. Incorpora el brócoli, las zanahorias y los pimientos. Cocina durante 5-7 minutos, o hasta que estén tiernos pero aún crujientes.
+4. Agrega la salsa de soja, el jengibre y la pimienta. Revuelve para combinar.
+5. Cocina por 1-2 minutos más, o hasta que la salsa se haya espesado ligeramente. Sirve caliente.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y repdroduce música.
+➡ Ok, enciendo la televisión y reproduzco música para ti.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara el desayuno
+➡ Por supuesto, Pedro. Pensando en tu preferencia por el desayuno asiático y en tu restricción de bajo contenido de sodio, te recomiendo un delicioso y saludable tazón de congee de arroz integral.
+
+**Ingredientes:**
+
+* 1 taza de arroz integral
+* 4 tazas de caldo de verduras o pollo bajo en sodio
+* 1/2 cucharadita de sal (opcional, si lo tolera)
+* Aderezos opcionales: jengibre rallado, cebolleta cortada en rodajas, salsa de soya baja en sodio, huevo escalfado
+
+**Instrucciones:**
+
+1. Enjuaga el arroz integral y agrégalo a una olla mediana.
+2. Vierte el caldo sobre el arroz y lleva a ebullición.
+3. Reduce el fuego a bajo, tapa y cocina a fuego lento durante 45-60 minutos, o hasta que el arroz esté tierno y el líquido se haya absorbido.
+4. Sirve en un tazón con los aderezos deseados.
+
+¡Buen provecho!
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la TV y pon Netflix.
+➡ Enseguida lo enciendo, ¿Hay algo en especial que quieras ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, limpia la bañera que voy a darme un baño.
+➡ Claro, Pedro. Ahora mismo la limpio.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo para comer.
+➡ Claro, Pedro. Teniendo en cuenta que prefieres un desayuno asiático bajo en sal, te recomiendo este delicioso congee de arroz con gachas de abulón. Es bajo en sodio y lleno de nutrientes para empezar bien el día.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon en la tele algo entretenido.
+➡ Claro, Pedro. ¿Qué genero te gustaría ver?
+➡ Pedro dice: Una serie de comedia o alguna película de acción.
+➡ De acuerdo, Pedro. Ahora mismo busco alguna serie o película que te pueda gustar.
+➡ Pedro dice: Lo que prefieras, Will-E.
+➡ En seguida, Pedro. Voy a buscar las opciones que me pides.
+➡ Pedro dice: Gracias, Will-E.
+➡ Ahora mismo busco contenido que sea entretenido para ti, Pedro.
+➡ Pedro dice: De acuerdo, Will-E. Lo que tú encuentres estará bien.
+➡ De inmediato, Pedro. Te buscaré algo divertido.
+➡ Pedro dice: Gracias. Lo que encuentres, me gustará
+➡ Enseguida, Pedro. Te mostraré un par de opciones de series de comedia y alguna película de acción.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la sala de estar para una noche de películas.
+➡ Por supuesto, Pedro. Prepararé la sala de estar para una noche de películas.
+➡ Pedro dice: Gracias, Will-E. ¡Estoy deseando ver una película contigo!
+➡ De nada, Pedro. Ya me encargo de todo para que tengamos una velada perfecta viendo una película.
+➡ Pedro dice: PD
+➡ Ya me encargo de todo, Pedro. Te avisaré cuando esté listo.
+➡ Pedro dice: Estoy deseando pasar una noche de cine contigo también, Will-E
+➡ No te preocupes, Pedro. Te avisaré cuando todo esté listo para nuestra noche de cine.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ponme algo de música relajante en el salón.
+➡ Claro, Pedro. Ahora mismo pongo música relajante en el salón.
+➡ Pedro dice: Gracias, Will-E.
+➡ No hay problema, Pedro. Estaré encantado de poner algo de música ahora mismo.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, reproduce un programa de televisión.
+➡ Por supuesto, ¿qué programa te gustaría ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál es la mejor manera de conciliar el sueño rápidamente?
+➡ Intenta establecer un horario regular de sueño y apégate a él, incluso los fines de semana. Crea un ambiente relajante en tu habitación, asegúrate de que esté oscuro, silencioso y fresco.
+➡ Pedro dice: Entiendo, haré todo lo posible para seguir estos consejos. ¡Gracias, Will-E!
+➡ Me alegro de poder ayudarte, Pedro. No dudes en preguntar si tienes más dudas.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué ingredientes crees que combinan mejor para un almuerzo rápido?
+➡ Dado que mencionaste que te gusta el desayuno asiático y deseas mantener tus comidas bajas en sal, te recomendaría un plato de arroz congee. Es rápido y fácil de hacer, y puedes agregarle tus ingredientes favoritos para darle sabor. Aquí tienes una receta sencilla:
+
+Ingredientes:
+- 1 taza de arroz blanco
+- 4 tazas de caldo de pollo bajo en sodio
+- 1/4 cucharadita de jengibre en polvo
+- 1/4 cucharadita de ajo en polvo
+- Una pizca de pimienta blanca
+- Aderezos opcionales: cebolleta picada, huevo cocido, salsa de soja
+➡ Pedro dice: Gracias, Will-E. Eso suena genial. También agregaré un poco de tofu.
+➡ Genial, el tofu es una excelente adición. También es una buena fuente de proteínas.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿crees que me gustará la película que quiero ver?
+➡ Estoy seguro de que disfrutarás la película. Parece muy interesante.
+➡ Pedro dice: Gracias, Will-E. Espero que tengas razón.
+➡ Estoy feliz de poder ayudar.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, enciende la televisión.
+➡ Entendido, enciendo la televisión
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿me recuerdas que hora es mientras voy al baño?
+➡ Por supuesto Pedro, son las 5:33 PM
+➡ Pedro dice: Gracias Will-E.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara la bañera para un baño.
+➡ Claro, Pedro. Precalentaré el agua para que esté lista cuando la necesites.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepárame algo de comer.
+➡ Claro, Pedro, vi que mencionaste que querías un almuerzo asiático bajo en sal. Te recomiendo un delicioso salteado de verduras con tofu. Es bajo en sal y tiene un montón de verduras nutritivas.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, pon una película en la televisión de la sala de estar.
+➡ De inmediato, ¿qué película te gustaría ver?
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, prepara un baño con espuma para mí.
+➡ Claro Pedro, prepararé un baño con espuma para ti.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿cuál es la mejor postura para dormir?
+➡ La mejor postura para dormir depende de las preferencias y necesidades individuales. Sin embargo, existen algunas posturas recomendadas que pueden mejorar el sueño:
+1.- Dormir de lado con una almohada entre las rodillas y un cojín de apoyo lumbar.
+2.- Dormir boca arriba con una almohada debajo de las rodillas y un soporte para la cabeza y el cuello.
+3.- Dormir boca abajo con una almohada muy delgada o sin ella, y una almohada debajo del abdomen.
+➡ Pedro dice: Gracias, Will-E, tendré en cuenta tus recomendaciones.
+➡ Me alegro de haber podido ayudarte, Pedro. No dudes en preguntarme cualquier otra cosa que necesites.
+➡ Pedro dice: Gracias, Will-E, me pondré a prueba con esas posturas y veré qué es lo que mejor me funciona.
+➡ Estoy encantado de que hayas encontrado útil mi ayuda. Recuerda que cada persona es diferente, por lo que es posible que tengas que experimentar con diferentes posturas para encontrar la que mejor se adapte a ti.
+➡ Pedro dice: Gracias, Will-E. Definitivamente probaré estas posturas y veré cómo me siento.
+➡ Estoy encantado de haber podido ayudarte, Pedro. No dudes en preguntarme cualquier otra cosa que necesites.
+
+
+
+#############################################################################
+➡ Pedro dice: Oye Will-E, ¿qué me puedes recomendar para un almuerzo rápido y nutritivo?
+➡ Por supuesto, Pedro. Tengo una recomendación perfecta para un almuerzo rápido y nutritivo que se ajusta a tus preferencias: un bol de desayuno asiático bajo en sal.
+
+**Ingredientes:**
+
+* 1/2 taza de arroz cocido
+* 1/4 taza de edamame congelado
+* 1/4 taza de salmón ahumado
+* 1/4 taza de aguacate cortado en rodajas
+* 1/4 taza de pepino cortado en rodajas
+* 1/4 taza de cebolleta picada
+* 1 cucharada de salsa de soja baja en sodio
+* 1/2 cucharadita de aceite de sésamo
+
+**Instrucciones:**
+
+1. Coloca el arroz en un bol.
+2. Agrega el edamame, el salmón, el aguacate, el pepino, la cebolleta, la salsa de soja y el aceite de sésamo.
+3. Mezcla bien y disfruta.
+➡ Pedro dice: Suena delicioso, Will-E. ¡Gracias!
+➡ ¡De nada, Pedro! Si tienes alguna otra pregunta o necesitas recomendaciones, no dudes en preguntarme.
+
+
+
