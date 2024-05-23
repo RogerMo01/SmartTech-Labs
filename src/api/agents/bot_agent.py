@@ -47,13 +47,16 @@ class Bot_Agent(BDI_Agent):
 
         self.weekly_plans = {
             0: [(generate_full_clean_bathroom_plan, 9), (generate_full_clean_living_room_plan, 9),
-                (generate_full_clean_kitchen_plan,9), (generate_full_clean_bedroom_plan, 9)],
-            1: [(generate_full_clean_kitchen_plan, 9)],
-            2: [(generate_clean_plan, 9)],
+                (generate_full_clean_kitchen_plan,9), (generate_full_clean_bedroom_plan, 9),
+                (generate_clean_plan,9),(generate_water_plants_plan,9)],
+            1: [(generate_full_clean_kitchen_plan, 9), (generate_clean_plan,9)],
+            2: [(generate_full_clean_bathroom_plan, 9), (generate_full_clean_living_room_plan, 9),
+                (generate_full_clean_kitchen_plan,9), (generate_full_clean_bedroom_plan, 9),
+                (generate_clean_plan,9),(generate_water_plants_plan,9)],
             3: [(generate_water_plants_plan, 14)],
             4: [(generate_full_clean_bathroom_plan, 9), (generate_full_clean_kitchen_plan, 9)],
             5: [(generate_clean_plan, 9), (generate_water_plants_plan, 14)],
-            6: []
+            6: [(generate_clean_plan,9)]
         }
 
         self.current_datetime = current_datetime
@@ -332,13 +335,17 @@ class Bot_Agent(BDI_Agent):
         return False, None
 
     def get_room_plan(self, plan: Plan):
-        room = ""
-        for task in plan.tasks:
-            if room == "" or (task.room is not None and task.room == room):
-                room = task.room
-            else:
-                return ""
-        return room
+        if len(plan.tasks) > 0:
+            if plan.tasks[0].room is not None:
+                return plan.tasks[0].room
+        return ""
+        # room = ""
+        # for task in plan.tasks:
+        #     if room == "" or (task.room is not None and task.room == room):
+        #         room = task.room
+        #     else:
+        #         return ""
+        # return room
     
     def increment_postponed_plan(self, current_intention: Plan):
         for intention in self.intentions:
