@@ -1,0 +1,242 @@
+[2024-01-10 08:00:00] Pedro planifica >Ir al baño
+[2024-01-10 08:00:01] Pedro planifica >Preparar una comida
+[2024-01-10 08:47:07] Pedro planifica >Ver una película
+[2024-01-10 10:21:55] Pedro planifica >Ir al inodoro
+[2024-01-10 10:22:08] Pedro planifica >Ir al baño
+[2024-01-10 10:49:59] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-10 10:50:52] Pedro planifica >Comer lo preparado
+[2024-01-10 11:26:16] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-10 11:27:11] Pedro planifica >Darme una ducha
+[2024-01-10 12:59:43] Pedro planifica >Ir al inodoro
+[2024-01-10 15:11:21] Pedro planifica >Ir al baño
+[2024-01-10 17:25:49] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-10 17:49:03] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-10 17:49:19] Pedro planifica >Ver la televisión
+[2024-01-10 19:15:58] Pedro planifica >Ir al baño
+[2024-01-10 19:50:20] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-10 19:51:03] Pedro planifica >Comer la cena mediterránea
+[2024-01-10 22:40:53] Pedro planifica >Orinar
+[2024-01-10 23:14:13] Pedro planifica >Ir al baño
+[2024-01-10 23:48:43] Pedro planifica >Dormir
+[2024-01-11 03:14:56] Pedro planifica >Ir al baño
+[2024-01-11 06:45:14] Pedro planifica >Ir al baño
+[2024-01-11 07:20:04] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-11 07:20:50] Pedro planifica >Ver la televisión
+[2024-01-11 08:19:45] Pedro planifica >Ir al inodoro
+[2024-01-11 09:14:00] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-11 09:14:55] Pedro planifica >Comer
+[2024-01-11 09:37:45] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-11 09:38:18] Pedro planifica >Tomar un baño
+[2024-01-11 09:55:31] Pedro planifica >Usar el baño
+[2024-01-11 10:43:00] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-11 10:43:10] Pedro planifica >Ver la televisión
+[2024-01-11 12:46:04] Pedro planifica >Usar orinal
+[2024-01-11 13:39:37] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-11 13:40:39] Pedro planifica >Comer una ensalada mediterránea
+[2024-01-11 13:48:16] Pedro planifica >Ir al baño
+[2024-01-11 14:38:28] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-11 14:39:37] Pedro planifica >Comer algo saludable
+[2024-01-11 14:55:34] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-11 14:56:03] Pedro planifica >Ver la televisión
+[2024-01-11 17:53:14] Pedro planifica >Correr al baño
+[2024-01-11 20:51:30] Pedro planifica >Usar un orinal
+[2024-01-11 21:41:57] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-11 23:00:00] Pedro planifica >Dormir
+[2024-01-12 05:44:33] Pedro planifica >Ir al baño
+[2024-01-12 05:55:27] Pedro planifica >Preparar una comida
+[2024-01-12 06:51:21] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-12 06:51:36] Pedro planifica >Ver la televisión
+[2024-01-12 08:22:42] Pedro planifica >Ir al inodoro
+[2024-01-12 09:16:17] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-12 09:18:12] Pedro planifica >Darme un baño relajante
+[2024-01-12 11:01:51] Pedro planifica >Ir al inodoro
+[2024-01-12 11:12:07] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-12 11:15:01] Pedro planifica >Prepararme café
+[2024-01-12 11:24:58] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-12 13:36:26] Pedro planifica >Ir al inodoro
+[2024-01-12 14:07:48] Pedro planifica >Comer un almuerzo rápido
+[2024-01-12 16:17:16] Pedro planifica >Ir al baño
+[2024-01-12 16:29:31] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-12 16:51:07] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-12 18:28:55] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-12 18:37:28] Pedro planifica >Ver una película
+[2024-01-12 19:10:39] Pedro planifica >Orinar
+[2024-01-12 20:13:49] Pedro planifica >Ir al baño
+[2024-01-12 20:30:54] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-12 20:31:27] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-12 20:31:48] Pedro planifica >Comer
+[2024-01-12 20:32:48] Pedro planifica >Comer
+[2024-01-12 22:28:36] Pedro planifica >Ir al baño
+[2024-01-12 23:00:00] Pedro planifica >Dormir
+[2024-01-13 04:20:27] Pedro planifica >Ir al baño
+[2024-01-13 06:00:36] Pedro planifica >Ver una película
+[2024-01-13 07:56:04] Pedro planifica >Hacer pis
+[2024-01-13 10:38:14] Pedro planifica >Comer un almuerzo rápido
+[2024-01-13 12:04:02] Pedro planifica >Ir al baño
+[2024-01-13 12:36:35] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-13 12:39:57] Pedro planifica >Ver la televisión
+[2024-01-13 14:00:44] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-13 14:01:57] Pedro planifica >Darme un baño
+[2024-01-13 14:25:56] Pedro planifica >Ir al inodoro
+[2024-01-13 16:47:45] Pedro planifica >Ir al baño
+[2024-01-13 17:09:58] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-13 17:10:45] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-13 17:11:11] Pedro planifica >Comer una ensalada griega
+[2024-01-13 17:11:51] Pedro planifica >Comer
+[2024-01-13 18:44:40] Pedro planifica >Ir al baño
+[2024-01-13 19:06:00] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-13 20:03:59] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-13 20:04:20] Pedro planifica >Escuchar música
+[2024-01-13 21:31:24] Pedro planifica >Ir al inodoro
+[2024-01-13 23:00:00] Pedro planifica >Ir a dormir
+[2024-01-14 05:46:27] Pedro planifica >Ir al baño
+[2024-01-14 05:55:27] Pedro planifica >Comer un almuerzo rápido
+[2024-01-14 06:15:14] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-14 06:43:39] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-14 06:44:31] Pedro planifica >Ver la televisión
+[2024-01-14 07:52:41] Pedro planifica >Usar el baño
+[2024-01-14 09:46:15] Pedro planifica >Ducharse
+[2024-01-14 10:30:26] Pedro planifica >Orinar
+[2024-01-14 10:45:39] Pedro planifica >Ir al inodoro
+[2024-01-14 12:00:06] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-14 12:00:11] Pedro planifica >Ver la televisión
+[2024-01-14 13:11:31] Pedro planifica >Ir al orinal
+[2024-01-14 14:10:52] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-14 14:11:38] Pedro planifica >Comer el bocadillo saludable
+[2024-01-14 14:53:10] Pedro planifica >Ir al inodoro
+[2024-01-14 15:28:29] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-14 15:29:19] Pedro planifica >Comer
+[2024-01-14 16:39:35] Pedro planifica >Orinar
+[2024-01-14 17:56:15] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-14 17:57:01] Pedro planifica >Comer Salmón a la plancha
+[2024-01-14 20:44:15] Pedro planifica >Orinar
+[2024-01-14 21:13:15] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-14 21:13:29] Pedro planifica >Ver una película
+[2024-01-14 23:00:00] Pedro planifica >Dormir
+[2024-01-15 03:19:01] Pedro planifica >Usar el baño
+[2024-01-15 06:25:15] Pedro planifica >Usar el baño
+[2024-01-15 07:18:05] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-15 07:59:54] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-15 08:00:10] Pedro planifica >Ver la televisión
+[2024-01-15 08:01:23] Pedro planifica >Comer un desayuno protéico
+[2024-01-15 08:47:01] Pedro planifica >Ir al inodoro
+[2024-01-15 10:06:12] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-15 11:02:36] Pedro planifica >Ducharse
+[2024-01-15 11:24:39] Pedro planifica >Ir al baño
+[2024-01-15 12:02:31] Pedro planifica >Ir al baño
+[2024-01-15 12:15:49] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-15 12:16:31] Pedro planifica >Comer la bruschetta
+[2024-01-15 13:51:06] Pedro planifica >Ir al baño
+[2024-01-15 14:16:13] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-15 14:18:51] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-15 14:36:44] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-15 15:28:07] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-15 15:28:39] Pedro planifica >Comer la ensalada griega
+[2024-01-15 15:56:26] Pedro planifica >Ir al inodoro
+[2024-01-15 17:39:03] Pedro planifica >Comer un almuerzo rápido
+[2024-01-15 17:58:28] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-15 17:58:43] Pedro planifica >Ver la televisión
+[2024-01-15 18:52:18] Pedro planifica >Ir al inodoro
+[2024-01-15 21:29:58] Pedro planifica >Orinar
+[2024-01-15 23:00:00] Pedro planifica >Ir a dormir
+[2024-01-16 04:43:17] Pedro planifica >Ir al baño
+[2024-01-16 05:58:49] Pedro planifica >Comer un almuerzo rápido
+[2024-01-16 06:06:33] Pedro planifica >Mirar series o películas en streaming
+[2024-01-16 06:36:37] Pedro planifica >Darse una ducha
+[2024-01-16 07:18:01] Pedro planifica >Ir al baño
+[2024-01-16 09:39:55] Pedro planifica >Ir al baño
+[2024-01-16 12:01:41] Pedro planifica >Ir al inodoro
+[2024-01-16 12:42:36] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-16 13:47:13] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-16 13:47:29] Pedro planifica >Ver la televisión
+[2024-01-16 14:39:12] Pedro planifica >Ir al baño
+[2024-01-16 15:33:01] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-16 16:35:25] Pedro planifica >Ir al inodoro
+[2024-01-16 17:47:00] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-16 19:54:23] Pedro planifica >Ir al baño
+[2024-01-16 20:08:25] Pedro planifica >Cenar
+[2024-01-16 20:25:37] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-16 22:16:09] Pedro planifica >Ir al cuarto de baño
+[2024-01-16 23:00:00] Pedro planifica >Dormir
+[2024-01-17 05:26:58] Pedro planifica >Ir al baño
+[2024-01-17 05:58:28] Pedro planifica >Comer un desayuno protéico
+[2024-01-17 05:58:29] Pedro planifica >Ver una película
+[2024-01-17 07:18:49] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-17 07:20:32] Pedro planifica >Darme un baño
+[2024-01-17 07:45:57] Pedro planifica >Ir al inodoro
+[2024-01-17 08:45:02] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 08:54:45] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 08:55:34] Pedro planifica >Escuchar mi canción favorita
+[2024-01-17 09:10:28] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 10:08:19] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 10:08:38] Pedro planifica >Ver la televisión
+[2024-01-17 11:42:16] Pedro planifica >Ir al inodoro
+[2024-01-17 13:09:11] Pedro planifica >Comer un desayuno protéico
+[2024-01-17 14:00:08] Pedro planifica >Ir al inodoro
+[2024-01-17 14:23:45] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 14:23:50] Pedro planifica >Ver la televisión
+[2024-01-17 16:18:50] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-17 16:19:43] Pedro planifica >Cocinar una receta mediterránea baja en sal
+[2024-01-17 16:36:37] Pedro planifica >Ir al inodoro
+[2024-01-17 17:20:48] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-17 17:21:17] Pedro planifica >Darme una ducha caliente
+[2024-01-17 18:33:13] Pedro planifica >Ir al inodoro
+[2024-01-17 19:05:12] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 19:23:09] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 19:25:31] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-17 19:25:45] Pedro planifica >Ver la televisión
+[2024-01-17 20:36:31] Pedro planifica >Ir al inodoro
+[2024-01-17 21:03:16] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-17 21:03:33] Pedro planifica >Usar el inodoro
+[2024-01-17 21:35:16] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-17 21:36:52] Pedro planifica >Darme un baño caliente
+[2024-01-17 23:00:00] Pedro planifica >Ir a dormir
+[2024-01-18 05:46:27] Pedro planifica >Usar orinal
+[2024-01-18 06:17:32] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-18 06:22:52] Pedro planifica >Hacer un sándwich
+[2024-01-18 06:55:45] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-18 07:13:30] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-18 07:13:45] Pedro planifica >Ver una película
+[2024-01-18 09:55:53] Pedro planifica >Ir al baño
+[2024-01-18 10:18:09] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-18 10:19:08] Pedro planifica >Tomar café
+[2024-01-18 11:30:45] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-18 11:31:29] Pedro planifica >Desayunar
+[2024-01-18 13:07:05] Pedro planifica >Ir al baño
+[2024-01-18 13:25:58] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-18 13:27:07] Pedro planifica >Comer algo
+[2024-01-18 13:54:38] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-18 13:55:44] Pedro planifica >Darme un baño tibio
+[2024-01-18 17:13:25] Pedro planifica >Ir al inodoro
+[2024-01-18 19:02:00] Pedro planifica >Comer un desayuno protéico
+[2024-01-18 19:50:59] Pedro planifica >Ir al baño
+[2024-01-18 20:31:36] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-18 20:31:53] Pedro planifica >Ver la televisión
+[2024-01-18 22:43:35] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-18 22:44:34] Pedro planifica >Tomar café
+[2024-01-19 00:00:19] Pedro planifica >Ir al baño
+[2024-01-19 00:07:50] Pedro planifica >Dormir
+[2024-01-19 04:20:00] Pedro planifica >Ir al baño
+[2024-01-19 07:04:19] Pedro planifica >Ir al inodoro
+[2024-01-19 07:06:20] Pedro planifica >Comer un almuerzo rápido
+[2024-01-19 08:17:37] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-19 08:17:42] Pedro planifica >Ver la televisión
+[2024-01-19 09:41:50] Pedro planifica >Ir al baño
+[2024-01-19 10:54:21] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-19 12:03:45] Pedro planifica >Ir al inodoro
+[2024-01-19 14:49:01] Pedro planifica >Ducharse
+[2024-01-19 15:06:36] Pedro planifica >Ir al baño
+[2024-01-19 15:45:20] Pedro planifica >Ordenar a Will-E para q ayude en +hygiene+
+[2024-01-19 15:45:49] Pedro planifica >Darme un baño
+[2024-01-19 18:21:53] Pedro planifica >Ir al baño
+[2024-01-19 18:33:42] Pedro planifica >Ordenar a Will-E para q ayude en +hungry+
+[2024-01-19 18:34:30] Pedro planifica >Comer
+[2024-01-19 18:53:56] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-19 19:02:03] Pedro planifica >Ir al baño
+[2024-01-19 19:14:00] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-19 19:14:14] Pedro planifica >Ver la TV
+[2024-01-19 23:00:00] Pedro planifica >Dormir
+[2024-01-20 05:46:13] Pedro planifica >Ir al baño
+[2024-01-20 05:55:27] Pedro planifica >Comer un almuerzo rápido
+[2024-01-20 06:10:34] Pedro planifica >Ordenar a Will-E para q ayude en +entertainment+
+[2024-01-20 06:10:39] Pedro planifica >Ver la televisión
